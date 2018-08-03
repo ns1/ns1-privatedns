@@ -2,90 +2,96 @@
 version: '3.2'
 services:
   data:
-    image: ns1inc/privatedns_data:0.2
+    image: ns1inc/privatedns_data:${TAG}
+    environment:        # keep this line if 2+ containers are on the host
+      CONFIG_PORT: 3300 # keep this line if 2+ containers are on the host
+    stop_grace_period: 30s
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
     ports:
-      - 27017:27017 # main database
-      - 15672:15672 # messaging daemon admin port
-      - 5672:5672 # metrics admin port
-      - 3001:3000 # http configuration
-      - 8086:8086 # metrics database
-    environment:
-      CONFIG_PORT: 3001 # http configuration
+      - "3300:3300" # http configuration
     volumes:
       - type: volume
-        source: ns1data-ns1-data
+        source: ns1data
         target: /ns1/data
         volume:
           nocopy: true
     command: >-
-      --data_username nsone
-      --data_password nsone
-      --number_of_stats_processors 2
+      --pop_id                     mypop
+      --server_id                  data-server
+      --number_of_stats_processors 2 
+    entrypoint:
+      - /bin/ns1-entrypoint
   dns:
-    image: ns1inc/privatedns_dns:0.2
-    environment:
-      CONFIG_PORT: 3002 # http configuration
+    image: ns1inc/privatedns_dns:${TAG}
+    environment:        # keep this line if 2+ containers are on the host
+      CONFIG_PORT: 3301 # keep this line if 2+ containers are on the host
     ports:
-      - "3002:3000"
-      - "53:53/udp"
-      - "53:53"
+      - "3301:3300" # http configuration
+      - "53:53/udp" # udp port for dns
+      - "53:53"     # udp port for dns
     volumes:
       - type: volume
-        source: ns1dns-data
+        source: ns1dns
         target: /ns1/data
         volume:
           nocopy: true
-      - type: volume
-        target: /ns1-images/trexd/var/lib/trex-cache
-        source: ns1dns-cache
-        volume:
-          nocopy: true
     command: >-
-      --data_username nsone
-      --data_password nsone 
-      --data_host data
-      --num_trex_procs 2
-      --num_metrics_procs 2
+      --pop_id              mypop
+      --server_id           dns-server
+      --data_host           data
+      --operation_mode		authoritative
+      --num_trex_procs      2
+      --num_metrics_procs   2
+      --metrics_flush_interval 60
+      --dns_recv_buffer     0
+    entrypoint:
+      - /bin/ns1-entrypoint
   web:
-    image: ns1inc/privatedns_web:0.2
+    image: ns1inc/privatedns_web:${TAG}
+    environment:        # keep this line if 2+ containers are on the host
+      CONFIG_PORT: 3302 # keep this line if 2+ containers are on the host
     ports:
-      - 3003:3000
-      - 443:443   # web portal
-      - 80:80
+      - "3302:3300"     # http configuration
+      - "443:443"       # https connections to portal or api
+      - "80:80"         # http connections to portal or api
     volumes:
       - type: volume
-        source: ns1web-data
+        source: ns1web
         target: /ns1/data
         volume:
           nocopy: true
-      - type: volume
-        source: ns1web-logs
-        target: /ns1-images/nginx/var/log/nginx
-        volume:
-          nocopy: true
-    environment:
-      CONFIG_PORT: 3003 # http configuration
     command: >-
-      --data_username nsone
-      --data_password nsone 
-      --data_host data
+      --pop_id             mypop
+      --server_id          web-server
+      --data_host          data
+      --api_hostname       localhost
+      --portal_hostname    localhost
+    entrypoint:
+      - /bin/ns1-entrypoint
   xfr:
-    image: ns1inc/privatedns_xfr:0.2
-    environment:
-      CONFIG_PORT: 3004 # http configuration
+    image: ns1inc/privatedns_xfr:${TAG}
+    environment:         # keep this line if 2+ containers are on the host
+      CONFIG_PORT: 3303  # keep this line if 2+ containers are on the host
     ports:
-      - 3004:3000   
-      - 5300:5300
+      - "3303:3300"    # http configuration
+      - "5400:53/udp"
+      - "5400:53"      # tcp zone transfers
     volumes:
       - type: volume
-        source: ns1xfr-data
+        source: ns1xfr
         target: /ns1/data
         volume:
           nocopy: true
     command: >-
-      --data_username nsone
-      --data_password nsone 
-      --data_host data
+      --pop_id              mypop
+      --server_id           xfr-server
+      --data_host           data
+    entrypoint:
+      - /bin/ns1-entrypoint
 networks:
   default:
     driver: bridge
@@ -94,9 +100,7 @@ networks:
       config:
       - subnet: 172.18.11.0/24
 volumes:
-  ns1data-ns1-data:
-  ns1dns-data:
-  ns1dns-cache:
-  ns1web-data:
-  ns1web-logs:
-  ns1xfr-data:
+  ns1data:
+  ns1web:
+  ns1xfr:
+  ns1dns:
