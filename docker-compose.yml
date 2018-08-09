@@ -46,7 +46,7 @@ services:
       --operation_mode		authoritative
       --num_trex_procs      2
       --num_metrics_procs   2
-      --metrics_flush_interval 60
+      --metrics_flush_interval 60s
       --dns_recv_buffer     0
     entrypoint:
       - /bin/ns1-entrypoint
