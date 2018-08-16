@@ -6,6 +6,10 @@ services:
     environment:        # keep this line if 2+ containers are on the host
       CONFIG_PORT: 3300 # keep this line if 2+ containers are on the host
     stop_grace_period: 30s
+    # This doesn't need to be the hostname but due to bug: ENG-1291
+    # Once a hostname is set the hostname cannot be changed internally
+    # or the data will be unreadable.
+    hostname: ns1-data
     ulimits:
       nproc: 65535
       nofile:
@@ -13,6 +17,7 @@ services:
         hard: 40000
     ports:
       - "3300:3300" # http configuration
+      - "5353:5353" # data transport port
     volumes:
       - type: volume
         source: ns1data
