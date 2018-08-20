@@ -3,13 +3,14 @@ version: '3.2'
 services:
   data:
     image: ns1inc/privatedns_data:${TAG}
-    environment:        # keep this line if 2+ containers are on the host
-      CONFIG_PORT: 3300 # keep this line if 2+ containers are on the host
+    environment:        # keep environment lines if 2+ containers 
+      CONFIG_PORT: 3300 # are on the host machine
+    restart: unless-stopped
     stop_grace_period: 30s
-    # This doesn't need to be the hostname but due to bug: ENG-1291
-    # Once a hostname is set the hostname cannot be changed internally
-    # or the data will be unreadable.
-    hostname: ns1-data
+    hostname: ns1-data  # This doesn't need to be the hostname
+                        # but due to known issue once a hostname 
+                        # is set it cannot be changed internally 
+                        # or the data will be unreadable
     ulimits:
       nproc: 65535
       nofile:
@@ -32,8 +33,9 @@ services:
       - /bin/ns1-entrypoint
   dns:
     image: ns1inc/privatedns_dns:${TAG}
-    environment:        # keep this line if 2+ containers are on the host
-      CONFIG_PORT: 3301 # keep this line if 2+ containers are on the host
+    restart: unless-stopped
+    environment:        # keep environment lines if 2+ containers 
+      CONFIG_PORT: 3301 # are on the host machine
     ports:
       - "3301:3300" # http configuration
       - "53:53/udp" # udp port for dns
@@ -57,8 +59,9 @@ services:
       - /bin/ns1-entrypoint
   web:
     image: ns1inc/privatedns_web:${TAG}
-    environment:        # keep this line if 2+ containers are on the host
-      CONFIG_PORT: 3302 # keep this line if 2+ containers are on the host
+    environment:        # keep environment lines if 2+ containers 
+      CONFIG_PORT: 3302 # are on the host machine
+    restart: unless-stopped
     ports:
       - "3302:3300"     # http configuration
       - "443:443"       # https connections to portal or api
@@ -79,8 +82,9 @@ services:
       - /bin/ns1-entrypoint
   xfr:
     image: ns1inc/privatedns_xfr:${TAG}
-    environment:         # keep this line if 2+ containers are on the host
-      CONFIG_PORT: 3303  # keep this line if 2+ containers are on the host
+    environment:        # keep environment lines if 2+ containers 
+      CONFIG_PORT: 3303 # are on the host machine
+    restart: unless-stopped
     ports:
       - "3303:3300"    # http configuration
       - "5400:53/udp"
