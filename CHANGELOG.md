@@ -4,6 +4,8 @@
    - Fixed action: "Restart In-Memory Database"
    - Fixed inability to delete forwards
    - Fixed inability to configure forwards via CLI
+- Known Issues
+   - Once a data container hostname is set it cannot be changed internally or the data will be unreadable; we recommend operators keep the hostname the same after first standing up the data container
 
 ## 1.0.2 (Aug 8, 2018)
 - What's Fixed?
