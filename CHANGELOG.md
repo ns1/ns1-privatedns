@@ -1,3 +1,7 @@
+## 1.0.4 (Sept 21,2018)
+- What's Fixed?
+   - Allow creation of RFC 1918 reverse DNS zones for private IPs
+
 ## 1.0.3 (Aug 24, 2018)
 - What's Fixed?
    - Config options for forwards now distinguishes between forwards to recursive resolvers and forwards to authoritative servers
