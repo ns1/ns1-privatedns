@@ -13,11 +13,11 @@ Simply call Python, provide this script as an argument and provide the required 
 
 Arguments:
 
--n - Number of zones to be created
--a - API host, defaults to localhost
--k - API key to be used
--o - Org number (only needed if using an operator key)
--v - Flag to disable SSL verification
+-n Number of zones to be created
+-a API host, defaults to localhost
+-k API key to be used
+-o Org number (only needed if using an operator key)
+-v Flag to disable SSL verification
 
 For example:
 
@@ -33,7 +33,7 @@ Zone created
 *******************************************************************************
 ```
 
-If using this with private DNS simply use the address of the API container as the API host argument (e.g., "-a 1.1.1.1").
+If using this with Private DNS simply use the address of the API container as the API host argument (e.g., "-a 1.1.1.1").
 
 ## Clean Up
 
