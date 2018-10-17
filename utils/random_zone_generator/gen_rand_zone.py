@@ -1,3 +1,6 @@
+"""
+Generate and print to console a randomized zone file.
+"""
 import random
 import string
 import requests
@@ -5,10 +8,16 @@ import argparse
 from typing import List, Union, Tuple
 
 
+# Supported record types
 RECORD_TYPES = ("A", "AAAA", "CNAME", "MX", "NS", "TXT")
 
 
 def get_public_suffixes() -> List[str]:
+    """
+    Retrieves an extensive list of public suffixes used and filters out non
+    ASCII suffixes. In case of any issues connecting to the website this
+    function returns a much less comprehensive builtin list.
+    """
     suffixes_source = "https://publicsuffix.org/list/public_suffix_list.dat"
 
     try:
@@ -54,6 +63,9 @@ class ZoneFile(object):
     def add_line(
         self, label: str, ttl: int, rtype: str, answer: ans_type
     ) -> None:
+        """
+        Adds a new line to the current zone file.
+        """
         fqdn = ".".join([label, self.origin]) if label else self.origin
 
         if isinstance(answer, list):
@@ -64,12 +76,18 @@ class ZoneFile(object):
         self.zone_lines.append(line)
 
     def to_text(self) -> str:
+        """
+        Converts the internal representation of the zone file to text.
+        """
         zone_file = "\n".join(self.zone_lines).upper()
         zone_file = "".join([char for char in zone_file if ord(char) < 127])
         return zone_file
 
 
 def gen_record_info(rtype: str) -> Tuple[int, str, ans_type]:
+    """
+    Given a record type this returns a randomized TTL and answers.
+    """
     ttl = random_ttl()
     answer = globals()[f"{rtype.lower()}_answer"]()
     return (ttl, rtype, answer)
@@ -122,12 +140,20 @@ def ns_answer() -> str:
 
 
 def random_label(N: int = None) -> str:
+    """
+    Generates a random label mde of upper case letters.
+    """
     if N is None:
         N = random.randint(4, 16)
     return "".join(random.choices(string.ascii_uppercase, k=N))
 
 
 def random_ip(protocol: int = 4) -> str:
+    """
+    Generates a random IPv4 or IPv6 address. IPv6 addresses generated with this
+    method are skewed due to the method used (not all digits are equally
+    likely).
+    """
     if protocol == 4:
         ip = ".".join([str(random.randint(0, 255)) for _ in range(4)])
     elif protocol == 6:
@@ -145,6 +171,10 @@ def random_ttl() -> int:
 
 
 def gen_zone(zone_name: str, num_records: int) -> str:
+    """
+    Generate a single zone file give a name for the zone and the desired number
+    of records in the zone.
+    """
     zone = ZoneFile(zone_name)
     for i in range(num_records):
         rtype = random.choice(RECORD_TYPES)
