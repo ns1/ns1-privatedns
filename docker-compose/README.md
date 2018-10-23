@@ -13,7 +13,7 @@ These files provide example docker-compose files for setting up and configuring 
 
 Use to start all container images on a single host: `data`, `dns`, `web`, `xfr`, and `cache`. Useful for spinning up everything locally to get familair with the system. 
 
-**IMPORTANT NOTE**: THIS FILE IS NOT ADVISABLE FOR USE IN PRODUCTION.
+**IMPORTANT NOTE**: It is not advisable to use this file in production.
 
 #### Variables:
 
