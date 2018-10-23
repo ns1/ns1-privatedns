@@ -1,3 +1,23 @@
+## 1.1.0 (Oct 31, 2018)
+- What's New?
+   - Added failover support for data container; operate a "primary" and one or more "replica" data containers to achieve this configuration
+   - Added `data cache` container to act as a local copy of `data` at the edge for very distributed deployments
+   - Added support for Promethius as a target for exporting operational metrics
+   - Added TLS options for exporting operational metrics to other systems
+   - Added Cost filter to supported filters in Traffic Management category
+   - Added action to `Restore Main Database` in the `data` container's configuration page
+   - Added json support to supd commit endpoint allowing scripting of configuration changes across many containers at once
+   - Added ability to view real-time stream of container logs in the supd web UI
+   - Added more actions to restart individual container services
+   - Miscellaneous UI and UX improvements to configuration pages
+- What's Fixed?
+   - Fixed issue with data container hostname; see 1.0.3 Known Issues
+   - Fixed issue with recursor caching of zones for which the system is authoritative
+   - Fixed issue with GeoIP file upload missing the option for ASN `.mmdb` files
+   - Miscellaneous UI bugs in the NS1 portal
+- Known Issues
+   - `dns` containers in `Recursive Resolver` mode does not support ECS client subnet; this means for zones which the system is authoritative, Geographic filters are not available
+
 ## 1.0.4 (Sept 21,2018)
 - What's Fixed?
    - Allow creation of RFC 1918 reverse DNS zones for private IPs
