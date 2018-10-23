@@ -107,12 +107,12 @@ services:
   cache:
     image: ns1inc/privatedns_cache:${TAG:-1.1.0}
     environment:
-      CONFIG_PORT: 3005
+      CONFIG_PORT: 3004
       CONTAINER_NAME: "cache"
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
-      - "3305:3300"
+      - "3304:3300"
     volumes:
       - type: volume
         source: ns1cache
