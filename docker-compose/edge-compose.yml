@@ -1,0 +1,61 @@
+---
+version: '3.2'
+services:
+  dns:
+    image: ns1inc/privatedns_dns:${TAG:-1.1.0}
+    environment:        # keep environment lines if 2+ containers
+      CONFIG_PORT: 3301 # are on the host machine
+      CONTAINER_NAME: ${DNS_CONTAINER_NAME:-dns}
+    restart: unless-stopped
+    ports:
+      - "3301:3300" # http configuration
+      - "53:53/udp" # udp port for dns
+      - "53:53"     # udp port for dns
+    volumes:
+      - type: volume
+        source: ns1dns
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id              ${POP_ID:-mypop}
+      --server_id           ${SERVER_ID:-myserver}
+      --data_host           ${CACHE_CONTAINER_NAME:-cache}
+      --operation_mode      ${DNS_OP_MODE:-authoritative}
+      --num_trex_procs      2
+      --num_metrics_procs   2
+      --metrics_flush_interval 10s
+      --dns_recv_buffer     0
+    entrypoint:
+      - /bin/ns1-entrypoint
+  cache:
+    image: ns1inc/privatedns_cache:${TAG:1.1.0}
+    environment:
+      CONFIG_PORT: 3005
+      CONTAINER_NAME: ${CACHE_CONTAINER_NAME:-cache}
+    restart: unless-stopped
+    stop_grace_period: 30s
+    ports:
+      - "3305:3300"
+    volumes:
+      - type: volume
+        source: ns1cache
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id               ${POP_ID:-mypop}
+      --server_id            ${SERVER_ID:-myserver}
+      --data_host            ${DATA_HOSTS:-data}
+    entrypoint:
+      - /bin/ns1-entrypoint
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.18.11.0/24
+volumes:
+  ns1dns:
+  ns1cache:
