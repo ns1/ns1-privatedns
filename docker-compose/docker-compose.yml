@@ -72,9 +72,9 @@ services:
         volume:
           nocopy: true
     command: >-
-    --pop_id              ${POP_ID:-mypop}
-    --server_id           ${SERVER_ID:-myserver}
-    --data_host           data
+      --pop_id              ${POP_ID:-mypop}
+      --server_id           ${SERVER_ID:-myserver}
+      --data_host           data
     entrypoint:
       - /bin/ns1-entrypoint
   dns:
