@@ -6,7 +6,7 @@ This example script models how to generate your own custom certificate bundles t
 
 
 ## Requirements
-...
+OpenSSL Version 1.x or higher [https://www.openssl.org/source/gitrepo.html]
 
 ## Usage 
 ...
