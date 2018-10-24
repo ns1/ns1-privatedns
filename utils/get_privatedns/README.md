@@ -1,4 +1,4 @@
-# Shell Script for Getting NS1 Private DNS Container Images
+# Script for Getting NS1 Private DNS Container Images
 
 This shell script can be used to download and load container images to a host machine. The images can be fetched using an API key generated in the NS1 portal at https://my.nsone.net
 
