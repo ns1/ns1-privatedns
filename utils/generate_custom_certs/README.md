@@ -10,15 +10,17 @@ This example script models how to generate your own custom certificate bundles t
 
 Command: 
 ```
-... [OPTIONS]
+$(basename $BASH_SOURCE) [OPTIONS]
 ```
 
 Required Arguments:
 ```  
--a |--arg        | Required argument.
+-z |--zone       Set the zone name to use in the certicates.
 ```
 Options:
-```  
-  -o |--option     | Option.
 ```
-
+-d |--directory  Set the directory to store certifcates.     [default: '${CERT_DIR}']
+-f |--force      Force overwrite of existing certificates.   [default: ${FORCE}]
+-x |--debug      Enable debug logging.                       [default: false]
+-h |--help       Print this help page.
+```
