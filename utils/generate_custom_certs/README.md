@@ -9,7 +9,7 @@ This example script models how to generate your own custom certificate bundles t
 OpenSSL Version 1.x or higher [https://www.openssl.org/source/gitrepo.html]
 
 ## Usage 
-...
+Given a zone name, this script will use OpenSSL to generate a custom certificate bundle compatible with NS1's Private DNS. To use the certificate bundle, upload at a container's `Certificate & File Manager` page or using command line options.
 
 Command: 
 ```
