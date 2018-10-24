@@ -2,7 +2,7 @@
 
 This example script models how to generate your own custom certificate bundles to be used in NS1 Private DNS. 
 
-**Important note:** The included example.bundle.pem is for demonstration purposes **only** and should not be utilized in any deployment for any reason.
+**IMPORTANT NOTE:** The included example.bundle.pem is for demonstration purposes **only** and should not be utilized in any deployment for any reason.
 
 
 ## Requirements
