@@ -13,7 +13,7 @@ Given a zone name, this script will use OpenSSL to generate a custom certificate
 
 Command: 
 ```
-$(basename $BASH_SOURCE) [OPTIONS]
+generate_custom_certs.sh [OPTIONS]
 ```
 
 Required Arguments:
@@ -22,8 +22,8 @@ Required Arguments:
 ```
 Options:
 ```
--d |--directory  Set the directory to store certifcates.     [default: '${CERT_DIR}']
--f |--force      Force overwrite of existing certificates.   [default: ${FORCE}]
+-d |--directory  Set the directory to store certifcates.     [default: 'certs/']
+-f |--force      Force overwrite of existing certificates.   [default: false]
 -x |--debug      Enable debug logging.                       [default: false]
 -h |--help       Print this help page.
 ```
