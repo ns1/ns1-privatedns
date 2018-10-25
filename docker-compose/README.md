@@ -9,6 +9,8 @@ These files provide example docker-compose files for setting up and configuring 
 - Docker Version 17.03.x (CE or EE) or higher: https://docs.docker.com/engine/installation/
 - Docker Compose Version 1.18.x or higher: https://docs.docker.com/compose/install/.
 
+---
+
 ## docker-compose.yml
 
 Use to start all container images on a single host: `data`, `dns`, `web`, `xfr`, and `cache`. Useful for spinning up everything locally to get familair with the system. 
