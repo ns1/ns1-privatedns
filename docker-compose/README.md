@@ -27,6 +27,15 @@ Use to start all container images on a single host: `data`, `dns`, `web`, `xfr`,
 $sudo TAG=1.1.0 docker-compose -p myproject -f docker-compose.yml up -d
 ```
 
+---
+
+
+# Resources for Core and Edge Facilities' Hosts
+Production and production-like deployment toplogies generally follow a "hub and spoke" pattern where certain services can be grouped in the "hub" referred to here as `core`; other services on the "spoke", which we referred to as `edge`.
+
+![Example topology with command line variables.](https://github.com/ns1/ns1-privatedns/blob/release/1.1.0/docker-compose/figure1.PNG?raw=true)
+**Figure 1**. Example topology with `core-compose.yml` and `edge-compose.yml` command line variables for reference.
+
 
 ## core-compose.yml
 
