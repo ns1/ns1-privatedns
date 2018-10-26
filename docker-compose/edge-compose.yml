@@ -29,7 +29,7 @@ services:
     entrypoint:
       - /bin/ns1-entrypoint
   cache:
-    image: ns1inc/privatedns_cache:${TAG:1.1.0}
+    image: ns1inc/privatedns_cache:${TAG:-1.1.0}
     environment:
       CONFIG_PORT: 3005
       CONTAINER_NAME: ${CACHE_CONTAINER_NAME:-cache}
