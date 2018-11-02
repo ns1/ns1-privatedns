@@ -1,0 +1,140 @@
+---
+version: '3.2'
+services:
+  data:
+    image: ns1inc/privatedns_data:${TAG:-1.1.0}
+    environment:        # keep environment lines if 2+ containers
+      CONFIG_PORT: 3300 # are on the host machine
+      CONTAINER_NAME: "data"
+      DATA_PRIMARY: "true"
+    restart: unless-stopped
+    stop_grace_period: 30s
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    ports:
+      - "3300:3300" # http configuration
+      - "5353:5353" # data transport port
+    volumes:
+      - type: volume
+        source: ns1data
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id               ${POP_ID:-mypop}
+      --server_id            ${SERVER_ID:-myserver}
+      --number_of_stats_processors 2
+    entrypoint:
+      - /bin/ns1-entrypoint
+  web:
+    image: ns1inc/privatedns_web:${TAG:-1.1.0}
+    environment:        # keep environment lines if 2+ containers
+      CONFIG_PORT: 3302 # are on the host machine
+      CONTAINER_NAME: "web"
+    restart: unless-stopped
+    ports:
+      - "3302:3300"     # http configuration
+      - "443:443"       # https connections to portal or api
+      - "80:80"         # http connections to portal or api
+    volumes:
+      - type: volume
+        source: ns1web
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id             ${POP_ID:-mypop}
+      --server_id          ${SERVER_ID:-myserver}
+      --data_host          data
+      --api_hostname       localhost
+      --portal_hostname    localhost
+      --nameservers        ns1.mycompany.net
+      --hostmaster_email   hostmaster@mycompany.net
+    entrypoint:
+      - /bin/ns1-entrypoint
+  xfr:
+    image: ns1inc/privatedns_xfr:${TAG:-1.1.0}
+    environment:        # keep environment lines if 2+ containers
+      CONFIG_PORT: 3303 # are on the host machine
+      CONTAINER_NAME: "xfr"
+    restart: unless-stopped
+    ports:
+      - "3303:3300"    # http configuration
+      - "5400:53/udp"  # udp zone transfers
+      - "5400:53"      # tcp zone transfers
+    volumes:
+      - type: volume
+        source: ns1xfr
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id              ${POP_ID:-mypop}
+      --server_id           ${SERVER_ID:-myserver}
+      --data_host           data
+    entrypoint:
+      - /bin/ns1-entrypoint
+  dns:
+    image: ns1inc/privatedns_dns:${TAG:-1.1.0}
+    environment:        # keep environment lines if 2+ containers
+      CONFIG_PORT: 3301 # are on the host machine
+      CONTAINER_NAME: "dns"
+    restart: unless-stopped
+    ports:
+      - "3301:3300" # http configuration
+      - "53:53/udp" # udp port for dns
+      - "53:53"     # udp port for dns
+    volumes:
+      - type: volume
+        source: ns1dns
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id              ${POP_ID:-mypop}
+      --server_id           ${SERVER_ID:-myserver}
+      --data_host           cache
+      --operation_mode      authoritative
+      --num_trex_procs      2
+      --num_metrics_procs   2
+      --metrics_flush_interval 10s
+      --dns_recv_buffer     0
+    entrypoint:
+      - /bin/ns1-entrypoint
+  cache:
+    image: ns1inc/privatedns_cache:${TAG:-1.1.0}
+    environment:
+      CONFIG_PORT: 3004
+      CONTAINER_NAME: "cache"
+    restart: unless-stopped
+    stop_grace_period: 30s
+    ports:
+      - "3304:3300"
+    volumes:
+      - type: volume
+        source: ns1cache
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id               ${POP_ID:-mypop}
+      --server_id            ${SERVER_ID:-myserver}
+      --data_host            data
+    entrypoint:
+      - /bin/ns1-entrypoint
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.18.11.0/24
+volumes:
+  ns1data:
+  ns1web:
+  ns1xfr:
+  ns1dns:
+  ns1cache:

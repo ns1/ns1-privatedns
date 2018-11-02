@@ -1,6 +1,6 @@
 # Random Zone Generator
 
-CLI tool to generate random zones and upload them to the NS1 platform (either Managed or Private).
+CLI tool to generate random zones and upload them to the NS1 platform (either Managed DNS or a Private DNS deployment).
 
 ## Requirements
 
