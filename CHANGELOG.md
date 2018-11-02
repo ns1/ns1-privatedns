@@ -1,4 +1,4 @@
-## 1.1.0 (Oct 31, 2018)
+## 1.1.0 (Nov 2, 2018)
 - What's New?
    - Added failover support for data container; operate a "primary" and one or more "replica" data containers to achieve this configuration
    - Added `data cache` container to act as a local copy of `data` at the edge for very distributed deployments
@@ -16,7 +16,7 @@
    - Fixed issue with GeoIP file upload missing the option for ASN `.mmdb` files
    - Miscellaneous UI bugs in the NS1 portal
 - Known Issues
-   - `dns` containers in `Recursive Resolver` mode does not support ECS client subnet; this means for zones which the system is authoritative, Geographic filters are not available
+   - `dns` containers in `Recursive Resolver` mode does not support ECS client subnet; this means for zones which the system is authoritative certain filters (Geotarget, Geofence, and Netence filters) ignore client IP
 
 ## 1.0.4 (Sept 21,2018)
 - What's Fixed?
