@@ -5,7 +5,7 @@ This shell script can be used to download and load container images to a host ma
 Step 1. Generate an API Key by visiting https://my.nsone.net/#/account/settings, choose the API tab and create a new key.
 Step 2. Using your new key from Step 1, run the following command or download and run the command located here:
 ```shell
-sh <(curl -Ls https://raw.githubusercontent.com/ns1/ns1-privatedns/master/get-privatedns.sh -o -) -k APIKEY 
+sh <(curl -Ls https://raw.githubusercontent.com/ns1/ns1-privatedns/master/utils/get_privatedns/get_privatedns.sh -o -) -k APIKEY 
 ```
 
 ## Requirements
