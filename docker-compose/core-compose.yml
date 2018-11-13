@@ -50,8 +50,8 @@ services:
       --pop_id             ${POP_ID:-mypop}
       --server_id          ${SERVER_ID:-myserver}
       --data_host          ${DATA_HOSTS:-data}
-      --api_hostname       ${API-HOSTNAME:-localhost}
-      --portal_hostname    ${PORTAL-HOSTNAME:-localhost}
+      --api_hostname       ${API_HOSTNAME:-localhost}
+      --portal_hostname    ${PORTAL_HOSTNAME:-localhost}
       --nameservers        ${NAMESERVERS:-ns1.mycompany.net}
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
     entrypoint:
