@@ -107,7 +107,7 @@ services:
   cache:
     image: ns1inc/privatedns_cache:${TAG:-1.1.0}
     environment:
-      CONFIG_PORT: 3004
+      CONFIG_PORT: 3304
       CONTAINER_NAME: "cache"
     restart: unless-stopped
     stop_grace_period: 30s
