@@ -6,9 +6,8 @@ services:
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3300 # are on the host machine
       CONTAINER_NAME: "data"
-      DATA_PRIMARY: "true"
-    restart: unless-stopped
-    stop_grace_period: 30s
+ #     DATA_PRIMARY: "true"  # only uncomment if this file is just being used to stand up for the first time
+     stop_grace_period: 30s
     ulimits:
       nproc: 65535
       nofile:
