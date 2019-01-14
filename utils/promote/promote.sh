@@ -39,6 +39,8 @@ while getopts "p:c:f:r:" opt; do
   esac
 done
 
+DATATAINER=_ns1data
+
 function promote_local {
   echo "Promoting local data container to primary" >&2
   docker-compose -f $COMPOSE_FILE exec data supd primary true
@@ -76,7 +78,6 @@ else
   # remote data container is down, but maybe host is up:
   #   attempt to use ssh to clean up remote container and volumes
   echo "Remote is down: attempting to clear remote data container volume via SSH" >&2
-  DATATAINER=_ns1data
   VOLUME="$REMOTE_USER$DATATAINER"
   echo "Removing volume $VOLUME" >&2
   ssh -T $REMOTE_USER@$PRIMARY_HOSTNAME bash <<EOF
@@ -91,7 +92,7 @@ EOF
   else
     # fail, we have no information about the state of the remote primary
     echo "Remote ssh cleanup failed: the host is likely down or your user cannot ssh to it, you need to get a shell on the remote primary and either ensure it's set to secondary, or remove the ns1data docker volume with:" >&2
-    echo "docker-compose stop data && docker-compose rm data && docker volumes" >&2
+    echo "docker-compose stop data && docker-compose rm data && docker volumes rm $REMOTE_USER$DATATAINER" >&2
     exit 1
   fi
 fi
@@ -101,4 +102,4 @@ ssh -T $REMOTE_USER@$PRIMARY_HOSTNAME <<EOF
   docker-compose -f $COMPOSE_FILE up -d data
 EOF
 echo "Double check the original remote primary at $PRIMARY_HOSTNAME:$PRIMARY_PORT to ensure it won't be running as a primary" >&2
-echo "You will likely need to restart any remote instances of apid."
+echo "You will likely need to restart any remote instances of apid so that it can reconnect to the sessions database."
