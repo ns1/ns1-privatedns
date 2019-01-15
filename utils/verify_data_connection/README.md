@@ -1,4 +1,4 @@
-# Example Script for Generating Custom Certs
+# Script for verifying inter-container network connectivity
 
 This script is meant to be used to verify connectivity between containers in a private dns cluster. Specifically it is meant to ensure and validate that connectivity back to the data and/or cache containers is correctly configured.
 
