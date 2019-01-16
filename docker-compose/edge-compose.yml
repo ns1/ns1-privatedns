@@ -37,6 +37,7 @@ services:
     stop_grace_period: 30s
     ports:
       - "3305:3300"
+      - "5353:5353"
     volumes:
       - type: volume
         source: ns1cache
