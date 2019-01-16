@@ -36,7 +36,8 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
-      - "3305:3300"
+      - "3305:3300" # http configuration
+      - "5353:5353" # read-only main database; omit if data container is on same host
     volumes:
       - type: volume
         source: ns1cache
