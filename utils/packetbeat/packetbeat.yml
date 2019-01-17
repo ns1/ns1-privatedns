@@ -1,0 +1,30 @@
+output.console:
+  enabled: true
+  pretty: false
+packetbeat.ignore_outgoing: true
+packetbeat.interfaces: {buffer_size_mb: 1024, device: any, snaplen: 512, type: af_packet}
+packetbeat.protocols:
+  amqp.enabled: false
+  cassandra.enabled: false
+  http.enabled: false
+  icmp.enabled: false
+  memcache.enabled: false
+  mongodb.enabled: false
+  mysql.enabled: false
+  nfs.enabled: false
+  pgsql.enabled: false
+  redis.enabled: false
+  thrift.enabled: false
+  dns:
+    enabled: true
+    include_additionals: true
+    include_authorities: true
+    ports: [53]
+    transaction_timeout: 5s
+processors:
+- add_host_metadata:
+    cache: {ttl: 5m}
+    netinfo: {enabled: true}
+xpack.monitoring: {enabled: false}
+
+
