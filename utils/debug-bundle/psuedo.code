@@ -1,0 +1,28 @@
+mkdir debug;
+cd debug;
+for each --data_host=1,2,3 as host:
+  --
+  dig/ping host, log & mark failure if unreachable;
+  --
+  mkdir with name = $host;
+  ssh into $host, exec:
+    mkdir $host;
+    mkdir $host/logs;
+    run docker compose ps;
+    containers = parse output = data|web|dns|xfr|cache;
+    for each containers as container:
+      mkdir $host/$container;
+      docker-compose config > $host/$container/docker-compose.yml;
+      docker-compose exec $container supd viewconfig > $host/$container/config.txt;
+      docker-compose exec $container supd health > $host/$container/healthchecks.txt;
+      docker-compose exec $container supd generate_runtime_logs;
+      docker cp <user>_$container_1:/ns1/data/log/health/* $host/$container/logs;
+      <todo: verify that container can internally resolve and communicate with all data_host in config, save in $host/datahosts>
+      if $container == 'data':
+        docker-compose exec $container supd primary > $host/data/supd_primary.txt;
+        <todo: exec mongo query to check for dual-primary collections, write to $host/data/primary_corrupt.txt>
+  end ssh;
+  scp -r <user>@$host:<workingdir>/$host debug;
+  ssh to host, exec:
+    rm -rf $host;
+
