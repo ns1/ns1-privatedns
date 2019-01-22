@@ -31,12 +31,12 @@ services:
   cache:
     image: ns1inc/privatedns_cache:${TAG:-1.1.0}
     environment:
-      CONFIG_PORT: 3005
+      CONFIG_PORT: 3304
       CONTAINER_NAME: ${CACHE_CONTAINER_NAME:-cache}
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
-      - "3305:3300" # http configuration
+      - "3304:3300" # http configuration
       - "5353:5353" # read-only main database; omit if data container is on same host
     volumes:
       - type: volume
