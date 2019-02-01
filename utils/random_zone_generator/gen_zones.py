@@ -85,7 +85,7 @@ if __name__ == "__main__":
         header = {"X-NSONE-Key": api_key}
 
     for i in range(num_zones):
-        zone_name = f"zone{i}.test"
+        zone_name = f"zone{random.randint(0, 10**7)}.test"
         endpoint = f"https://{api_host}/v1/import/zonefile/{zone_name}"
         num_records = random.randint(1, 150)
         zone_file = gen_rand_zone.gen_zone(zone_name, num_records)
