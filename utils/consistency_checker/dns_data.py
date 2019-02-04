@@ -1,28 +1,28 @@
 RCODES = {
-    0: 'NoError',
-    1: 'FormErr',
-    2: 'ServFail,',
-    3: 'NXDomain',
-    4: 'NotImp',
-    5: 'Refused',
-    6: 'YXDomain',
-    7: 'YXRRSet',
-    8: 'NXRRSet',
-    9: 'NotAuth',
-    10: 'NotZone',
-    11: 'Unassigned',
-    12: 'Unassigned',
-    13: 'Unassigned',
-    14: 'Unassigned',
-    15: 'Unassigned',
-    16: 'BADVERS',
-    17: 'BADKEY',
-    18: 'BADTIME',
-    19: 'BADMODE',
-    20: 'BADNAME',
-    21: 'BADALG',
-    22: 'BADTRUNC',
-    23: 'BADCOOKIE'
+    0: "NoError",
+    1: "FormErr",
+    2: "ServFail,",
+    3: "NXDomain",
+    4: "NotImp",
+    5: "Refused",
+    6: "YXDomain",
+    7: "YXRRSet",
+    8: "NXRRSet",
+    9: "NotAuth",
+    10: "NotZone",
+    11: "Unassigned",
+    12: "Unassigned",
+    13: "Unassigned",
+    14: "Unassigned",
+    15: "Unassigned",
+    16: "BADVERS",
+    17: "BADKEY",
+    18: "BADTIME",
+    19: "BADMODE",
+    20: "BADNAME",
+    21: "BADALG",
+    22: "BADTRUNC",
+    23: "BADCOOKIE",
 }
 
 rrtype_codes = {
@@ -111,21 +111,22 @@ rrtype_codes = {
     "DOA": 259,
     "TA": 32768,
     "DLV": 32769,
-    "Private use": 65280-65534,
+    "Private use": 65280 - 65534,
     "Reserved": 65535,
     "Unassigned": (
-        54, list(range(63, 98 + 1)),
+        54,
+        list(range(63, 98 + 1)),
         list(range(260, 32767 + 1)),
-        list(range(32770, 65279 + 1))
-    )
+        list(range(32770, 65279 + 1)),
+    ),
 }
 
-'''
+"""
 Upper-tail critical values of chi-square distribution with ν degrees of freedom
 
                 Probability less than the critical value
   ν           0.90      0.95     0.975      0.99     0.999
-'''
+"""
 CHI = {
     1: [2.706, 3.841, 5.024, 6.635, 10.828],
     2: [4.605, 5.991, 7.378, 9.21, 13.816],
@@ -226,5 +227,5 @@ CHI = {
     97: [115.223, 120.99, 126.141, 132.309, 145.789],
     98: [116.315, 122.108, 127.282, 133.476, 147.01],
     99: [117.407, 123.225, 128.422, 134.642, 148.23],
-    100: [118.498, 124.342, 129.561, 135.807, 149.449]
+    100: [118.498, 124.342, 129.561, 135.807, 149.449],
 }

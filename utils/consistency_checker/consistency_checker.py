@@ -13,6 +13,7 @@ both the control and target DNS servers
 # Due to the use of f-strings this program will not run in Python versions
 # lower than 3.6
 import sys
+
 if sys.version_info < (3, 6):
     print("Python version must be >= 3.6")
     sys.exit(1)
@@ -38,6 +39,7 @@ class ResponseDifference(Exception):
     """
     Exception to be raised if a difference is identified between DNS responses
     """
+
     pass
 
 
@@ -48,11 +50,13 @@ class LockedIterator(object):
     Warning - the code in the SO post is for Python 2, very minor modifications
     were made to make it Python 3 compatible
     """
+
     def __init__(self, it):
         self.lock = threading.Lock()
         self.it = it.__iter__()
 
-    def __iter__(self): return self
+    def __iter__(self):
+        return self
 
     def __next__(self):
         self.lock.acquire()
@@ -72,27 +76,21 @@ def main(records, control_server, target_server, results_file, modes):
     """
     global GLOBAL_QUERY_COUNT
     logging.info(
-        f'Starting testing of records in single threaded mode - '
-        f'modes = {modes}'
+        f"Starting testing of records in single threaded mode - " f"modes = {modes}"
     )
 
     results = {}
-    if modes['async']:
+    if modes["async"]:
         GLOBAL_QUERY_COUNT += full_async_checker.program_operations(
-            records,
-            control_server, target_server,
-            results
+            records, control_server, target_server, results
         )
     else:
         program_operations(
-            records,
-            control_server, target_server,
-            results,
-            modes['single_threaded']
+            records, control_server, target_server, results, modes["single_threaded"]
         )
 
     write_results(results_file, results)
-    logging.info(f'Wrote results of checker to: {results_file}')
+    logging.info(f"Wrote results of checker to: {results_file}")
 
 
 def multi_threaded_main(records, control_server, target_server, results_file, modes):
@@ -101,7 +99,7 @@ def multi_threaded_main(records, control_server, target_server, results_file, mo
     list. Runs the same set of steps as the regular main() function except for
     the steps required to manage the threads.
     """
-    logging.info(f'Starting testing of records in multi threaded mode')
+    logging.info(f"Starting testing of records in multi threaded mode")
 
     # Make a thread safe generator
     thread_safe_records = LockedIterator(records)
@@ -111,7 +109,7 @@ def multi_threaded_main(records, control_server, target_server, results_file, mo
     # Multi threading parameters
     num_threads = 60
     threads = []
-    logging.info(f'Using {num_threads} threads')
+    logging.info(f"Using {num_threads} threads")
 
     for i in range(1, num_threads + 1):
         thread = threading.Thread(
@@ -121,8 +119,8 @@ def multi_threaded_main(records, control_server, target_server, results_file, mo
                 control_server,
                 target_server,
                 results,
-                single_threaded
-            )
+                single_threaded,
+            ),
         )
         threads.append(thread)
         thread.start()
@@ -131,10 +129,12 @@ def multi_threaded_main(records, control_server, target_server, results_file, mo
         thread.join()
 
     write_results(results_file, results)
-    logging.info(f'Wrote results of checker to: {results_file}')
+    logging.info(f"Wrote results of checker to: {results_file}")
 
 
-def program_operations(records, control_server, target_server, results, single_threaded):
+def program_operations(
+    records, control_server, target_server, results, single_threaded
+):
     """
     Executes the main program logic. Actions undertaken include:
     1. Loops through the list of records and queries target and control servers
@@ -158,40 +158,32 @@ def program_operations(records, control_server, target_server, results, single_t
     control = get_resolver(control_server)
     target = get_resolver(target_server)
 
-    servers = {
-        'control': control,
-        'target': target
-    }
-    server_addr = {
-        'control': control_server,
-        'target': target_server
-    }
+    servers = {"control": control, "target": target}
+    server_addr = {"control": control_server, "target": target_server}
 
     # 1) Loop through list and query records
     for record in records:
         domain = record[0]
         record_type = record[1]
-        logging.debug(f'Checking {domain}_{record_type}')
+        logging.debug(f"Checking {domain}_{record_type}")
         answers = {}
         for server in servers:
-            answers[server] = (
-                make_dns_query(domain, record_type, servers[server])
-            )
+            answers[server] = make_dns_query(domain, record_type, servers[server])
 
         # 2) Check for differences between both responses
         try:
             diff_check(answers)
         except ResponseDifference as e:
             logging.info(
-                f'diff_check: found discrepancy for {domain}_{record_type}:\n'
-                f'{e.args[0]}'
+                f"diff_check: found discrepancy for {domain}_{record_type}:\n"
+                f"{e.args[0]}"
             )
-            print(f'Warning - discrepancy found for {domain}_{record_type}:')
+            print(f"Warning - discrepancy found for {domain}_{record_type}:")
             pprint(e.args[0])
-            print('-' * LINE_SIZE)
+            print("-" * LINE_SIZE)
             differences = e.args[0]
-            if 'answers' not in differences or not NUM_TRIALS:
-                results[f'{domain}_{record_type}'] = str(differences)
+            if "answers" not in differences or not NUM_TRIALS:
+                results[f"{domain}_{record_type}"] = str(differences)
             else:
                 # I'd like to keep track of number of queries for benchmarking
                 # between versions of the program
@@ -200,9 +192,7 @@ def program_operations(records, control_server, target_server, results, single_t
                 # check the distribution of the answers
 
                 if single_threaded:
-                    distributions = get_distribution(
-                        domain, record_type, servers
-                    )
+                    distributions = get_distribution(domain, record_type, servers)
                 else:
                     distributions = async_distribution.get_distribution(
                         domain, record_type, server_addr, NUM_TRIALS
@@ -213,31 +203,28 @@ def program_operations(records, control_server, target_server, results, single_t
                 except ResponseDifference as e:
                     dist_diff = e.args[0]
                     logging.info(
-                        'distribution_diff_check: confirmed discrepancy for '
-                        f'{domain}_{record_type}: \n'
-                        f'{dist_diff.rstrip()}'
+                        "distribution_diff_check: confirmed discrepancy for "
+                        f"{domain}_{record_type}: \n"
+                        f"{dist_diff.rstrip()}"
                     )
                     print(
-                        f'Warning - discrepancy confirmed for '
-                        f'{domain}_{record_type}\n'
-                        f'{dist_diff}'
+                        f"Warning - discrepancy confirmed for "
+                        f"{domain}_{record_type}\n"
+                        f"{dist_diff}"
                     )
-                    print('-' * LINE_SIZE)
-                    results[f'{domain}_{record_type}'] = str(distributions)
+                    print("-" * LINE_SIZE)
+                    results[f"{domain}_{record_type}"] = str(distributions)
                 else:
                     logging.info(
-                        'distribution_diff_check: found no discrepancy for '
-                        f'{domain}_{record_type}'
+                        "distribution_diff_check: found no discrepancy for "
+                        f"{domain}_{record_type}"
                     )
-                    print(
-                        f'Nominal results for {domain}_{record_type}',
-                        end=' '
-                    )
+                    print(f"Nominal results for {domain}_{record_type}", end=" ")
                     print(dist_diff.rstrip())
-                    print('-' * LINE_SIZE)
+                    print("-" * LINE_SIZE)
                     logging.debug(dist_diff.rstrip())
         else:
-            logging.debug(f'Nominal results: {domain}_{record_type}')
+            logging.debug(f"Nominal results: {domain}_{record_type}")
 
 
 def read_records_file(filepath):
@@ -262,7 +249,7 @@ def read_records_file(filepath):
     """
     with open(filepath) as record_file:
         for record in record_file:
-            domain, record_type = record.strip().split(',')
+            domain, record_type = record.strip().split(",")
             yield domain.strip(), record_type.strip()
 
 
@@ -320,36 +307,36 @@ def make_dns_query(domain, record_type, server):
         -response   : dict, details of the DNS response
     """
     response = {
-        'answers': [],
-        'ttl': None,
-        'rcode': None,
-        'query_time': None,
-        'flags': None
+        "answers": [],
+        "ttl": None,
+        "rcode": None,
+        "query_time": None,
+        "flags": None,
     }
     try:
         ans = server.query(domain, record_type, raise_on_no_answer=True)
     except dns.resolver.NXDOMAIN:
         # Received NXDOMAIN response
-        response['rcode'] = 3
+        response["rcode"] = 3
     except dns.resolver.NoAnswer:
         # Answer count is 0 (EBOT)
-        response['rcode'] = 0
+        response["rcode"] = 0
     except dns.resolver.NoNameservers:
         # REFUSED
-        response['rcode'] = 5
+        response["rcode"] = 5
     except dns.exception.Timeout:
         pass
     else:
         response = {
-            'answers': [str(a) for a in ans],
-            'ttl': ans.rrset.ttl,
-            'rcode': ans.response.rcode(),
-            'query_time': ans.response.time,
-            'flags': ans.response.flags
+            "answers": [str(a) for a in ans],
+            "ttl": ans.rrset.ttl,
+            "rcode": ans.response.rcode(),
+            "query_time": ans.response.time,
+            "flags": ans.response.flags,
         }
-    response['domain'] = domain
-    response['type'] = record_type
-    response['ans_count'] = len(response['answers'])
+    response["domain"] = domain
+    response["type"] = record_type
+    response["ans_count"] = len(response["answers"])
     return response
 
 
@@ -368,17 +355,11 @@ def diff_check(answers):
     Inputs:
         - answers   : dict, keys are  'control' and 'target'
     """
-    KEY_PARAMS = [
-        'answers',
-        'ans_count',
-        'ttl',
-        'rcode',
-        'flags'
-    ]
+    KEY_PARAMS = ["answers", "ans_count", "ttl", "rcode", "flags"]
     diff = {}
     for parameter in KEY_PARAMS:
-        p1 = answers['control'][parameter]
-        p2 = answers['target'][parameter]
+        p1 = answers["control"][parameter]
+        p2 = answers["target"][parameter]
         # Probably inefficient to turn these lists into sets every time -
         # straight list comparison doesn't work though as it looks for the
         # order to match as well
@@ -386,16 +367,10 @@ def diff_check(answers):
             s1 = set(p1)
             s2 = set(p2)
             if s1 ^ s2:
-                diff[parameter] = {
-                    'control': p1,
-                    'target': p2
-                }
+                diff[parameter] = {"control": p1, "target": p2}
         else:
             if not (p1 == p2):
-                diff[parameter] = {
-                    'control': p1,
-                    'target': p2
-                }
+                diff[parameter] = {"control": p1, "target": p2}
 
     if diff:
         raise ResponseDifference(diff)
@@ -415,18 +390,13 @@ def get_distribution(domain, record_type, servers):
         - distribution  : dict, holds the answer distribution for control and
                           target servers
     """
-    distribution = {
-        'control': {},
-        'target': {}
-    }
+    distribution = {"control": {}, "target": {}}
 
     for server in servers:
         for trial in range(NUM_TRIALS):
             resp = make_dns_query(domain, record_type, servers[server])
-            for answer in resp['answers']:
-                distribution[server][answer] = (
-                    distribution[server].get(answer, 0) + 1
-                )
+            for answer in resp["answers"]:
+                distribution[server][answer] = distribution[server].get(answer, 0) + 1
     return distribution
 
 
@@ -482,26 +452,20 @@ def distribution_diff_check(distributions):
     if missing_answers:
         dist_table = make_dist_table(d1, d2)
         diff = (
-            f'Discrepancy in answer list - missing answers: '
-            f'{missing_answers}\n'
-            f'{dist_table}'
+            f"Discrepancy in answer list - missing answers: "
+            f"{missing_answers}\n"
+            f"{dist_table}"
         )
         raise ResponseDifference(diff)
 
     chi_square = 0
     v = max((len(d1), len(d2)))
-    confidence_levels = {
-        90: 0,
-        95: 1,
-        97.5: 2,
-        99: 3,
-        99.9: 4
-    }
+    confidence_levels = {90: 0, 95: 1, 97.5: 2, 99: 3, 99.9: 4}
     for answer in d1:
         ej = d1[answer]
         oj = d2.get(answer, 0)
 
-        chi_square += (ej - oj)**2 / ej
+        chi_square += (ej - oj) ** 2 / ej
 
     # Statistical test at 99% confidence level
     statistic_threshold = CHI[v][confidence_levels[99]]
@@ -510,9 +474,9 @@ def distribution_diff_check(distributions):
         dist_table = make_dist_table(d1, d2)
 
         diff = (
-            f'Discrepancy in answer distribution of:\nChi square value of '
-            f'{round(chi_square,1)} is greater than statistical threshold of '
-            f'{statistic_threshold}: \n{dist_table}'
+            f"Discrepancy in answer distribution of:\nChi square value of "
+            f"{round(chi_square,1)} is greater than statistical threshold of "
+            f"{statistic_threshold}: \n{dist_table}"
         )
         raise ResponseDifference(diff)
 
@@ -520,9 +484,9 @@ def distribution_diff_check(distributions):
     dist_table = make_dist_table(d1, d2)
 
     diff = (
-        f'Chi square value of '
-        f'{round(chi_square,1)} is less than statistical threshold of '
-        f'{statistic_threshold}: \n{dist_table}'
+        f"Chi square value of "
+        f"{round(chi_square,1)} is less than statistical threshold of "
+        f"{statistic_threshold}: \n{dist_table}"
     )
     return diff
 
@@ -544,9 +508,12 @@ def make_dist_table(d1, d2):
     a2 = set(d2)
     answers = a1 | a2
     side_by_side = (
-        'Answer'.center(50, '_') + '|' +
-        'Control'.center(10, '_') + '|' +
-        'Target'.center(10, '_') + '|\n'
+        "Answer".center(50, "_")
+        + "|"
+        + "Control".center(10, "_")
+        + "|"
+        + "Target".center(10, "_")
+        + "|\n"
     )
     for ans in answers:
         if len(str(ans)) > 45:
@@ -554,10 +521,13 @@ def make_dist_table(d1, d2):
         else:
             ans_str = str(ans)
         side_by_side = (
-            side_by_side +
-            ans_str.center(50, '.') + '|' +
-            str(d1.get(ans, 0)).center(10, '.') + '|' +
-            str(d2.get(ans, 0)).center(10, '.') + '|\n'
+            side_by_side
+            + ans_str.center(50, ".")
+            + "|"
+            + str(d1.get(ans, 0)).center(10, ".")
+            + "|"
+            + str(d2.get(ans, 0)).center(10, ".")
+            + "|\n"
         )
     return side_by_side
 
@@ -570,54 +540,51 @@ def write_results(filepath, results):
         - filepath  : str, filepath to write to
         - results   : dict, contains entries for all differences found
     """
-    with open(filepath, 'w') as results_file:
-        results_file.write('Record,Information\n')
+    with open(filepath, "w") as results_file:
+        results_file.write("Record,Information\n")
         for record in results:
-            information = results[record].replace('\n', '')
-            results_file.write(f'{record},{information}\n')
+            information = results[record].replace("\n", "")
+            results_file.write(f"{record},{information}\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Start up logging and initialization of globals
     logging.basicConfig(
-        filename='consistency_checker.log',
+        filename="consistency_checker.log",
         level=logging.DEBUG,
-        format='%(asctime)s - %(levelname)s: %(message)s'
+        format="%(asctime)s - %(levelname)s: %(message)s",
     )
     # logging.disable(logging.DEBUG)
     program_start = default_timer()
-    logging.info('Start of Program')
+    logging.info("Start of Program")
     args = cli_argparser.parse_inputs()
-    NUM_RECORDS = args['NUM_RECORDS']
-    logging.debug(f'Arguments: {args}')
+    NUM_RECORDS = args["NUM_RECORDS"]
+    logging.debug(f"Arguments: {args}")
     program_args = (
-        args['records'],
-        args['control'],
-        args['target'],
-        args['results'],
-        {
-            'single_threaded': args['single_threaded'],
-            'async': args['async']
-        }
+        args["records"],
+        args["control"],
+        args["target"],
+        args["results"],
+        {"single_threaded": args["single_threaded"], "async": args["async"]},
     )
 
-    if args['multi_threaded']:
+    if args["multi_threaded"]:
         multi_threaded_main(*program_args)
     else:
         main(*program_args)
 
     # Just logging and printing while program finalizes
-    logging.info('Program End')
+    logging.info("Program End")
     program_end = default_timer()
     runtime_s = program_end - program_start
     runtime_m = runtime_s / 60
     GLOBAL_QUERY_COUNT += NUM_RECORDS * 2
     str_to_log_print = (
-        f'Program ran in {int(runtime_s)} seconds ({runtime_m:.1f} minutes) - '
-        f'{NUM_RECORDS} tested -- {round(runtime_s/NUM_RECORDS, 1)} seconds '
-        'per record\n'
-        f'{GLOBAL_QUERY_COUNT} queries - '
-        f'{GLOBAL_QUERY_COUNT/runtime_s:.1f} QPS\n'
+        f"Program ran in {int(runtime_s)} seconds ({runtime_m:.1f} minutes) - "
+        f"{NUM_RECORDS} tested -- {round(runtime_s/NUM_RECORDS, 1)} seconds "
+        "per record\n"
+        f"{GLOBAL_QUERY_COUNT} queries - "
+        f"{GLOBAL_QUERY_COUNT/runtime_s:.1f} QPS\n"
     )
     logging.info(str_to_log_print)
     print(str_to_log_print)
