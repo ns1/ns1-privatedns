@@ -2,3 +2,4 @@ utils/random_zone_generator/__pycache__/
 utils/random_zone_generator/.vscode/
 .mypy_cache/
 .vscode/
+venv/
