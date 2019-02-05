@@ -28,10 +28,11 @@ import dns.query
 from dns_data import CHI
 import async_distribution
 import full_async_checker
+import os
 
 
 GLOBAL_QUERY_COUNT = 0
-NUM_TRIALS = 2500
+NUM_TRIALS = int(os.environ.get("NUM_TRIALS") or 2500)
 LINE_SIZE = 120
 
 
