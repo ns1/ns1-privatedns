@@ -56,6 +56,7 @@ services:
       --portal_hostname    localhost
       --nameservers        ns1.mycompany.net
       --hostmaster_email   hostmaster@mycompany.net
+      --enable_ops_metrics true
     entrypoint:
       - /bin/ns1-entrypoint
   xfr:
@@ -78,6 +79,7 @@ services:
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
       --data_host           data
+      --enable_ops_metrics  true
     entrypoint:
       - /bin/ns1-entrypoint
   dns:
@@ -105,6 +107,7 @@ services:
       --num_metrics_procs   2
       --metrics_flush_interval 10s
       --dns_recv_buffer     0
+      --enable_ops_metrics  true
     entrypoint:
       - /bin/ns1-entrypoint
   cache:
@@ -126,6 +129,7 @@ services:
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
       --data_host            data
+      --enable_ops_metrics   true
     entrypoint:
       - /bin/ns1-entrypoint
 networks:
