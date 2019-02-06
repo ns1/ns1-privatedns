@@ -28,6 +28,8 @@ services:
       --server_id            ${SERVER_ID:-myserver}
       --data_host            ${DATA_PEERS}
       --number_of_stats_processors 2
+      --enable_ops_metrics true
+      --expose_ops_metrics true
     entrypoint:
       - /bin/ns1-entrypoint
   web:
