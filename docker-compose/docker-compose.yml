@@ -17,6 +17,7 @@ services:
     ports:
       - "3300:3300" # http configuration
       - "5353:5353" # data transport port
+      - "8686:8686" # metrics export
     volumes:
       - type: volume
         source: ns1data
