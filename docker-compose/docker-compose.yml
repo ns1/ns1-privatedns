@@ -7,7 +7,6 @@ services:
       CONFIG_PORT: 3300 # are on the host machine
       CONTAINER_NAME: "data"
       DATA_PRIMARY: "true"
-    restart: unless-stopped
     stop_grace_period: 30s
     ulimits:
       nproc: 65535
@@ -17,6 +16,7 @@ services:
     ports:
       - "3300:3300" # http configuration
       - "5353:5353" # data transport port
+      - "8686:8686" # metrics export
     volumes:
       - type: volume
         source: ns1data
@@ -27,6 +27,8 @@ services:
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
       --number_of_stats_processors 2
+      --enable_ops_metrics true
+      --expose_ops_metrics true
     entrypoint:
       - /bin/ns1-entrypoint
   web:
@@ -53,6 +55,7 @@ services:
       --portal_hostname    localhost
       --nameservers        ns1.mycompany.net
       --hostmaster_email   hostmaster@mycompany.net
+      --enable_ops_metrics true
     entrypoint:
       - /bin/ns1-entrypoint
   xfr:
@@ -75,6 +78,7 @@ services:
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
       --data_host           data
+      --enable_ops_metrics  true
     entrypoint:
       - /bin/ns1-entrypoint
   dns:
@@ -102,6 +106,7 @@ services:
       --num_metrics_procs   2
       --metrics_flush_interval 10s
       --dns_recv_buffer     0
+      --enable_ops_metrics  true
     entrypoint:
       - /bin/ns1-entrypoint
   cache:
@@ -123,6 +128,7 @@ services:
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
       --data_host            data
+      --enable_ops_metrics   true
     entrypoint:
       - /bin/ns1-entrypoint
 networks:

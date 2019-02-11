@@ -16,6 +16,7 @@ services:
     ports:
       - "3300:3300" # http configuration
       - "5353:5353" # data transport port
+      - "8686:8686" # metrics export
     volumes:
       - type: volume
         source: ns1data
@@ -27,6 +28,8 @@ services:
       --server_id            ${SERVER_ID:-myserver}
       --data_host            ${DATA_PEERS}
       --number_of_stats_processors 2
+      --enable_ops_metrics   true
+      --expose_ops_metrics   true
     entrypoint:
       - /bin/ns1-entrypoint
   web:
@@ -53,6 +56,7 @@ services:
       --portal_hostname    ${PORTAL_HOSTNAME:-localhost}
       --nameservers        ${NAMESERVERS:-ns1.mycompany.net}
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
+      --enable_ops_metrics true
     entrypoint:
       - /bin/ns1-entrypoint
   xfr:
@@ -75,6 +79,7 @@ services:
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
       --data_host           ${DATA_HOSTS:-data}
+      --enable_ops_metrics  true
     entrypoint:
       - /bin/ns1-entrypoint
 networks:
