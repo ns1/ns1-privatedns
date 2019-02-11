@@ -7,7 +7,6 @@ services:
       CONFIG_PORT: 3300 # are on the host machine
       CONTAINER_NAME: "data"
       DATA_PRIMARY: "true"
-    restart: unless-stopped
     stop_grace_period: 30s
     ulimits:
       nproc: 65535
