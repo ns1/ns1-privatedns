@@ -32,7 +32,7 @@ import os
 
 
 GLOBAL_QUERY_COUNT = 0
-NUM_TRIALS = int(os.environ.get("NUM_TRIALS") or 2500)
+NUM_TRIALS = int(os.environ.get("NUM_TRIALS") or 50)
 LINE_SIZE = 120
 
 
