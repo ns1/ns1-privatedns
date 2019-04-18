@@ -2,7 +2,7 @@
 version: '3.2'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-1.1.0}
+    image: ns1inc/privatedns_data:${TAG}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3300 # are on the host machine
       CONTAINER_NAME: ${DATA_CONTAINER_NAME:-data}
