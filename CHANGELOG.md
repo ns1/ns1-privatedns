@@ -1,3 +1,13 @@
+## 1.1.1 (Apr 18, 2019)
+- What's New?
+   - Added ability to configure zone and record pagination limits (i.e. beyond 2500) of `web` containers
+   - Miscellaneous UI and UX improvements to configuration pages
+- What's Fixed?
+   - Fixed issue with `web` container health checks resulting in false positives
+   - Fixed issue where operator users logged into the portal could not create users, apikeys, or teams on behalf of an organization
+   - API and In-Memory database no longer need to be restarted after a `data` container failover event
+   - Miscellaneous UI bugs in the NS1 portal
+
 ## 1.1.0 (Nov 2, 2018)
 - What's New?
    - Added failover support for data container; operate a "primary" and one or more "replica" data containers to achieve this configuration

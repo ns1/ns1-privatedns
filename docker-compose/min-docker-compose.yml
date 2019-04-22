@@ -2,7 +2,7 @@
 version: '3.2'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-1.1.0}
+    image: ns1inc/privatedns_data:${TAG:-1.1.1}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3300 # are on the host machine
       CONTAINER_NAME: "data"
@@ -30,7 +30,7 @@ services:
     entrypoint:
       - /bin/ns1-entrypoint
   web:
-    image: ns1inc/privatedns_web:${TAG:-1.1.0}
+    image: ns1inc/privatedns_web:${TAG:-1.1.1}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3302 # are on the host machine
       CONTAINER_NAME: "web"
@@ -56,7 +56,7 @@ services:
     entrypoint:
       - /bin/ns1-entrypoint
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-1.1.0}
+    image: ns1inc/privatedns_dns:${TAG:-1.1.1}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3301 # are on the host machine
       CONTAINER_NAME: "dns"
