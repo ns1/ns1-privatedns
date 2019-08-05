@@ -7,4 +7,4 @@ sed -i "/zone_load_frequency = */c\zone_load_frequency = $1" /ansible/playbooks/
 docker cp ./tmppatch.sh $XFR_ID:/bin/hotpatch.sh
 docker exec $XFR_ID chmod +x /bin/hotpatch.sh
 docker exec -t $XFR_ID /bin/hotpatch.sh $1
-docker exec -t $XFR_ID supd restart xfrd
+docker exec -t $XFR_ID supd restart_xfr_svs
