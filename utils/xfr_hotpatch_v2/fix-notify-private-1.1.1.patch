@@ -1,0 +1,38 @@
+diff --git a/xfrd/xfr_notify_sender.py b/xfrd/xfr_notify_sender.py
+index bfb8c2f96..2c8f78e9d 100644
+--- a/xfrd/xfr_notify_sender.py
++++ b/xfrd/xfr_notify_sender.py
+@@ -12,8 +12,8 @@ class xfr_notify_sender(object):
+     Sends NOTIFY messages to secondaries for updated zones.
+     '''
+ 
+-    def __init__(self, network, notify_delay, interface=""):
+-        self._network = network
++    def __init__(self, allow_private, notify_delay, interface=""):
++        self._allow_private = allow_private
+         self._notify_delay = notify_delay
+         self._notify_q = {}  # deferreds to send notifies to secondaries
+         self._interface = interface
+@@ -73,7 +73,7 @@ class xfr_notify_sender(object):
+                 continue
+ 
+             # ignore if ip is private and we are no the global network
+-            if is_ipv4_private(secondary.get('ip')) and self._network == 0:
++            if not self._allow_private and is_ipv4_private(secondary.get('ip')):
+                 continue
+ 
+             LOG.warn("Sending notify for %s to %s:%d for serial %d", zone['zone'], secondary['ip'], secondary['port'], zone['record'][2])
+diff --git a/xfrd/xfrd.py b/xfrd/xfrd.py
+index 336aaf5fd..c05cb2bba 100755
+--- a/xfrd/xfrd.py
++++ b/xfrd/xfrd.py
+@@ -82,7 +82,8 @@ class xfrd_service(app_service):
+         network = int(self._config.get('server', 'networkid'))
+         notify_delay = int(self._config.get('xfrd', 'notify_delay'))
+         interface = self._config.get('xfrd', 'outbound_network_interface')
+-        self._notify_sender = xfr_notify_sender(network, notify_delay, interface)
++        allow_private = self._standalone or network != 0
++        self._notify_sender = xfr_notify_sender(allow_private, notify_delay, interface)
+ 
+     def _stop_notify_sender(self):
+         if self._notify_sender:
