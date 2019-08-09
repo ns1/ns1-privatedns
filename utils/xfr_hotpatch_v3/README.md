@@ -15,16 +15,16 @@ past changes, do the following (adjusted as appropriate for your environment, re
 
 - stop and remove the xfr container
 
-  `docker stop privatedns_xfr_1`
-  `docker image rm privatedns_xfr_1`
+  - `docker stop privatedns_xfr_1`
+  - `docker container rm privatedns_xfr_1`
 
 - remove the xfr volume
 
-  `docker rm privatedns_ns1xfr`
+  - `docker volume rm privatedns_ns1xfr`
 
 - use docker-compose to bring up a fresh xfr container
 
-  `TAG=1.1.1 docker-compose -p privatedns up -d`
+  - `TAG=1.1.1 docker-compose -p privatedns up -d`
 
 once a clean xfr container is running, the patch can be applied as follows:
 
