@@ -19,6 +19,7 @@
    - Container configuration web interface: Configuration lists do not allow reconfiguration; instead of using the web interface to modify these lists, the workaroud is to use the CLI or HTTP REST API configuration (e.g. docker exec -it dns supd run --data_service_defs 1-10); this is applicable to lists of data_peers in the data container and data_service_defs in the dns and dist containers.
    - Multiple scope groups should not be assignable to a single DHCP service. If this action is taken, the DHCP service (Service Definition) will be returned multiple times in the dropdown for scope & reservation assignment and or when editing settings on the DHCP service.
    - Creating a zone w/o a service group or corresponding DNS pool existing returns a 500 error; workaround the limitation by creating a service group, associating it with the organization, and defining a DNS pool.
+   - Automatic bootstrap default operator username has invalid characters; workaround the limitation by removing capitalization for the operator's username before submitting the form.
    
 ## 1.1.1 (Apr 18, 2019)
 - What's New?
