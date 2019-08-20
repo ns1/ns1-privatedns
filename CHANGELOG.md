@@ -1,5 +1,6 @@
 ## 2.1.0 (Aug, 19 2019)
 - What's New?
+   - For the latest Installation & Setup Guide, visit: https://help.ns1.com/hc/en-us/articles/360034124053
    - Renamed `web` to `core` container
    - Renamed `cache` to `dist` (distribution) container to disambiguate its function
    - Increased password complexity requirements
