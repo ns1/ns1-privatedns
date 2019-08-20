@@ -2,15 +2,21 @@
 version: '3.2'
 services:
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-1.1.1}
+    image: nsone/standalone_dns:${TAG:-2.1.0}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3301 # are on the host machine
       CONTAINER_NAME: ${DNS_CONTAINER_NAME:-dns}
     restart: unless-stopped
     ports:
       - "3301:3300" # http configuration
+      - "9091:9090" # service proxy
       - "53:53/udp" # udp port for dns
-      - "53:53"     # udp port for dns
+      - "53:53/tcp" # tcp port for dns
+    healthcheck:
+      test: supd health --check
+      interval: 15s
+      timeout: 10s
+      retries: 3
     volumes:
       - type: volume
         source: ns1dns
@@ -20,36 +26,62 @@ services:
     command: >-
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
-      --data_host           ${CACHE_HOSTS:-cache}
-      --operation_mode      ${DNS_OP_MODE:-authoritative}
-      --num_trex_procs      2
-      --num_metrics_procs   2
-      --metrics_flush_interval 10s
-      --dns_recv_buffer     0
-    entrypoint:
-      - /bin/ns1-entrypoint
-  cache:
-    image: ns1inc/privatedns_cache:${TAG:-1.1.1}
+      --core_host           ${DIST_OR_CORE_HOSTS:-dist}
+      --operation_mode      ${OPERATION_MODE:-authoritative}
+      --enable_ops_metrics  true
+  dhcp:
+    image: nsone/standalone_dhcp:${TAG:-2.1.0}
+    environment:        # keep environment lines if 2+ containers
+      CONFIG_PORT: 3305 # are on the host machine
+      CONTAINER_NAME: ${DHCP_CONTAINER_NAME:-dhcp}
+    privileged: true
+    restart: unless-stopped
+    network_mode: host
+    healthcheck:
+      test: supd health --check
+      interval: 15s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - type: volume
+        source: ns1dhcp
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id              ${POP_ID:-mypop}
+      --server_id           ${SERVER_ID:-myserver}
+      --core_host           ${DIST_OR_CORE_HOSTS:-dist}
+      --enable_ops_metrics  true
+  dist:
+    image: nsone/standalone_dist:${TAG:-2.1.0}
     environment:
       CONFIG_PORT: 3304
-      CONTAINER_NAME: ${CACHE_CONTAINER_NAME:-cache}
+      CONTAINER_NAME: ${DIST_CONTAINER_NAME:-dist}
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
       - "3304:3300" # http configuration
-      - "5353:5353" # read-only main database; omit if data container is on same host
+      - "9094:9090" # service proxy
+      - "5353"      # data transport
+    sysctls:
+      net.ipv6.conf.lo.disable_ipv6: 0 # enable ipv6 for loopback
+    healthcheck:
+      test: supd health --check
+      interval: 15s
+      timeout: 10s
+      retries: 3
     volumes:
       - type: volume
-        source: ns1cache
+        source: ns1dist
         target: /ns1/data
         volume:
           nocopy: true
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      --data_host            ${DATA_HOSTS:-data}
-    entrypoint:
-      - /bin/ns1-entrypoint
+      --core_host            ${CORE_HOSTS:-core}
+      --enable_ops_metrics   true
 networks:
   default:
     driver: bridge
@@ -59,4 +91,5 @@ networks:
       - subnet: 172.18.11.0/24
 volumes:
   ns1dns:
-  ns1cache:
+  ns1dist:
+  ns1dhcp:
