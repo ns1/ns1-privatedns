@@ -48,7 +48,7 @@ $sudo TAG=2.1.0 POP_ID=mypop SERVER_ID=myserver docker-compose -p myproject -f d
 # Resources for Control and Edge Hosts
 Production and production-like deployment toplogies generally follow a "hub and spoke" pattern where certain services can be grouped in the "hub" referred to here as `control node`; other services on the "spoke", which we referred to as `edge node`.
 
-![Example topology with command line variables.](figure2.PNG?raw=true)
+![Example topology with command line variables.](/figure2.PNG)
 **Figure 1**. Example topology with `control-compose.yml` and `edge-compose.yml` command line variables for reference.
 
 
