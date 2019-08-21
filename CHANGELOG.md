@@ -1,3 +1,27 @@
+## 2.1.0 (Aug, 19 2019)
+- What's New?
+   - For the latest Installation & Setup Guide, visit: https://help.ns1.com/hc/en-us/articles/360034124053
+   - Renamed `web` to `core` container
+   - Renamed `cache` to `dist` (distribution) container to disambiguate its function
+   - Increased password complexity requirements
+   - Enhanced security for API key secrets
+   - Added new database layer for increased capacity and protections for referential integrity
+   - Extended portal navigation to include IPAM and DHCP pages
+   - Added ability to create and manage IP address objects including split, merge, bulk delete
+   - Added ability to search and filter subnets
+   - Added IPAM user-defined metadata in the form of tags and custom attributes
+   - Added ability to create and modify DHCP server and scope settings and options
+   - Added view and manage permissions for IPAM and DHCP
+   - Improved performance of container configuration daemon to reconfigure in seconds
+   - Added support for customized data replication across networks
+- Known Issues
+   - A zone in two or more networks cannot be re-pooled; the workaround is to delete the zone and recreate it with new network pool value(s); zones in a single network pool can be re-pooled without this workaround
+   - A /32 or /128 host currently assigned with a reservation cannot be deleted from the IPAM interface; the workaround is to delete the corresponding reservation first before deleting the address objects
+   - Container configuration web interface: Configuration lists do not allow reconfiguration; instead of using the web interface to modify these lists, the workaroud is to use the CLI or HTTP REST API configuration (e.g. docker exec -it dns supd run --data_service_defs 1-10); this is applicable to lists of data_peers in the data container and data_service_defs in the dns and dist containers.
+   - Multiple scope groups should not be assignable to a single DHCP service. If this action is taken, the DHCP service (Service Definition) will be returned multiple times in the dropdown for scope & reservation assignment and or when editing settings on the DHCP service.
+   - Creating a zone w/o a service group or corresponding DNS pool existing returns a 500 error; workaround the limitation by creating a service group, associating it with the organization, and defining a DNS pool.
+   - Automatic bootstrap default operator username has invalid characters; workaround the limitation by removing capitalization for the operator's username before submitting the form.
+   
 ## 1.1.1 (Apr 18, 2019)
 - What's New?
    - Added ability to configure zone and record pagination limits (i.e. beyond 2500) of `web` containers

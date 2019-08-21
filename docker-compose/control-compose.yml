@@ -2,11 +2,11 @@
 version: '3.2'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-1.1.1}
+    image: ns1inc/privatedns_data:${TAG:-2.1.0}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3300 # are on the host machine
       CONTAINER_NAME: ${DATA_CONTAINER_NAME:-data}
-    # DATA_PRIMARY: ${PRIMARY}  # only uncomment if this file is just being used to stand up for the first time
+      # DATA_PRIMARY: "true" # keep if this host will stand up as primary
     stop_grace_period: 30s
     ulimits:
       nproc: 65535
@@ -15,8 +15,15 @@ services:
         hard: 40000
     ports:
       - "3300:3300" # http configuration
-      - "5353:5353" # data transport port
+      - "9090:9090" # service proxy
       - "8686:8686" # metrics export
+    sysctls:
+      net.ipv6.conf.lo.disable_ipv6: 0 # enable ipv6 for loopback
+    healthcheck:
+      test: supd health --check
+      interval: 15s
+      timeout: 10s
+      retries: 3
     volumes:
       - type: volume
         source: ns1data
@@ -26,25 +33,30 @@ services:
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      --data_host            ${DATA_PEERS}
-      --number_of_stats_processors 2
+      --data_peers           ${DATA_PEERS}
       --enable_ops_metrics   true
       --expose_ops_metrics   true
-    entrypoint:
-      - /bin/ns1-entrypoint
-  web:
-    image: ns1inc/privatedns_web:${TAG:-1.1.1}
+  core:
+    image: ns1inc/privatedns_core:${TAG:-2.1.0}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3302 # are on the host machine
-      CONTAINER_NAME: ${WEB_CONTAINER_NAME:-web}
+      CONTAINER_NAME: ${CORE_CONTAINER_NAME:-core}
+    # BOOTSTRAPPABLE: "true" # include to start a helper webserver that bootstraps the deployment for ease of use
     restart: unless-stopped
     ports:
+      - "5353:5353"     # data transport
       - "3302:3300"     # http configuration
+      - "9092:9090"     # service proxy
       - "443:443"       # https connections to portal or api
       - "80:80"         # http connections to portal or api
+    healthcheck:
+      test: supd health --check
+      interval: 15s
+      timeout: 10s
+      retries: 3
     volumes:
       - type: volume
-        source: ns1web
+        source: ns1core
         target: /ns1/data
         volume:
           nocopy: true
@@ -52,23 +64,27 @@ services:
       --pop_id             ${POP_ID:-mypop}
       --server_id          ${SERVER_ID:-myserver}
       --data_host          ${DATA_HOSTS:-data}
-      --api_hostname       ${API_HOSTNAME:-localhost}
-      --portal_hostname    ${PORTAL_HOSTNAME:-localhost}
+      --api_hostname       ${API_FQDN:-api.mycompany.net}
+      --portal_hostname    ${PORTAL_FQDN:-portal.mycompany.net}
       --nameservers        ${NAMESERVERS:-ns1.mycompany.net}
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
       --enable_ops_metrics true
-    entrypoint:
-      - /bin/ns1-entrypoint
   xfr:
-    image: ns1inc/privatedns_xfr:${TAG:-1.1.1}
+    image: ns1inc/privatedns_xfr:${TAG:-2.1.0}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3303 # are on the host machine
       CONTAINER_NAME: ${XFR_CONTAINER_NAME:-xfr}
     restart: unless-stopped
     ports:
       - "3303:3300"    # http configuration
+      - "9093:9090"    # service proxy
       - "5400:53/udp"  # udp zone transfers
-      - "5400:53"      # tcp zone transfers
+      - "5400:53/tcp"  # tcp zone transfers
+    healthcheck:
+      test: supd health --check
+      interval: 15s
+      timeout: 10s
+      retries: 3
     volumes:
       - type: volume
         source: ns1xfr
@@ -78,10 +94,8 @@ services:
     command: >-
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
-      --data_host           ${DATA_HOSTS:-data}
+      --core_host           ${CORE_HOSTS:-core}
       --enable_ops_metrics  true
-    entrypoint:
-      - /bin/ns1-entrypoint
 networks:
   default:
     driver: bridge
@@ -91,5 +105,5 @@ networks:
       - subnet: 172.18.11.0/24
 volumes:
   ns1data:
-  ns1web:
+  ns1core:
   ns1xfr:
