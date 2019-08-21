@@ -2,7 +2,7 @@
 version: '3.2'
 services:
   dns:
-    image: nsone/standalone_dns:${TAG:-2.1.0}
+    image: ns1inc/privatedns_dns:${TAG:-2.1.0}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3301 # are on the host machine
       CONTAINER_NAME: ${DNS_CONTAINER_NAME:-dns}
@@ -30,7 +30,7 @@ services:
       --operation_mode      ${OPERATION_MODE:-authoritative}
       --enable_ops_metrics  true
   dhcp:
-    image: nsone/standalone_dhcp:${TAG:-2.1.0}
+    image: ns1inc/privatedns_dhcp:${TAG:-2.1.0}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3305 # are on the host machine
       CONTAINER_NAME: ${DHCP_CONTAINER_NAME:-dhcp}
@@ -54,7 +54,7 @@ services:
       --core_host           ${DIST_OR_CORE_HOSTS:-dist}
       --enable_ops_metrics  true
   dist:
-    image: nsone/standalone_dist:${TAG:-2.1.0}
+    image: ns1inc/privatedns_dist:${TAG:-2.1.0}
     environment:
       CONFIG_PORT: 3304
       CONTAINER_NAME: ${DIST_CONTAINER_NAME:-dist}
