@@ -40,7 +40,7 @@ get_latest_stream() {
 }
 
 get_latest_version() {
-  grep -oE '"version":"[0-9\.]+"' | grep -oE '[0-9\.]+'
+  grep -oE -m1 '"version":"[0-9\.]+"' | grep -oE -m1 '[0-9\.]+'
 }
 
 get_available_containers() {
