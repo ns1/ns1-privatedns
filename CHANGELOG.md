@@ -1,3 +1,19 @@
+## 2.1.1 (Sept, 20 2019)
+- What's fixed?
+   - (NS1 portal) View lease information via the portal (previously viewable via API only).
+   - (Configuration) Automatic bootstrapping form validation.
+   - (Configuration) Ability to update container configuration settings via CLI or API, even if it was initially configured via the web interface.
+   - (Configuration) Ability to specify a port for core_host (DNS and DHCP containers), data_host (CORE container), data_peers (DATA container) and dhcp_peers (DHCP container) in the form of hostname:port. Note: If no port is supplied, it will default to 5353.
+   - Ability to add host reservations without specifying a specific IP address.
+   - Added missing replication metrics for DIST and CORE containers. 
+   - Fixed “Generate Runtime Report” action for DHCP containers. (DDI only)
+   - DHCP option data types. (DDI only)
+   - Miscellaneous bugs fixes and UI/UX enhancements.
+- Known issues
+   - (NS1 portal) In the Zones page, aggregate record counts indicate only one record, even when more than one record is present.
+   - (NS1 portal) Operator users signed into the portal are unable to access IPAM and DHCP page and functionality. Current workaround: Sign in as an application user of the organization, or perform actions via API.
+   - API calls for uploading zone files with the async option enabled (i.e. ?async=true) return an internal server error.
+
 ## 2.1.0 (Aug, 19 2019)
 - What's New?
    - For the latest Installation & Setup Guide, visit: https://help.ns1.com/hc/en-us/articles/360034124053
