@@ -2,7 +2,7 @@
 version: '3.2'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-2.1.0}
+    image: ns1inc/privatedns_data:${TAG:-2.1.1}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3300 # are on the host machine
       CONTAINER_NAME: ${DATA_CONTAINER_NAME:-data}
@@ -36,7 +36,7 @@ services:
       --enable_ops_metrics   true
       --expose_ops_metrics   true
   core:
-    image: ns1inc/privatedns_core:${TAG:-2.1.0}
+    image: ns1inc/privatedns_core:${TAG:-2.1.1}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3302 # are on the host machine
       CONTAINER_NAME: ${CORE_CONTAINER_NAME:-core}
@@ -68,7 +68,7 @@ services:
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
       --enable_ops_metrics true
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-2.1.0}
+    image: ns1inc/privatedns_dns:${TAG:-2.1.1}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3301 # are on the host machine
       CONTAINER_NAME: ${DNS_CONTAINER_NAME:-dns}
@@ -96,7 +96,7 @@ services:
       --operation_mode      ${OPERATION_MODE:-authoritative}
       --enable_ops_metrics  true
   dhcp:
-    image: ns1inc/privatedns_dhcp:${TAG:-2.1.0}
+    image: ns1inc/privatedns_dhcp:${TAG:-2.1.1}
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3305 # are on the host machine
       CONTAINER_NAME: ${DHCP_CONTAINER_NAME:-dhcp}
