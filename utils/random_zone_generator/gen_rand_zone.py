@@ -38,7 +38,7 @@ def get_public_suffixes() -> List[str]:
                     break
             if ascii_encoded:
                 public_suffixes.add(line.strip())
-    return list(public_suffixes)
+    return [suffix for suffix in public_suffixes if suffix]
 
 
 SUFFIXES = get_public_suffixes()
