@@ -62,6 +62,16 @@ variable "enable_ops_metrics" {
   description = "Whether to enable operational metrics on the container."
 }
 
+variable "telegraf_output_elasticsearch_data_host" {
+  default      = null
+  description  = "The elasticsearch host to export metrics"
+}
+
+variable "telegraf_output_elasticsearch_index" {
+  default      = null
+  description  = "The elasticsearch index to use when exporting metrics"
+}
+
 variable "expose_ops_metrics" {
   default     = true
   description = "Whether to expose operational metrics on the container."
@@ -70,4 +80,15 @@ variable "expose_ops_metrics" {
 variable "primary" {
   default     = true
   description = "Whether the data container will operate as primary in a Primary-Replica configuration."
+}
+
+
+variable "cluster_id" {
+  description = "The ID of this data container in the cluster"
+  default     = null
+}
+
+variable "cluster_size" {
+  description = "The size of the cluster, if in cluster mode. Can be either 3 or 5"
+  default     = null
 }
