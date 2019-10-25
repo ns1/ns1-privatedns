@@ -16,6 +16,22 @@ ${join(",", var.data_peers)}
 ${var.enable_ops_metrics}
 --expose_ops_metrics
 ${var.expose_ops_metrics~}
+%{if var.telegraf_output_elasticsearch_data_host != null}
+--telegraf_output_elasticsearch_data_host
+${var.telegraf_output_elasticsearch_data_host~}
+%{endif~}
+%{if var.telegraf_output_elasticsearch_index != null}
+--telegraf_output_elasticsearch_index
+${var.telegraf_output_elasticsearch_index~}
+%{endif~}
+%{if var.cluster_id != null}
+--cluster_id
+${var.cluster_id~}
+%{endif~}
+%{if var.cluster_size != null}
+--cluster_size
+${var.cluster_size~}
+%{endif~}
 EOT
 
   env_template = <<EOT
@@ -27,6 +43,8 @@ DATA_PRIMARY=${var.primary}
 EOT
 
   docker_image_name = "${var.docker_image_username}/${var.docker_image_repository}:${var.docker_image_tag}"
+
+  cluster_size_options = [3, 5]
 }
 
 provider "docker" {
@@ -47,6 +65,10 @@ provider "docker" {
 data "docker_registry_image" "data" {
   count = var.docker_registry_address != null ? 1 : 0
   name  = local.docker_image_name
+}
+
+resource "null_resource" "is_cluster_size_valid" {
+  count = contains(local.cluster_size_options, var.cluster_size) ? 0 : "invalid" # ERROR: Invalid cluster size, can be either 3 or 5
 }
 
 resource "docker_image" "data" {
@@ -97,6 +119,14 @@ resource "docker_container" "data" {
   ports {
     internal = 8686
     external = 8686
+  }
+
+  dynamic "ports" {
+    for_each = var.cluster_id != null ? list(var.cluster_id) : []
+    content {
+      internal = 5353
+      external = 5353
+    }
   }
 
   # enable ipv6 for loopback
