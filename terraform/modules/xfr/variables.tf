@@ -62,3 +62,7 @@ variable "enable_ops_metrics" {
   description = "Whether to enable operational metrics on the container."
 }
 
+variable "hostname" {
+  default     = "xfr"
+  description = "Hostname to give the running container"
+}

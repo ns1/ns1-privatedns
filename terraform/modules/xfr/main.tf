@@ -49,6 +49,8 @@ resource "docker_container" "xfr" {
 
   restart = "unless-stopped"
 
+  hostname = var.hostname
+
   # http configuration
   ports {
     internal = 3300

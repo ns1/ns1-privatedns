@@ -104,3 +104,43 @@ variable "hostmaster_email" {
   default     = "hostmaster@mycompany.net"
   description = "Hostmaster email address used in SOA records"
 }
+
+variable "data01_hostname" {
+  default     = "data01"
+  description = "Hostmaster email address used in SOA records"
+}
+
+variable "data02_hostname" {
+  default     = "data02"
+  description = "Hostmaster email address used in SOA records"
+}
+
+variable "data03_hostname" {
+  default     = "data03"
+  description = "Hostmaster email address used in SOA records"
+}
+
+variable "core_hostname" {
+  default     = "core"
+  description = "Hostmaster email address used in SOA records"
+}
+
+variable "xfr_hostname" {
+  default     = "xfr"
+  description = "Hostmaster email address used in SOA records"
+}
+
+variable "dist_hostname" {
+  default     = "dist"
+  description = "Hostmaster email address used in SOA records"
+}
+
+variable "dns_hostname" {
+  default     = "dns"
+  description = "Hostmaster email address used in SOA records"
+}
+
+variable "dhcp_hostname" {
+  default     = "dhcp"
+  description = "Hostmaster email address used in SOA records"
+}

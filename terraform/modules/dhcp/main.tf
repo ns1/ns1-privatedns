@@ -49,6 +49,8 @@ resource "docker_container" "dhcp" {
 
   restart = "unless-stopped"
 
+  hostname = var.hostname
+
   healthcheck {
     test     = ["CMD", "supd", "health", "--check"]
     interval = "15s"
