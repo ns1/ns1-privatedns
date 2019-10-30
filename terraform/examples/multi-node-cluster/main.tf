@@ -120,6 +120,7 @@ module "data01" {
   docker_registry_address  = var.docker_registry_address
   docker_registry_username = var.docker_registry_username
   docker_registry_password = var.docker_registry_password
+  hostname    = var.data01_hostname
   pop_id         = var.data01_pop_id
   server_id      = var.data01_host
   primary        = false
@@ -140,6 +141,7 @@ module "data02" {
   docker_registry_address  = var.docker_registry_address
   docker_registry_username = var.docker_registry_username
   docker_registry_password = var.docker_registry_password
+  hostname    = var.data02_hostname
   pop_id         = var.data02_pop_id
   server_id      = var.data02_host
   primary        = false
@@ -160,6 +162,7 @@ module "data03" {
   docker_registry_address  = var.docker_registry_address
   docker_registry_username = var.docker_registry_username
   docker_registry_password = var.docker_registry_password
+  hostname    = var.data03_hostname
   pop_id         = var.data03_pop_id
   server_id      = var.data03_host
   primary        = false
@@ -186,6 +189,7 @@ module "core" {
   docker_registry_address  = var.docker_registry_address
   docker_registry_username = var.docker_registry_username
   docker_registry_password = var.docker_registry_password
+  hostname    = var.core_hostname
   bootstrappable = false
   pop_id         = var.control01_pop_id
   server_id      = var.control01_host
@@ -206,6 +210,7 @@ module "xfr" {
   docker_registry_address  = var.docker_registry_address
   docker_registry_username = var.docker_registry_username
   docker_registry_password = var.docker_registry_password
+  hostname    = var.xfr_hostname
   pop_id         = var.control01_pop_id
   server_id      = var.control01_host
 }
@@ -226,6 +231,7 @@ module "dns" {
   docker_registry_address  = var.docker_registry_address
   docker_registry_username = var.docker_registry_username
   docker_registry_password = var.docker_registry_password
+  hostname    = var.dns_hostname
   pop_id                   = var.edge01_pop_id
   server_id                = var.edge01_host
 }
@@ -240,6 +246,7 @@ module "dhcp" {
   docker_registry_address  = var.docker_registry_address
   docker_registry_username = var.docker_registry_username
   docker_registry_password = var.docker_registry_password
+  hostname    = var.dhcp_hostname
   pop_id                   = var.edge01_pop_id
   server_id                = var.edge01_host
 }
@@ -254,6 +261,7 @@ module "dist" {
   docker_registry_address  = var.docker_registry_address
   docker_registry_username = var.docker_registry_username
   docker_registry_password = var.docker_registry_password
+  hostname    = var.dist_hostname
   # This transforms the user defined URL defined for the control host into
   # a FQDN or IP, which is expected by the `core_hosts` argument
   core_hosts = [element(split("@", var.control01_host), 1)]

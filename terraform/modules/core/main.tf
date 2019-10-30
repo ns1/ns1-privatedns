@@ -54,6 +54,8 @@ resource "docker_container" "core" {
 
   restart = "unless-stopped"
 
+  hostname = var.hostname
+
   # data transport
   ports {
     internal = 5353

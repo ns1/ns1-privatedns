@@ -92,3 +92,8 @@ variable "cluster_size" {
   description = "The size of the cluster, if in cluster mode. Can be either 3 or 5"
   default     = null
 }
+
+variable "hostname" {
+  default     = "data"
+  description = "Hostname to give the running container"
+}

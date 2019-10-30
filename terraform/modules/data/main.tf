@@ -91,6 +91,8 @@ resource "docker_container" "data" {
 
   restart = "unless-stopped"
 
+  hostname = var.hostname
+
   ulimit {
     name = "nproc"
     soft = 65535
