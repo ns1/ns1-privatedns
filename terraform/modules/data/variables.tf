@@ -96,6 +96,7 @@ variable "cluster_size" {
 variable "hostname" {
   default     = "data"
   description = "Hostname to give the running container"
+}
 
 variable "log_driver" {
   default     = "json-file"

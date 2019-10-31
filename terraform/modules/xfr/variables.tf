@@ -65,6 +65,7 @@ variable "enable_ops_metrics" {
 variable "hostname" {
   default     = "xfr"
   description = "Hostname to give the running container"
+}
 
 variable "log_driver" {
   default     = "json-file"
