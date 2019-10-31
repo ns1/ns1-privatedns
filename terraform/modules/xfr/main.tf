@@ -49,7 +49,7 @@ resource "docker_container" "xfr" {
 
   restart = "unless-stopped"
   
-  log_driver = var.log_driver
+  log_driver = var.docker_log_driver
 
   hostname = var.hostname
 
