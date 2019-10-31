@@ -51,6 +51,8 @@ resource "docker_container" "dist" {
 
   hostname = var.hostname
 
+  log_driver = var.log_driver
+
   # http configuration
   ports {
     internal = 3300

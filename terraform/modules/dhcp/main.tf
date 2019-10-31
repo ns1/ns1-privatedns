@@ -51,6 +51,8 @@ resource "docker_container" "dhcp" {
 
   hostname = var.hostname
 
+  log_driver = var.log_driver
+
   healthcheck {
     test     = ["CMD", "supd", "health", "--check"]
     interval = "15s"

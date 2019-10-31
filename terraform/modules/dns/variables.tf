@@ -70,4 +70,8 @@ variable "enable_ops_metrics" {
 variable "hostname" {
   default     = "dns"
   description = "Hostname to give the running container"
+
+variable "log_driver" {
+  default     = "json-file"
+  description = "Docker log driver to use, see https://docs.docker.com/config/containers/logging/configure/"
 }
