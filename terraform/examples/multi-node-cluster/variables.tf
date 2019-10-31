@@ -144,3 +144,8 @@ variable "dhcp_hostname" {
   default     = "dhcp"
   description = "Hostmaster email address used in SOA records"
 }
+
+variable "docker_log_driver" {
+  default     = "json-file"
+  description = "Docker log driver to use, see https://docs.docker.com/config/containers/logging/configure/"
+}

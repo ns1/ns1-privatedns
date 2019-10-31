@@ -56,6 +56,8 @@ resource "docker_container" "core" {
 
   hostname = var.hostname
 
+  log_driver = var.docker_log_driver
+
   # data transport
   ports {
     internal = 5353

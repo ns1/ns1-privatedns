@@ -93,6 +93,8 @@ resource "docker_container" "data" {
 
   hostname = var.hostname
 
+  log_driver = var.docker_log_driver
+
   ulimit {
     name = "nproc"
     soft = 65535

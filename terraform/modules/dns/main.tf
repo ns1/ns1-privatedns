@@ -51,6 +51,8 @@ resource "docker_container" "dns" {
 
   hostname = var.hostname
 
+  log_driver = var.docker_log_driver
+
   # http configuration
   ports {
     internal = 3300
