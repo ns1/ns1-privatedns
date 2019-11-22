@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
     ports:
       - "3300:3300" # http configuration
-      - "67:67/udp" # udp port for dns
+      - "67:67/udp" # udp port for dhcp
     # Uncomment below if this container will handle broadcast DHCP
     # Leave commented out if it will only handle clients via relay
     #network_mode: host
@@ -101,7 +101,9 @@ services:
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      --core_host            ${CORE_HOSTS:-core}
+      # This value must be set to the IP address of your control node
+      # (i.e. the server that hosts the core container
+      --core_host            ${CORE_HOSTS}
       --enable_ops_metrics   true
 networks:
   default:
