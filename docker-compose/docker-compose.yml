@@ -162,7 +162,7 @@ services:
       - "67:67/udp" # udp port for dhcp
     # Uncomment below if this container will handle broadcast DHCP
     # Leave commented out if it will only handle clients via relay
-    #network_mode: host
+    # network_mode: host
     healthcheck:
       test: supd health --check
       interval: 15s
@@ -180,8 +180,9 @@ services:
       # Below must be changed to 'localhost' if dhcp container network mode 
       # is host and will be on the same host as the core container.
       --core_host           ${DIST_HOSTS:-dist}
-      # If you used the BOOTSTRAP UI to perform initial configuration, this can
-      # be left alone.  Otherwise, change this to your DHCP service definition
+      # If you used the BOOTSTRAP UI to perform initial configuration, this
+      # can be left alone.  Otherwise, change --dhcp_service_def_id to 
+      # match your DHCP service definition
       --dhcp_service_def_id 2
       --enable_ops_metrics  true
   dist:

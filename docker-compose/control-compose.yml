@@ -11,8 +11,8 @@ services:
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3305 # are on the host machine
       CONTAINER_NAME: ${DATA_CONTAINER_NAME:-data}
-      # IMPORTANT!  This should only be enabled on a single data host.
-      # Uncomment the following on additional data peers.
+      # IMPORTANT!  DATA_PRIMARY should only be enabled on a single data host.
+      # Comment out the following on additional data peers.
       DATA_PRIMARY: "true"
     stop_grace_period: 30s
     ulimits:
