@@ -33,7 +33,7 @@ Use to start all container images on a single host: `data`, `dns`, `core`, `xfr`
 - `DHCP_CONTAINER_NAME`: Sets the container's name; defaults to `dhcp`
 - `DIST_CONTAINER_NAME`: Sets the container's name; defaults to `dist`
 - `CORE_HOSTS`: Series of comma delimited hostnames of `core` containers; specifies upstream `core` containers; defaults to `core`
-- `DIST_OR_CORE_HOSTS`: Series of comma delimited hostnames of distribution containers e.g. dist1,dist2; defaults to `dist`
+- `DIST_HOSTS`: Series of comma delimited hostnames of distribution containers e.g. dist1,dist2; defaults to `dist`
 - `OPERATION_MODE`: `authoritative`/`recursive`; the mode of operation for this `dns` container; defaults to `authoritative`
 
 #### For example:
@@ -101,7 +101,7 @@ Used to start edge services on a single host: `dns`, `dhcp` and `dist` (distribu
 - `DHCP_CONTAINER_NAME`: Sets the container's name; defaults to `dhcp`
 - `DIST_CONTAINER_NAME`: Sets the container's name; defaults to `dist`
 - `CORE_HOSTS`: Series of comma delimited hostnames of `core` containers; specifies upstream `core` containers; defaults to `core`
-- `DIST_OR_CORE_HOSTS`: Series of comma delimited hostnames of distribution containers e.g. dist1,dist2; defaults to `dist`
+- `DIST_HOSTS`: Series of comma delimited hostnames of distribution containers e.g. dist1,dist2; defaults to `dist`
 - `OPERATION_MODE`: `authoritative`/`recursive`; the mode of operation for this `dns` container; defaults to `authoritative`
 
 #### For example:

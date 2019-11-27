@@ -3,13 +3,17 @@ version: '3.2'
 services:
   dns:
     image: ns1inc/privatedns_dns:${TAG:-2.1.1}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3301 # are on the host machine
       CONTAINER_NAME: ${DNS_CONTAINER_NAME:-dns}
     restart: unless-stopped
     ports:
       - "3301:3300" # http configuration
-      - "9091:9090" # service proxy
       - "53:53/udp" # udp port for dns
       - "53:53/tcp" # tcp port for dns
     healthcheck:
@@ -26,17 +30,27 @@ services:
     command: >-
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
-      --core_host           ${DIST_OR_CORE_HOSTS:-dist}
+      --core_host           ${DIST_HOSTS:-dist}
       --operation_mode      ${OPERATION_MODE:-authoritative}
       --enable_ops_metrics  true
   dhcp:
     image: ns1inc/privatedns_dhcp:${TAG:-2.1.1}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
     environment:        # keep environment lines if 2+ containers
-      CONFIG_PORT: 3305 # are on the host machine
+      CONFIG_PORT: 3300 # are on the host machine
       CONTAINER_NAME: ${DHCP_CONTAINER_NAME:-dhcp}
     privileged: true
     restart: unless-stopped
-    network_mode: host
+    ports:
+      - "3300:3300" # http configuration
+      - "67:67/udp" # udp port for dhcp
+    # Uncomment below if this container will handle broadcast DHCP
+    # Leave commented out if it will only handle clients via relay
+    # network_mode: host
     healthcheck:
       test: supd health --check
       interval: 15s
@@ -51,10 +65,19 @@ services:
     command: >-
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
-      --core_host           ${DIST_OR_CORE_HOSTS:-dist}
+      # Below must be changed to 'localhost' if container is run in 'host' mode.
+      --core_host           ${DIST_HOSTS:-dist}
+      # If you used the BOOTSTRAP UI to perform initial configuration, this can
+      # be left alone.  Otherwise, change this to your DHCP service definition ID
+      --dhcp_service_def_id 2
       --enable_ops_metrics  true
   dist:
     image: ns1inc/privatedns_dist:${TAG:-2.1.1}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
     environment:
       CONFIG_PORT: 3304
       CONTAINER_NAME: ${DIST_CONTAINER_NAME:-dist}
@@ -62,8 +85,6 @@ services:
     stop_grace_period: 30s
     ports:
       - "3304:3300" # http configuration
-      - "9094:9090" # service proxy
-      - "5353"      # data transport
     sysctls:
       net.ipv6.conf.lo.disable_ipv6: 0 # enable ipv6 for loopback
     healthcheck:
@@ -80,7 +101,9 @@ services:
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      --core_host            ${CORE_HOSTS:-core}
+      # This value must be set to the IP address of your control node
+      # (i.e. the server that hosts the core container)
+      --core_host            ${CORE_HOSTS}
       --enable_ops_metrics   true
 networks:
   default:
