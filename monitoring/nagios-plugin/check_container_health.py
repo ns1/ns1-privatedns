@@ -39,4 +39,3 @@ if __name__ == "__main__":
     session.auth = (USER, PW)
     session.verify = False
     check_health(session, host, port, USER, PW)
-
