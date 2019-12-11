@@ -37,4 +37,6 @@ The `check_ddi.py` script has three possible outputs:
 
 ## Example Nagios Config
 
-Matt will write some stuff here.
+The `nagios-config-example.cfg` file contains sample Nagios host, service, and command definitions.  Save the contents of this file to your Nagios conf.d directory (/usr/local/nagios/etc/conf.d by default).  You will need to modify host_name, alias, address, and possibly other elements depending on your nagios configuration.
+
+The example configuration is divided into two sections.  The first section defines a command and services around the DDI `supd` API.  The service definitions may need to be modified if you are using port mappings other than those exposed by default in `docker-compose.yaml`.  The second section provides examples of how to use the Nagios check_dns and check_dhcp plugins to perform synthetic tests against the NS1 DDI platform.
