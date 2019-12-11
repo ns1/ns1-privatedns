@@ -14,7 +14,7 @@ import json
 def check_health(session, host, port, user="ns1", pw="private"):
     endpoint = f"https://{host}:{port}/checks"
     try:
-        resp = session.get(endpoint).json()
+        resp = session.get(endpoint, timeout=2).json()
     except:
         print(f"CRITICAL - failed to connect to container")
         exit(2)
