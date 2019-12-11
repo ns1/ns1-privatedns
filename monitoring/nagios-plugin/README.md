@@ -4,7 +4,7 @@
 
 Operators of NS1 Enterprise DDI should monitor their DDI deployment for health checks and functionality. Nagios can be used to facilitate this type of testing. This folder contains a script to check the health check output of an NS1 DDI container and an example Nagios config file that uses this check script.
 
-## Health Check Script (check_container_health.py)
+## Health Check Script (check_ddi.py)
 
 ### Requirements
 
@@ -22,13 +22,13 @@ The check script takes up to four arguments:
 4. The `supd` password (Optional - defaults to "private")
 
 ```shell
-$ python3 check_container_health.py 192.168.56.2 3300
+$ python3 check_ddi.py 192.168.56.2 3300
 CRITICAL - failed to connect to container
 ```
 
 ### Outputs
 
-The `check_container_health.py` script has three possible outputs:
+The `check_ddi.py` script has three possible outputs:
 
 1. `CRITICAL - failed to connect to container` (exit code 2): The check script could not connect to the `supd` API. Potential causes include: `supd` is down/unhealthy, the `supd` port is not exposed on the host, the incorrect `supd` port or host was specified, the host is not reachable, and/or some other condition has impeded the check script from getting a response.
 2. `CRITICAL - failed health check: <failed checks>` (exit code 2): The `supd` API responded with health check information and one or more health checks failed, the failing health checks are indicated in the message.

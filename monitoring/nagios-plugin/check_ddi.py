@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+Usage: python3 check_ddi.py <host> <port> <user> <password>
+$ python3 check_ddi.py 192.168.56.2 3300
+CRITICAL - failed to connect to container
+"""
 import logging
 import sys
 import requests
