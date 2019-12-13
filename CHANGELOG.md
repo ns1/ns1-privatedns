@@ -12,13 +12,13 @@
    - API: It is now possible to see Service Group and Organization relationshi
 - What's fixed?
    - DHCP: Scope groups and scopes should properly update when using a dist container
-   - DHCP: Filtering should now work properly on IPAM and DHCP pages
    - DHCP: Renewed leases should now appear in the UI
    - DHCP: Multiple reservations in the same scope for the same device is no longer possible
    - DHCP: echo-client-id option will now be applied to scope if set
    - DHCP: Host reservations should now be honored
    - DNS: Record level metrics are available again
    - DNS: Zone level stats can now be expanded (API)
+   - IPAM: Filtering should now work properly on IPAM and DHCP pages
 - Known issues
    - DHCP: Creating a complex dhcp option type and using it on a scope does not work and prevents new options from working
    - DHCP: When using custom options AND dhcp is connected to dist, the presence of custom options stops scopes from updating
