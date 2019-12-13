@@ -1,3 +1,35 @@
+## 2.2.1 (Dec, 13 2019)
+- What's New?
+   - Data: Data containers can now be deployed in a clustered mode
+   - RBAC: Active Directory support
+   - DNS: Improved zone file imports to be more robust with larger imports
+   - DNS: DNAME record support
+   - DHCP: It is now possible to define custom options and add them to scopes
+   - DHCP: Now supports the use of a DHCP relay
+   - IPAM: Many QoL fixes in the UI
+   - IPAM: 'Type' field has been renamed 'Status' and 'Assignment' has become 'Assigned'
+   - Metrics: Data propagation metrics have been added
+   - API: It is now possible to see Service Group and Organization relationshi
+- What's fixed?
+   - DHCP: Scope groups and scopes should properly update when using a dist container
+   - DHCP: Filtering should now work properly on IPAM and DHCP pages
+   - DHCP: Renewed leases should now appear in the UI
+   - DHCP: Multiple reservations in the same scope for the same device is no longer possible
+   - DHCP: echo-client-id option will now be applied to scope if set
+   - DHCP: Host reservations should now be honored
+   - DNS: Record level metrics are available again
+   - DNS: Zone level stats can now be expanded (API)
+- Known issues
+   - DHCP: Creating a complex dhcp option type and using it on a scope does not work and prevents new options from working
+   - DHCP: When using custom options AND dhcp is connected to dist, the presence of custom options stops scopes from updating
+   - DHCP: optiondef api allows you to delete a custom option even if it is in use
+   - DHCP: HA does not sync properly resulting in split brain
+   - DHCP: HA can not be set up via container UI
+   - DHCP: It is not possible to remove custom options using the UI
+   - AD RBAC: AD user is able to observe IPAM and DHCP pages even if assigned Team mapped to AD group does not have permissions for IPAM and DHCP
+   - DNS: Failed zone import keeps the zones in the system
+   - supd: supd viewconfig --all is not working
+
 ## 2.1.1 (Sept, 20 2019)
 - What's fixed?
    - (NS1 portal) View lease information via the portal (previously viewable via API only).
