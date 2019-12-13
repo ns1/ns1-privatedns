@@ -28,7 +28,6 @@
    - DHCP: It is not possible to remove custom options using the UI
    - AD RBAC: AD user is able to observe IPAM and DHCP pages even if assigned Team mapped to AD group does not have permissions for IPAM and DHCP
    - DNS: Failed zone import keeps the zones in the system
-   - supd: supd viewconfig --all is not working
 
 ## 2.1.1 (Sept, 20 2019)
 - What's fixed?
