@@ -9,7 +9,7 @@
    - IPAM: Many QoL fixes in the UI
    - IPAM: 'Type' field has been renamed 'Status' and 'Assignment' has become 'Assigned'
    - Metrics: Data propagation metrics have been added
-   - API: It is now possible to see Service Group and Organization relationshi
+   - API: It is now possible to see Service Group and Organization relationship
 - What's fixed?
    - DHCP: Scope groups and scopes should properly update when using a dist container
    - DHCP: Renewed leases should now appear in the UI
