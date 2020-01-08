@@ -1,4 +1,24 @@
-## 2.2.1 (Dec, 13 2019)
+## 2.2.2 (Jan 10, 2020)
+- What's fixed?
+   - DHCP: Fixed issue where portal would not let you use a custom option type with an IP address field
+   - DHCP: Fix DHCP high availability (HA) so that it properly load balances and fails over as expected
+   - DHCP: Fix DHCP propagation via distribution (Dist) containers when custom options are in use
+   - DHCP: Validation now prevents deleting a custom option if it’s applied to a scope group, scope or reservation; to remove a custom option, the objects using it must be modified first
+   - DCHP: Fixed an issue where scopes were being removed when updated. To explicitly remove a scope from a scope group, set its scope_group_id to 0
+   - DHCP: Fixed an issue where the portal would fail validating correct custom options
+   - HA-Data: Running system in HA mode should no longer fill up disk
+   - HA-Data: Resolved an issue where database migrations were not applied on first run and Primary flag was lost
+   - System: Fixed an issue where services attempted to listen on IPv4 and IPv6 when IPv6 was manually disabled
+   - Containers: core and dist containers will now shutdown and restart cleanly
+- Known issues
+   - DHCP: Custom complex options must follow specific rules for record types, added to article "Managing custom DHCP Options" (https://help.ns1.com/hc/en-us/articles/360040708334-Managing-custom-DHCP-options)
+   - DHCP: Option schemas are not displayed in scope’s metadata side pane of the portal
+   - HA-Data: Data container Web UI is not displaying correctly in clustered mode
+   - DHCP: Reservations cannot be updated after creation; the workaround is to create the reservation with all options and settings desired via the API
+   - DHCP: Reservations created in the portal do not display DHCP options and other settings; workaround is to add options and other settings when creating the reservation via API call
+   - DHCP: Custom options with an array of integers cannot currently be applied in the portal; a workaround is to apply an array of integers to a scope group, scope or reservation by the API
+   - DHCP: Custom options with a hex data type is currently not supported; this data type will be replaced with binary data type in a future patch version and hex data types will be effectively deprecated
+## 2.2.1 (Dec 13, 2019)
 - What's New?
    - Data: Data containers can now be deployed in a clustered mode
    - RBAC: Active Directory support
@@ -29,7 +49,7 @@
    - AD RBAC: AD user is able to observe IPAM and DHCP pages even if assigned Team mapped to AD group does not have permissions for IPAM and DHCP
    - DNS: Failed zone import keeps the zones in the system
 
-## 2.1.1 (Sept, 20 2019)
+## 2.1.1 (Sept 20, 2019)
 - What's fixed?
    - (NS1 portal) View lease information via the portal (previously viewable via API only).
    - (Configuration) Automatic bootstrapping form validation.
@@ -45,7 +65,7 @@
    - (NS1 portal) Operator users signed into the portal are unable to access IPAM and DHCP page and functionality. Current workaround: Sign in as an application user of the organization, or perform actions via API.
    - API calls for uploading zone files with the async option enabled (i.e. ?async=true) return an internal server error.
 
-## 2.1.0 (Aug, 19 2019)
+## 2.1.0 (Aug 19, 2019)
 - What's New?
    - For the latest Installation & Setup Guide, visit: https://help.ns1.com/hc/en-us/articles/360034124053
    - Renamed `web` to `core` container
