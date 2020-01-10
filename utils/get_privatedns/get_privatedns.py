@@ -10,7 +10,6 @@ import sys
 import os
 import json
 import argparse
-from typing import Union, Optional, Dict, Tuple, List
 
 try:
     import urllib2
