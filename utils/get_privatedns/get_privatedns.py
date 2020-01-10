@@ -358,5 +358,6 @@ if __name__ == "__main__":
             print_stderr("Something went wrong... run with -d for debug information")
         exit(1)
     except KeyboardInterrupt:
+        print("\n")
         sys.stdout.flush()
         print_stderr("Keyboard interrupt, exiting...\n")
