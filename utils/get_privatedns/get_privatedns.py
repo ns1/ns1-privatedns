@@ -254,6 +254,58 @@ def load_image(file_name):
     )
 
 
+def main(args):
+    # Check if docker is alive
+    print_debug("Checking if Docker daemon is responsive")
+    if not unix_socket_request("GET", "/containers/json", verbose=False):
+        print_stderr("Docker is not running -- please start docker")
+        exit(1)
+    print_debug("Docker daemon OK")
+
+    print("Determining version availability...")
+    if args.version is None:
+        version, containers = get_latest(args.key)
+    else:
+        version = args.version
+        all_versions = get_all_versions(args.key)
+        if version in all_versions:
+            containers = all_versions[version]
+        else:
+            print_stderr("Specified version does not exist")
+            exit(1)
+
+    if args.container is not None:
+        containers_available = containers
+        containers_requested = [item for sublist in args.container for item in sublist]
+        if any([c not in containers_available for c in containers_requested]):
+            print_stderr(
+                "Specified container not available for this version:",
+                ", ".join(
+                    [c for c in containers_requested if c not in containers_available]
+                ),
+            )
+            exit(1)
+        containers = containers_requested
+
+    if not args.force:
+        image_names = [
+            "ns1inc/privatedns_{}:{}".format(container, version)
+            for container in containers
+        ]
+        print("This will download:\n", "\n".join(image_names), sep="")
+        print("Are you sure you want to continue? [y/N] ", end="")
+        sys.stdout.flush()
+        accept = sys.stdin.read(1)
+        if accept.lower() != "y":
+            exit(1)
+
+    for container in containers:
+        print("Downloading ns1inc/privatedns_{}:{}".format(container, version))
+        fname = get_container(args.key, version, container)
+        load_image(fname)
+        os.remove(fname)
+
+
 if __name__ == "__main__":
     help_texts = {
         "main": __doc__,
@@ -306,54 +358,3 @@ if __name__ == "__main__":
             print_stderr("Something went wrong... run with -d for debug information")
         exit(1)
 
-
-def main(args):
-    # Check if docker is alive
-    print_debug("Checking if Docker daemon is responsive")
-    if not unix_socket_request("GET", "/containers/json", verbose=False):
-        print_stderr("Docker is not running -- please start docker")
-        exit(1)
-    print_debug("Docker daemon OK")
-
-    print("Determining version availability...")
-    if args.version is None:
-        version, containers = get_latest(args.key)
-    else:
-        version = args.version
-        all_versions = get_all_versions(args.key)
-        if version in all_versions:
-            containers = all_versions[version]
-        else:
-            print_stderr("Specified version does not exist")
-            exit(1)
-
-    if args.container is not None:
-        containers_available = containers
-        containers_requested = [item for sublist in args.container for item in sublist]
-        if any([c not in containers_available for c in containers_requested]):
-            print_stderr(
-                "Specified container not available for this version:",
-                ", ".join(
-                    [c for c in containers_requested if c not in containers_available]
-                ),
-            )
-            exit(1)
-        containers = containers_requested
-
-    if not args.force:
-        image_names = [
-            "ns1inc/privatedns_{}:{}".format(container, version)
-            for container in containers
-        ]
-        print("This will download:\n", "\n".join(image_names), sep="")
-        print("Are you sure you want to continue? [y/N] ", end="")
-        sys.stdout.flush()
-        accept = sys.stdin.read(1)
-        if accept.lower() != "y":
-            exit(1)
-
-    for container in containers:
-        print("Downloading ns1inc/privatedns_{}:{}".format(container, version))
-        fname = get_container(args.key, version, container)
-        load_image(fname)
-        os.remove(fname)
