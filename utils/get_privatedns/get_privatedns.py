@@ -246,11 +246,13 @@ def get_container(apikey, version, resource):
 
 def load_image(file_name):
     # type: (str) -> None
-    print(
-        json.loads(unix_socket_request("POST", "/images/load", file_name=file_name)).get(
-            "stream"
-        ) or "Warning, could not confirm if image loaded"
-    )
+    response = json.loads(unix_socket_request("POST", "/images/load", file_name=file_name))
+    if "errorDetail" in response:
+        print_stderr(response["errorDetail"].get("message") or response)
+    elif "stream" in response:
+        print(response["stream"])
+    else:
+        print("Warning, could not confirm if image loaded")
 
 
 def main(args):
