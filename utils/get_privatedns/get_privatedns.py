@@ -296,7 +296,18 @@ if __name__ == "__main__":
     if args.debug:
         print_debug("Arguments supplied:", args.__dict__)
         DEBUG = True
+    
+    try:
+        main(args)
+    except Exception as e:
+        if DEBUG:
+            print_stderr(e)
+        else:
+            print_stderr("Something went wrong... run with -d for debug information")
+        exit(1)
 
+
+def main(args):
     # Check if docker is alive
     print_debug("Checking if Docker daemon is responsive")
     if not unix_socket_request("GET", "/containers/json", verbose=False):
