@@ -1,3 +1,12 @@
+## 2.2.3 (Jan 24, 2020)
+- What's fixed?
+   - DHCP: Custom DHCP options can now be removed from a scope
+   - DHCP: Fixed several issues around updating reservations
+   - DHCP: Fixed an issue where updating a scope would stop it from propagating via the Dist container
+- Known Issues
+   - DHCP: HA settings ignore custom port for the dhcp_peers option
+   - DHCP: Lease renewals do not show up in the portal
+   - DHCP: Setting a new dhcp_service_def_id in a dhcp container will not update the DHCP service. Workaround: Restart the DHCP container
 ## 2.2.2 (Jan 10, 2020)
 - What's fixed?
    - DHCP: Fixed issue where portal would not let you use a custom option type with an IP address field
