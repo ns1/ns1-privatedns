@@ -11,7 +11,7 @@ variable "docker_registry_address" {
 }
 
 variable "docker_image_tag" {
-  default     = "2.2.2"
+  default     = "2.2.3"
   description = "The image tag of the Docker image. Defaults to the latest GA version number."
 }
 
