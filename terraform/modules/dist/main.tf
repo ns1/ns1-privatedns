@@ -79,7 +79,7 @@ resource "docker_container" "dist" {
   }
 
   healthcheck {
-    test     = ["CMD", "supd", "health", "--check"]
+    test     = ["CMD", "supd", "health"]
     interval = "15s"
     timeout  = "10s"
     retries  = 3
