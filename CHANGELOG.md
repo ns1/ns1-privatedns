@@ -1,3 +1,22 @@
+## 2.3.0 (Jan 31, 2020)
+- New Features
+   - NS1 DDNS Implementation: a filter to on-demand synthesized dynamic records from DHCP leases
+- Feature Enhancements
+   - DNS: limit record pagination parameter in the v1/zones api endpoint to system limit of 10,000
+   - DHCP: enabled API to set lease lifetime (valid-lifetime) at scope level, previously only available at scope group level
+   - DHCP: simplified DHCP HA configuration parameter dhcp_peers setting to an array of container hostnames, previously an array of paired container names and hostnames
+   - DHCP: changed default always-send to false, DHCP now returns only those options that are requested by a client
+   - DHCP:    API support to prevent selecting Scope Groups which are already in use
+- What’s fixed?
+   - DNS: API performance improvements to record creation, previously a large number of record creation caused the API response times to deteriorate 
+   - DHCP: loss of DHCP4 configuration on service restart
+   - DHCP:    resolved regression in the ability to specify a custom port for dhcp_peers
+   - System: ensure supd logs information to its log file
+- Known issues
+   - DHCP: the interface parameter is not set on pools limiting IPv6 subnet selection to subnets bound to the interface only
+   - DHCP: Leases in pools not configured for NS1 DDNS are placed in the digest table
+   - Portal: Domain Controller Port field is highlighted as invalid by default when a user specifies Domain Controller Host Address and AD Domain Name
+
 ## 2.2.3 (Jan 24, 2020)
 - What's fixed?
    - DHCP: Custom DHCP options can now be removed from a scope
