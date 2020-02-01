@@ -40,10 +40,6 @@ services:
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      # If running multiple data peers, uncomment the following
-      # All other data hosts (*excluding this one*) must be listed.
-      #--data_peers           ${DATA_PEERS}
-      --enable_ops_metrics   true
       --expose_ops_metrics   true
   core:
     image: ns1inc/privatedns_core:${TAG:-2.3.0}
@@ -174,15 +170,15 @@ services:
         target: /ns1/data
         volume:
           nocopy: true
+    # core_host must be changed to 'localhost' if dhcp container network mode 
+    # is host and will be on the same host as the core container.
+    # If you used the BOOTSTRAP UI to perform initial configuration, the
+    # dhcp_service_def_id can be left alone.  Otherwise, change it to 
+    # match your DHCP service definition
     command: >-
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
-      # Below must be changed to 'localhost' if dhcp container network mode 
-      # is host and will be on the same host as the core container.
       --core_host           ${DIST_HOSTS:-dist}
-      # If you used the BOOTSTRAP UI to perform initial configuration, this
-      # can be left alone.  Otherwise, change --dhcp_service_def_id to 
-      # match your DHCP service definition
       --dhcp_service_def_id 2
       --enable_ops_metrics  true
   dist:
