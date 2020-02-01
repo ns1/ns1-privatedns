@@ -68,6 +68,7 @@ resource "docker_container" "dist" {
   # data transport
   ports {
     internal = 5353
+    external = 5353
     # can we map this to 5353?
     # how do we switch to ephemeral if on same host
     # as core?
@@ -79,7 +80,7 @@ resource "docker_container" "dist" {
   }
 
   healthcheck {
-    test     = ["CMD", "supd", "health", "--check"]
+    test = ["CMD", "supd", "health", "-c", "-l"]
     interval = "15s"
     timeout  = "10s"
     retries  = 3

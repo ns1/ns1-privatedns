@@ -67,9 +67,9 @@ data "docker_registry_image" "data" {
   name  = local.docker_image_name
 }
 
-resource "null_resource" "is_cluster_size_valid" {
-  count = contains(local.cluster_size_options, var.cluster_size) ? 0 : "invalid" # ERROR: Invalid cluster size, can be either 3 or 5
-}
+# resource "null_resource" "is_cluster_size_valid" {
+#   count = contains(local.cluster_size_options, var.cluster_size) ? 0 : "invalid" # ERROR: Invalid cluster size, can be either 3 or 5
+# }
 
 resource "docker_image" "data" {
   count         = var.docker_registry_address != null ? 1 : 0
@@ -139,7 +139,7 @@ resource "docker_container" "data" {
   }
 
   healthcheck {
-    test     = ["CMD", "supd", "health", "--check"]
+    test = ["CMD", "supd", "health", "-c", "-l"]
     interval = "15s"
     timeout  = "10s"
     retries  = 3
