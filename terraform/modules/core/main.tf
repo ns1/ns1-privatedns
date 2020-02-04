@@ -89,7 +89,7 @@ resource "docker_container" "core" {
   }
 
   healthcheck {
-    test = ["CMD", "supd", "health", "-c", "-l"]
+    test = ["CMD", "supd", "health"]
     interval = "15s"
     timeout = "10s"
     retries = 3

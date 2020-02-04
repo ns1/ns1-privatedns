@@ -54,7 +54,7 @@ resource "docker_container" "dhcp" {
   log_driver = var.docker_log_driver
 
   healthcheck {
-    test = ["CMD", "supd", "health", "-c", "-l"]
+    test     = ["CMD", "supd", "health"]
     interval = "15s"
     timeout  = "10s"
     retries  = 3

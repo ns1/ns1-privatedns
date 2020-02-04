@@ -48,7 +48,7 @@ resource "docker_container" "xfr" {
   ]
 
   restart = "unless-stopped"
-  
+
   log_driver = var.docker_log_driver
 
   hostname = var.hostname
@@ -80,7 +80,7 @@ resource "docker_container" "xfr" {
   }
 
   healthcheck {
-    test = ["CMD", "supd", "health", "-c", "-l"]
+    test     = ["CMD", "supd", "health"]
     interval = "15s"
     timeout  = "10s"
     retries  = 3

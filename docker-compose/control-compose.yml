@@ -27,7 +27,7 @@ services:
     sysctls:
       net.ipv6.conf.lo.disable_ipv6: 0 # enable ipv6 for loopback
     healthcheck:
-      test: supd health --check
+      test: supd health
       interval: 15s
       timeout: 10s
       retries: 3
@@ -72,7 +72,7 @@ services:
       - "443:443"       # https connections to portal or api
       - "80:80"         # http connections to portal or api
     healthcheck:
-      test: supd health --check
+      test: supd health
       interval: 15s
       timeout: 10s
       retries: 3
@@ -107,7 +107,7 @@ services:
       - "5400:53/udp"  # udp zone transfers
       - "5400:53/tcp"  # tcp zone transfers
     healthcheck:
-      test: supd health --check
+      test: supd health
       interval: 15s
       timeout: 10s
       retries: 3
