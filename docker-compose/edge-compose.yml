@@ -17,7 +17,7 @@ services:
       - "53:53/udp" # udp port for dns
       - "53:53/tcp" # tcp port for dns
     healthcheck:
-      test: supd health --check
+      test: supd health
       interval: 15s
       timeout: 10s
       retries: 3
@@ -52,7 +52,7 @@ services:
     # Leave commented out if it will only handle clients via relay
     # network_mode: host
     healthcheck:
-      test: supd health --check
+      test: supd health
       interval: 15s
       timeout: 10s
       retries: 3
@@ -88,7 +88,7 @@ services:
     sysctls:
       net.ipv6.conf.lo.disable_ipv6: 0 # enable ipv6 for loopback
     healthcheck:
-      test: supd health --check
+      test: supd health
       interval: 15s
       timeout: 10s
       retries: 3
