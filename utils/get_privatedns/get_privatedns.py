@@ -173,6 +173,22 @@ def authenticated_ns1_request(apikey, endpoint, file_name=None):
     }
 
 
+def metric_prefix(rate):
+    metric_prefixes = {
+        "bps": 10**0,
+        "kbps": 10**3,
+        "gpbs": 10**6,
+        "tbps": 10**9,
+    }
+    prefix = {
+        "bps": rate < 10**3,
+        "kbps": 10**3 < rate < 10**6,
+        "gpbs": 10**6 < rate < 10**9,
+        "tbps": rate > 10**9,
+    }[True]
+    return "{:.0f} {}".format(rate / metric_prefixes[prefix], prefix)
+
+
 def make_progress_bar(completed, total, rate, complete=False):
     # type: (int, int, float, Optional[bool]) -> None
     """
@@ -186,7 +202,7 @@ def make_progress_bar(completed, total, rate, complete=False):
         + "#" * full_bars
         + ">"
         + " " * (bar_size - full_bars)
-        + "] ({:.2f}%) {:,.0f} b/s".format(pct_complete * 100, rate)
+        + "] ({:.2f}%) {}".format(pct_complete * 100, metric_prefix(rate))
     )
     print("\r", progress_bar, sep="", end="")
     if complete:
