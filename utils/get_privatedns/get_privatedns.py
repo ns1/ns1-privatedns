@@ -175,16 +175,16 @@ def authenticated_ns1_request(apikey, endpoint, file_name=None):
 
 def metric_prefix(rate):
     metric_prefixes = {
-        "bps": 1024,
-        "kbps": 1024**2,
-        "mbps": 1024**3,
-        "gbps": 1024**4,
+        "bps": 10**0,
+        "kbps": 10**3,
+        "mbps": 10**6,
+        "gbps": 10**9,
     }
     prefix = {
-        rate < 1024: "bps",
-        1024**2 < rate < 1024**3: "kbps",
-        1024**3 < rate < 1024**4: "mbps",
-        rate > 1024**4: "gbps",
+        rate < 10**3: "bps",
+        10**3 < rate < 10**6: "kbps",
+        10**6 < rate < 10**9: "mbps",
+        rate > 10**9: "gbps",
     }[True]
     return "{:.2f} {}".format(rate / metric_prefixes[prefix], prefix)
 
