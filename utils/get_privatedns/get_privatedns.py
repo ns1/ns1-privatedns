@@ -10,6 +10,7 @@ import sys
 import os
 import json
 import argparse
+from timeit import default_timer
 
 try:
     import urllib2
@@ -66,6 +67,7 @@ def unix_socket_request(method, endpoint, file_name=None, verbose=False):
         sock.sendall(http_req_bytes)
 
         if file_name is not None:
+            start = default_timer()
             bytes_sent = 0
             with open(file_name, "rb") as fin:
                 CHUNK = 1024 * 1024
@@ -74,10 +76,11 @@ def unix_socket_request(method, endpoint, file_name=None, verbose=False):
                 while chunk:
                     sock.sendall(chunk)
                     bytes_sent += len(chunk)
-                    make_progress_bar(bytes_sent, file_size)
+                    overall_rate = bytes_sent / (default_timer() - start)
+                    make_progress_bar(bytes_sent, file_size, overall_rate)
                     chunk = fin.read(CHUNK)
                     if not chunk:
-                        make_progress_bar(bytes_sent, file_size, complete=True)
+                        make_progress_bar(bytes_sent, file_size, overall_rate, complete=True)
 
         # receive the response
         amount_received = 0
@@ -144,18 +147,21 @@ def authenticated_ns1_request(apikey, endpoint, file_name=None):
     else:
         content = None
         CHUNK = 16 * 1024
+        start = default_timer()
         with open(file_name, "wb") as f:
             total_size = int(
                 headers.get("Content-Length") or headers.get("content-length")
             )
             total_dl = 0
+            overall_rate = 0.0
             while True:
                 chunk = response.read(CHUNK)
                 if not chunk:
-                    make_progress_bar(total_dl, total_size, complete=True)
+                    make_progress_bar(total_dl, total_size, overall_rate, complete=True)
                     break
                 total_dl += CHUNK
-                make_progress_bar(total_dl, total_size)
+                overall_rate = default_timer() - start
+                make_progress_bar(total_dl, total_size, overall_rate)
                 f.write(chunk)
     for header in headers:
         print_debug("<", header, ":", headers[header])
@@ -167,12 +173,12 @@ def authenticated_ns1_request(apikey, endpoint, file_name=None):
     }
 
 
-def make_progress_bar(completed, total, complete=False):
-    # type: (int, int, Optional[bool]) -> None
+def make_progress_bar(completed, total, rate, complete=False):
+    # type: (int, int, float, Optional[bool]) -> None
     """
     Prints a progress bar to stdout
     """
-    bar_size = 80
+    bar_size = 60
     pct_complete = completed / total
     full_bars = int(bar_size * pct_complete)
     progress_bar = (
@@ -180,7 +186,7 @@ def make_progress_bar(completed, total, complete=False):
         + "#" * full_bars
         + ">"
         + " " * (bar_size - full_bars)
-        + "] ({:.2f}%)".format(pct_complete * 100)
+        + "] ({:.2f}%) {:.0f} b/s".format(pct_complete * 100, rate)
     )
     print("\r", progress_bar, sep="", end="")
     if complete:
