@@ -76,7 +76,7 @@ def unix_socket_request(method, endpoint, file_name=None, verbose=False):
                 while chunk:
                     sock.sendall(chunk)
                     bytes_sent += len(chunk)
-                    overall_rate = bytes_sent / (default_timer() - start)
+                    overall_rate = bytes_sent * 8 / (default_timer() - start)
                     make_progress_bar(bytes_sent, file_size, overall_rate)
                     chunk = fin.read(CHUNK)
                     if not chunk:
@@ -160,7 +160,7 @@ def authenticated_ns1_request(apikey, endpoint, file_name=None):
                     make_progress_bar(total_dl, total_size, overall_rate, complete=True)
                     break
                 total_dl += CHUNK
-                overall_rate = default_timer() - start
+                overall_rate = total_dl * 8 / (default_timer() - start)
                 make_progress_bar(total_dl, total_size, overall_rate)
                 f.write(chunk)
     for header in headers:
@@ -178,7 +178,7 @@ def make_progress_bar(completed, total, rate, complete=False):
     """
     Prints a progress bar to stdout
     """
-    bar_size = 60
+    bar_size = 56
     pct_complete = completed / total
     full_bars = int(bar_size * pct_complete)
     progress_bar = (
@@ -186,7 +186,7 @@ def make_progress_bar(completed, total, rate, complete=False):
         + "#" * full_bars
         + ">"
         + " " * (bar_size - full_bars)
-        + "] ({:.2f}%) {:.0f} b/s".format(pct_complete * 100, rate)
+        + "] ({:.2f}%) {:,.0f} b/s".format(pct_complete * 100, rate)
     )
     print("\r", progress_bar, sep="", end="")
     if complete:
