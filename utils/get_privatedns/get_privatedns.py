@@ -186,7 +186,7 @@ def metric_prefix(rate):
         10**6 < rate < 10**9: "mbps",
         rate > 10**9: "gbps",
     }[True]
-    return "{:.0f} {}".format(rate / metric_prefixes[prefix], prefix)
+    return "{:.2f} {}".format(rate / metric_prefixes[prefix], prefix)
 
 
 def make_progress_bar(completed, total, rate, complete=False):
