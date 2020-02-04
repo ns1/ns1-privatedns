@@ -177,14 +177,14 @@ def metric_prefix(rate):
     metric_prefixes = {
         "bps": 10**0,
         "kbps": 10**3,
-        "gpbs": 10**6,
-        "tbps": 10**9,
+        "mbps": 10**6,
+        "gbps": 10**9,
     }
     prefix = {
         rate < 10**3: "bps",
         10**3 < rate < 10**6: "kbps",
-        10**6 < rate < 10**9: "gpbs",
-        rate > 10**9: "tbps",
+        10**6 < rate < 10**9: "mbps",
+        rate > 10**9: "gbps",
     }[True]
     return "{:.0f} {}".format(rate / metric_prefixes[prefix], prefix)
 
