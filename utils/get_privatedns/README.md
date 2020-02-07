@@ -20,7 +20,7 @@ Step 3. Run the script.  Replace $APIKEY with the NS1 API key generated above.
  - Docker Version 17.x or higher: https://docs.docker.com/engine/installation/
  - Python version 2.7+ or 3.x
 
-If your host as Python 2.7+ installed but named something other than `python` (i.e. `python2.7` or `python3.8`), or if the Python interpreter is not in your $PATH, please edit the first line of the script to reference the full path to the hosts Python interpreter.  If Python is unavailable on your host, please use the older, shell version of this script available in this repo, get_privatedns.sh
+If your host has Python 2.7+ installed but named something other than `python` (i.e. `python2.7` or `python3.8`), or if the Python interpreter is not in your $PATH, please edit the first line of the script to reference the full path to the hosts Python interpreter.  If Python is unavailable on your host, please use the older, shell version of this script available in this repo, get_privatedns.sh
 
 ## Usage 
 By default, the script will download the latest version of all available containers.  Use the -v flag to specify a specific version for download.  Use the -c flag to specify a space separated list of containers for download.
