@@ -40,10 +40,11 @@ services:
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      --enable_ops_metrics   true
       --expose_ops_metrics   true
-      # If running multiple data peers, uncomment the following line
-      # All other data hosts (*excluding this one*) must be listed.
+
+      # If running multiple data peers, add  the following line to
+      # tge command section avove.  All other data hosts 
+      # (*excluding this one*) must be listed.
       #--data_peers          ${DATA_PEERS}
       #
       # You can optionally have the data containers automatically
