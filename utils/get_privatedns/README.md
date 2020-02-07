@@ -11,6 +11,7 @@ wget https://raw.githubusercontent.com/ns1/ns1-privatedns/master/utils/get_priva
 chmod +x get_privatedns.py
 ```
 Step 3. Run the script.  Replace $APIKEY with the NS1 API key generated above.
+
 ```shell
 ./get_privatedns.py -k $APIKEY
 ```
@@ -19,7 +20,7 @@ Step 3. Run the script.  Replace $APIKEY with the NS1 API key generated above.
  - Docker Version 17.x or higher: https://docs.docker.com/engine/installation/
  - Python version 2.7+ or 3.x
 
-Note: If Python is unavailable on your host, please use the older, shell version of this script available in this repo, get_privatedns.sh
+If your host as Python 2.7+ installed but named something other than `python` (i.e. `python2.7` or `python3.8`), or if the Python interpreter is not in your $PATH, please edit the first line of the script to reference the full path to the hosts Python interpreter.  If Python is unavailable on your host, please use the older, shell version of this script available in this repo, get_privatedns.sh
 
 ## Usage 
 By default, the script will download the latest version of all available containers.  Use the -v flag to specify a specific version for download.  Use the -c flag to specify a space separated list of containers for download.
@@ -33,6 +34,7 @@ Required Arguments:
 ```  
   -k |--key        | NS1 api key to use for downloads.
 ```
+
 Optional arguments:
 ```
   -h |--help       | Display help message.
@@ -42,7 +44,7 @@ Optional arguments:
   -f |--force      | Do not prompt the user for confirmation before downloading.
 ```
 
-# Examples
+## Examples
 Note: All examples assume that your NS1 API key is stored in the $APIKEY environment variable.
 
 Download all Enterprise DDI container images:
@@ -56,5 +58,3 @@ Download version 2.2.2 of Enterprise DDI:
 Download only containers typically used for control hosts (data, core, xfr):
 
     ./get_privatedns.py -k $APIKEY -c data core xfr
-
-
