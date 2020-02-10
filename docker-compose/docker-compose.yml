@@ -11,8 +11,8 @@ services:
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3305 # are on the host machine
       CONTAINER_NAME: ${DATA_CONTAINER_NAME:-data}
-      # IMPORTANT!  This should only be enabled on a single data host.
-      # Uncomment the following on additional data peers.
+      # IMPORTANT!  DATA_PRIMARY should only be enabled on a single data host.
+      # Comment out the following on additional data peers.
       DATA_PRIMARY: "true"
     stop_grace_period: 30s
     ulimits:
@@ -170,11 +170,10 @@ services:
         target: /ns1/data
         volume:
           nocopy: true
-    # core_host must be changed to 'localhost' if dhcp container network mode 
-    # is host and will be on the same host as the core container.
-    # If you used the BOOTSTRAP UI to perform initial configuration, the
-    # dhcp_service_def_id can be left alone.  Otherwise, change it to 
-    # match your DHCP service definition
+    # The value of --core_host must be changed to 'localhost' if the dhcp
+    # container network_mode is set to 'host'.  If you used the BOOTSTRAP UI
+    # to perform initial configuration, the value of --dhcp_service_def_id can
+    # be left alone.  Otherwise, change it to match your DHCP service def ID.
     command: >-
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}

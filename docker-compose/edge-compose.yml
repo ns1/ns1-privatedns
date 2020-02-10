@@ -62,13 +62,14 @@ services:
         target: /ns1/data
         volume:
           nocopy: true
+    # The value of --core_host must be changed to 'localhost' if the dhcp
+    # container network_mode is set to 'host'.  If you used the BOOTSTRAP UI
+    # to perform initial configuration, the value of --dhcp_service_def_id can
+    # be left alone.  Otherwise, change it to match your DHCP service def ID.
     command: >-
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
-      # Below must be changed to 'localhost' if container is run in 'host' mode.
       --core_host           ${DIST_HOSTS:-dist}
-      # If you used the BOOTSTRAP UI to perform initial configuration, this can
-      # be left alone.  Otherwise, change this to your DHCP service definition ID
       --dhcp_service_def_id 2
       --enable_ops_metrics  true
   dist:
@@ -98,11 +99,11 @@ services:
         target: /ns1/data
         volume:
           nocopy: true
+    # The value of --core_host must  be set to the IP address of your
+    # control node (i.e. the server that hosts the core container)
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      # This value must be set to the IP address of your control node
-      # (i.e. the server that hosts the core container)
       --core_host            ${CORE_HOSTS}
       --enable_ops_metrics   true
 networks:

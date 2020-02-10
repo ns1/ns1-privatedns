@@ -37,23 +37,23 @@ services:
         target: /ns1/data
         volume:
           nocopy: true
+    # If running multiple data peers, add  the following line to
+    # tge command section avove.  All other data hosts 
+    # (*excluding this one*) must be listed.
+    #--data_peers          ${DATA_PEERS}
+    #
+    # You can optionally have the data containers automatically
+    # elect and maintan a master peer by uncommenting the following and
+    # adjusting values as appropriate.  Cluster size should be 3 or 5.
+    # The value of DATA_PRIMARY is ignored if this feature is enabled
+    #--cluster_mode        clustering_on
+    #--cluster_id          1
+    #--cluster_size        3
+    #--synch_replication_enabled true
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      --enable_ops_metrics   true
       --expose_ops_metrics   true
-      # If running multiple data peers, uncomment the following line
-      # All other data hosts (*excluding this one*) must be listed.
-      #--data_peers          ${DATA_PEERS}
-      #
-      # You can optionally have the data containers automatically
-      # elect and maintan a master peer by uncommenting the following and
-      # adjusting values as appropriate.  Cluster size should be 3 or 5.
-      # The value of DATA_PRIMARY is ignored if this feature is enabled
-      #--cluster_mode        clustering_on
-      #--cluster_id          1
-      #--cluster_size        3
-      #--synch_replication_enabled true
   core:
     image: ns1inc/privatedns_core:${TAG:-2.3.0}
     logging:
