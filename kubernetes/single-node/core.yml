@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: core
+  labels:
+    run: core
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5353
+    targetPort: data
+    protocol: TCP
+    name: data
+  - port: 3302
+    targetPort: http-config
+    protocol: TCP
+    name: http-config
+  - port: 9092
+    targetPort: service
+    protocol: TCP
+    name: service
+  - port: 443
+    targetPort: https
+    protocol: TCP
+    name: https
+  - port: 80
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: core
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core
+  labels:
+    app: core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core
+  template:
+    metadata:
+      labels:
+        app: core
+    spec:
+      containers:
+      - name: core
+        image: nsone/standalone_core:2.2.3
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: CONTAINER_NAME
+          value: "core"
+        - name: CONFIG_PORT
+          value: "3302"
+        - name: BOOTSTRAPPABLE
+          value: "true"
+        ports:
+        - name: data
+          containerPort: 5353
+          protocol: TCP
+        - name: http-config
+          containerPort: 3000
+          protocol: TCP
+        - name: https
+          containerPort: 443
+          protocol: TCP
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        - name: service
+          containerPort: 9090
+          protocol: TCP
+        args:
+        - "--pop_id=default_pop"
+        - "--server_id=default_server"
+        - "--data_host=data"
+        - "--api_hostname=portal.zjohnson.net"
+        - "--portal_hostname=portal.zjohnson.net"
+        - "--nameservers=example.ns1"
+        - "--hostmaster_email=zjohnson@ns1.com"
+        - "--enable_ops_metrics=false"
+        - "--web_enable_tls=false"
+        livenessProbe:
+          exec:
+            command:
+            - supd
+            - health
+            - --check
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        volumeMounts:
+        - mountPath: /ns1/data
+          name: ns1-data
+      volumes:
+      - name: ns1-data
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-creds

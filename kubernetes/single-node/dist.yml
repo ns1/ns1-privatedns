@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dist
+  labels:
+    run: dist
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5353
+    targetPort: data
+    protocol: TCP
+    name: data
+  - port: 3304
+    targetPort: http-config
+    protocol: TCP
+    name: http-config
+  - port: 9094
+    targetPort: service
+    protocol: TCP
+    name: service
+  selector:
+    app: dist
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dist
+  labels:
+    app: dist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dist
+  template:
+    metadata:
+      labels:
+        app: dist
+    spec:
+      initContainers:
+      - name: init-sysctl
+        image: busybox
+        command:
+        - sysctl
+        - -w
+        - net.ipv6.conf.lo.disable_ipv6=0
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+      containers:
+      - name: dist
+        image: nsone/standalone_dist:2.2.3
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: CONTAINER_NAME
+          value: "dist"
+        - name: CONFIG_PORT
+          value: "3304"
+        - name: DIST_PORT
+          value: "5353"
+        ports:
+        - name: data
+          containerPort: 5353
+          protocol: TCP
+        - name: http-config
+          containerPort: 3000
+          protocol: TCP
+        - name: service
+          containerPort: 9090
+          protocol: TCP
+        args:
+        - "--pop_id=default_pop"
+        - "--server_id=dist_server"
+        - "--core_host=core"
+          #- "--core_host=core-0.core-headless,core-1.core-headless,core-2.core-headless"
+        - "--enable_ops_metrics=false"
+        livenessProbe:
+          exec:
+            command:
+            - supd
+            - health
+          initialDelaySeconds: 99999
+          periodSeconds: 15
+        volumeMounts:
+        - mountPath: /ns1/data
+          name: ns1-data
+      volumes:
+      - name: ns1-data
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-creds

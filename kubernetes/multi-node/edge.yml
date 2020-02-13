@@ -1,0 +1,193 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dns-edge
+  labels:
+    run: dns-edge
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3300
+    targetPort: http-config
+    protocol: TCP
+    name: http-config
+  - port: 9090
+    targetPort: service
+    protocol: TCP
+    name: service
+  - port: 53
+    targetPort: dns-udp
+    protocol: UDP
+    name: dns-udp
+  - port: 53
+    targetPort: dns-tcp
+    protocol: TCP
+    name: dns-tcp
+  selector:
+    app: dns-edge
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dns-edge
+  labels:
+    app: dns-edge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dns-edge
+  template:
+    metadata:
+      labels:
+        app: dns-edge
+    spec:
+      nodeSelector:
+        location: edge
+      tolerations:
+      - key: "location"
+        operator: "Equal"
+        value: "edge"
+        effect: "NoSchedule"
+      containers:
+      - name: dns
+        image: nsone/standalone_dns:5f4b88c4b
+        env:
+        - name: CONTAINER_NAME
+          value: "dns"
+        - name: CONFIG_PORT
+          value: "3300"
+        ports:
+        - name: http-config
+          containerPort: 3000
+          protocol: TCP
+        - name: service
+          containerPort: 9090
+          protocol: TCP
+        - name: dns-udp
+          containerPort: 53
+          protocol: UDP
+        - name: dns-tcp
+          containerPort: 53
+          protocol: TCP
+        args:
+        - "--pop_id=default_pop"
+        - "--server_id=dns_edge_server"
+        - "--core_host=distedge"
+        - "--operation_mode=authoritative"
+        - "--enable_ops_metrics=false"
+        livenessProbe:
+          exec:
+            command:
+            - supd
+            - health
+          initialDelaySeconds: 30
+          periodSeconds: 15
+        volumeMounts:
+        - mountPath: /ns1/data
+          name: ns1-data
+      volumes:
+      - name: ns1-data
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-creds
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # change this
+  name: distedge
+  labels:
+    run: dist-edge
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5353
+    targetPort: data
+    protocol: TCP
+    name: data
+  - port: 3300
+    targetPort: http-config
+    protocol: TCP
+    name: http-config
+  - port: 9090
+    targetPort: service
+    protocol: TCP
+    name: service
+  selector:
+    app: dist-edge
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dist-edge
+  labels:
+    app: dist-edge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dist-edge
+  template:
+    metadata:
+      labels:
+        app: dist-edge
+    spec:
+      nodeSelector:
+        location: edge
+      tolerations:
+      - key: "location"
+        operator: "Equal"
+        value: "edge"
+        effect: "NoSchedule"
+      initContainers:
+      - name: init-sysctl
+        image: busybox
+        command:
+        - sysctl
+        - -w
+        - net.ipv6.conf.lo.disable_ipv6=0
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+      containers:
+      - name: dist
+        image: nsone/standalone_dist:5f4b88c4b
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: CONTAINER_NAME
+          value: "dist"
+        - name: CONFIG_PORT
+          value: "3300"
+        - name: DIST_PORT
+          value: "25672"
+        ports:
+        - name: data
+          containerPort: 5353
+          protocol: TCP
+        - name: http-config
+          containerPort: 3000
+          protocol: TCP
+        - name: service
+          containerPort: 9090
+          protocol: TCP
+        args:
+        - "--pop_id=default_pop"
+        - "--server_id=dist_edge_server"
+        - "--core_host=core"
+        - "--enable_ops_metrics=false"
+        livenessProbe:
+          exec:
+            command:
+            - supd
+            - health
+          initialDelaySeconds: 99999
+          periodSeconds: 15
+        volumeMounts:
+        - mountPath: /ns1/data
+          name: ns1-data
+      volumes:
+      - name: ns1-data
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-creds

@@ -1,85 +1,73 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: core
+  name: dns
   labels:
-    run: core
+    run: dns
 spec:
+  type: ClusterIP
   ports:
-  - port: 5353
-    targetPort: data
-    protocol: TCP
-    name: data
-  - port: 3302
+  - port: 3301
     targetPort: http-config
     protocol: TCP
     name: http-config
-  - port: 9092
+  - port: 9091
     targetPort: service
     protocol: TCP
     name: service
-  - port: 443
-    targetPort: https
+  - port: 53
+    targetPort: dns-udp
+    protocol: UDP
+    name: dns-udp
+  - port: 53
+    targetPort: dns-tcp
     protocol: TCP
-    name: https
-  - port: 80
-    targetPort: http
-    protocol: TCP
-    name: http
+    name: dns-tcp
   selector:
-    app: core
+    app: dns
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: core
+  name: dns
   labels:
-    app: core
+    app: dns
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: core
+      app: dns
   template:
     metadata:
       labels:
-        app: core
+        app: dns
     spec:
       containers:
-      - name: core
-        image: nsone/standalone_core:2.2.3
-        imagePullPolicy: IfNotPresent
+      - name: dns
+        image: nsone/standalone_dns:2.2.3
         env:
         - name: CONTAINER_NAME
-          value: "core"
+          value: "dns"
         - name: CONFIG_PORT
-          value: "3302"
-        - name: BOOTSTRAPPABLE
-          value: "true"
+          value: "3301"
         ports:
-        - name: data
-          containerPort: 5353
-          protocol: TCP
         - name: http-config
           containerPort: 3000
-          protocol: TCP
-        - name: https
-          containerPort: 443
-          protocol: TCP
-        - name: http
-          containerPort: 80
           protocol: TCP
         - name: service
           containerPort: 9090
           protocol: TCP
+        - name: dns-udp
+          containerPort: 53
+          protocol: UDP
+        - name: dns-tcp
+          containerPort: 53
+          protocol: TCP
         args:
         - "--pop_id=default_pop"
         - "--server_id=default_server"
-        - "--data_host=data"
-        - "--api_hostname=localhost"
-        - "--portal_hostname=localhost"
-        - "--nameservers=ns.localhost"
-        - "--hostmaster_email=zjohnson@ns1.com"
+        - "--core_host=core"
+        - "--operation_mode=authoritative"
         - "--enable_ops_metrics=false"
         livenessProbe:
           exec:

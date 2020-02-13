@@ -5,12 +5,13 @@ metadata:
   labels:
     run: dns
 spec:
+  type: ClusterIP
   ports:
-  - port: 3301
+  - port: 3300
     targetPort: http-config
     protocol: TCP
     name: http-config
-  - port: 9091
+  - port: 9090
     targetPort: service
     protocol: TCP
     name: service
@@ -41,14 +42,16 @@ spec:
       labels:
         app: dns
     spec:
+      nodeSelector:
+        location: main
       containers:
       - name: dns
-        image: nsone/standalone_dns:2.2.3
+        image: nsone/standalone_dns:5f4b88c4b
         env:
         - name: CONTAINER_NAME
           value: "dns"
         - name: CONFIG_PORT
-          value: "3301"
+          value: "3300"
         ports:
         - name: http-config
           containerPort: 3000
@@ -64,7 +67,7 @@ spec:
           protocol: TCP
         args:
         - "--pop_id=default_pop"
-        - "--server_id=default_server"
+        - "--server_id=dns_server"
         - "--core_host=core"
         - "--operation_mode=authoritative"
         - "--enable_ops_metrics=false"
@@ -73,9 +76,8 @@ spec:
             command:
             - supd
             - health
-            - --check
-          initialDelaySeconds: 15
-          periodSeconds: 5
+          initialDelaySeconds: 30
+          periodSeconds: 15
         volumeMounts:
         - mountPath: /ns1/data
           name: ns1-data
