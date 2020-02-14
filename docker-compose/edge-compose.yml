@@ -2,7 +2,7 @@
 version: '3.2'
 services:
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-2.3.0}
+    image: ns1inc/privatedns_dns:${TAG:-2.3.1}
     logging:
       driver: "json-file"
       options:
@@ -34,7 +34,7 @@ services:
       --operation_mode      ${OPERATION_MODE:-authoritative}
       --enable_ops_metrics  true
   dhcp:
-    image: ns1inc/privatedns_dhcp:${TAG:-2.3.0}
+    image: ns1inc/privatedns_dhcp:${TAG:-2.3.1}
     logging:
       driver: "json-file"
       options:
@@ -73,7 +73,7 @@ services:
       --dhcp_service_def_id 2
       --enable_ops_metrics  true
   dist:
-    image: ns1inc/privatedns_dist:${TAG:-2.3.0}
+    image: ns1inc/privatedns_dist:${TAG:-2.3.1}
     logging:
       driver: "json-file"
       options:
