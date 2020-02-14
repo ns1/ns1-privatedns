@@ -1,3 +1,25 @@
+## 2.3.1 (Feb 14, 2020)
+- New Features
+   - DNS: Introduced the ability to create single label zones
+- Feature Enhancements
+   - DDNS: Ability to configure NS1 DNS to synthesize dynamic records from active NS1 DHCP leases in the portal
+   - DNS: Support for TLD zones; TLDs allow for single-label name resolution
+- What’s fixed?
+   - Portal: resolved regression where the network count would always return 0.
+   - IPAM: resolved an issue where the adjacent endpoint would return an incorrect next subnet
+   - DHCP: Resolved leases in pools not configured for NS1 DDNS are no longer being misrepresented in the database
+   - DHCP: replaced invalid option type “hex” with “binary”
+   - DHCP: Fixed an issue where adding scopes too quickly would prevent replication through the dist container
+   - System: Fixed a memory leak in the replication mechanism
+   - System: Fixed an issue where services would not bind to IPv6
+   - Security: Fixed a potential XSS vulnerability in the zones API endpoint
+- Known issues
+   - DDNS: DHCP filter fails when client-provided hostname contains capital letters
+   - DHCP: Provisioning new DHCP containers after scopes have been added to the system will not work.
+   - DDNS: DHCP filter is not in the list of filtertypes in the api v1/filtertypes endpoint, even though it is a valid filter type
+   - DDNS: Selecting the DHCP filter to expand and read usage information results in a blank browser page; adding the DHCP filter to the list of filtertypes will resolve this behavior; workaround is to go back in the browser
+   - DNS: TLD zone validation currently does not allow wildcard records; this will be addressed in future versions
+
 ## 2.3.0 (Jan 31, 2020)
 - New Features
    - NS1 DDNS Implementation: a filter to on-demand synthesized dynamic records from DHCP leases
