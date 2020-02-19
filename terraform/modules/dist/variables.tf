@@ -74,5 +74,5 @@ variable "docker_log_driver" {
 
 variable "data_port" {
   default     = 5353
-  description = "Port number to expose for external data transport.  Set to null to disable exposing this port."
+  description = "Port exposed out of the container for data transport.  Setting value to null disables exposing this port."
 }
