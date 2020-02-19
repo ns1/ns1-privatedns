@@ -113,10 +113,12 @@ resource "docker_container" "data" {
     external = 3300
   }
 
-  # service proxy
-  ports {
-    internal = 9090
-    external = 9090
+  dynamic "ports" {
+    for_each = var.cluster_id != null ? list(var.cluster_id) : []
+    content {
+      internal = 5353
+      external = 5353
+    }
   }
 
   # metrics export
@@ -125,12 +127,10 @@ resource "docker_container" "data" {
     external = 8686
   }
 
-  dynamic "ports" {
-    for_each = var.cluster_id != null ? list(var.cluster_id) : []
-    content {
-      internal = 5353
-      external = 5353
-    }
+  # service proxy
+  ports {
+    internal = 9090
+    external = 9090
   }
 
   # enable ipv6 for loopback

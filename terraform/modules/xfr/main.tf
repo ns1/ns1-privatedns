@@ -53,6 +53,21 @@ resource "docker_container" "xfr" {
 
   hostname = var.hostname
 
+  # tcp zone transfers
+  ports {
+    internal = 53
+    external = 5400
+    protocol = "tcp"
+  }
+
+  # udp zone transfers
+  ports {
+    internal = 53
+    external = 5400
+    protocol = "udp"
+  }
+
+
   # http configuration
   ports {
     internal = 3300
@@ -63,20 +78,6 @@ resource "docker_container" "xfr" {
   ports {
     internal = 9090
     external = 9093
-  }
-
-  # udp zone transfers
-  ports {
-    internal = 53
-    external = 5400
-    protocol = "udp"
-  }
-
-  # tcp zone transfers
-  ports {
-    internal = 53
-    external = 5400
-    protocol = "tcp"
   }
 
   healthcheck {

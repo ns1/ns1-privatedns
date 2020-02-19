@@ -58,22 +58,10 @@ resource "docker_container" "core" {
 
   log_driver = var.docker_log_driver
 
-  # data transport
+  # http connections to portal or api
   ports {
-    internal = 5353
-    external = 5353
-  }
-
-  # http configuration
-  ports {
-    internal = 3300
-    external = 3302
-  }
-
-  # service proxy
-  ports {
-    internal = 9090
-    external = 9092
+    internal = 80
+    external = 80
   }
 
   # https connections to portal or api
@@ -82,10 +70,22 @@ resource "docker_container" "core" {
     external = 443
   }
 
-  # http connections to portal or api
+  # http configuration
   ports {
-    internal = 80
-    external = 80
+    internal = 3300
+    external = 3302
+  }
+
+  # data transport
+  ports {
+    internal = 5353
+    external = 5353
+  }
+
+  # service proxy
+  ports {
+    internal = 9090
+    external = 9092
   }
 
   healthcheck {
