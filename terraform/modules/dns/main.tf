@@ -53,6 +53,22 @@ resource "docker_container" "dns" {
 
   log_driver = var.docker_log_driver
 
+  # tcp port for dns
+  ports {
+    internal = 53
+    external = 53
+    protocol = "tcp"
+  }
+
+
+  # udp port for dns
+  ports {
+    internal = 53
+    external = 53
+    protocol = "udp"
+  }
+
+
   # http configuration
   ports {
     internal = 3300
@@ -63,20 +79,6 @@ resource "docker_container" "dns" {
   ports {
     internal = 9090
     external = 9091
-  }
-
-  # udp port for dns
-  ports {
-    internal = 53
-    external = 53
-    protocol = "udp"
-  }
-
-  # tcp port for dns
-  ports {
-    internal = 53
-    external = 53
-    protocol = "tcp"
   }
 
   healthcheck {

@@ -59,12 +59,6 @@ resource "docker_container" "dist" {
     external = 3304
   }
 
-  # service proxy
-  ports {
-    internal = 9090
-    external = 9094
-  }
-
   # data transport
   ports {
     internal = 5353
@@ -72,6 +66,12 @@ resource "docker_container" "dist" {
     # can we map this to 5353?
     # how do we switch to ephemeral if on same host
     # as core?
+  }
+
+  # service proxy
+  ports {
+    internal = 9090
+    external = 9094
   }
 
   # enable ipv6 for loopback
