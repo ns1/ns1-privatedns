@@ -71,3 +71,8 @@ variable "docker_log_driver" {
   default     = "json-file"
   description = "Docker log driver to use, see https://docs.docker.com/config/containers/logging/configure/"
 }
+
+variable "data_port" {
+  default     = 5353
+  description = "Port number to expose for external data transport.  Set to null to disable exposing this port."
+}

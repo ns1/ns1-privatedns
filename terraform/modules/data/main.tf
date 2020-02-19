@@ -113,11 +113,14 @@ resource "docker_container" "data" {
     external = 3300
   }
 
+  # data transport
+  # should only be exposed if cluster_id is configured and data_port was not disabled
   dynamic "ports" {
-    for_each = var.cluster_id != null ? list(var.cluster_id) : []
+    for_each = var.cluster_id != null && var.data_port != null ? list(var.data_port) : []
+    iterator = data_port
     content {
       internal = 5353
-      external = 5353
+      external = data_port.value
     }
   }
 

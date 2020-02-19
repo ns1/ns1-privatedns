@@ -63,13 +63,13 @@ variable "enable_ops_metrics" {
 }
 
 variable "telegraf_output_elasticsearch_data_host" {
-  default      = null
-  description  = "The elasticsearch host to export metrics"
+  default     = null
+  description = "The elasticsearch host to export metrics"
 }
 
 variable "telegraf_output_elasticsearch_index" {
-  default      = null
-  description  = "The elasticsearch index to use when exporting metrics"
+  default     = null
+  description = "The elasticsearch index to use when exporting metrics"
 }
 
 variable "expose_ops_metrics" {
@@ -101,4 +101,9 @@ variable "hostname" {
 variable "docker_log_driver" {
   default     = "json-file"
   description = "Docker log driver to use, see https://docs.docker.com/config/containers/logging/configure/"
+}
+
+variable "data_port" {
+  default     = 5353
+  description = "Port number to expose for external data transport.  Set to null to disable exposing this port."
 }

@@ -60,12 +60,13 @@ resource "docker_container" "dist" {
   }
 
   # data transport
-  ports {
-    internal = 5353
-    external = 5353
-    # can we map this to 5353?
-    # how do we switch to ephemeral if on same host
-    # as core?
+  dynamic "ports" {
+    for_each = var.data_port != null ? list(var.data_port) : []
+    iterator = data_port
+    content {
+      internal = 5353
+      external = data_port.value
+    }
   }
 
   # service proxy
