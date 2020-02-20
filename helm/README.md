@@ -4,18 +4,24 @@
 @TODO verify older versions of k8s are okay
 - Kubernetes 1.12+ 
 - This chart uses PersistentVolumeClaims and so dynamic PersistentVolume
-  provisioning must be configured on the cluster - if you are using a managed
-  Kubernetes service then this likely is already done.
+  provisioning must be configured on the cluster. If you are using a managed
+  Kubernetes service then this likely is already done. Regardless, you'll need
+  to configure the `data.storage.className` option with the appropriate storage
+  class name.
 - NS1 images hosted in an environment that Kubernetes can access and a
-  Kubernetes secret with the access credentials
+  Kubernetes secret with the access credentials.
 
 ## Installing the Chart
+Create a secret storing Docker credentials if you have not done so already.
+See [the Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#registry-secret-existing-credentials) on how to do this.
+
+Then the chart can be installed:
 ``` bash
 helm install ns1-ddi . --values=<path-to-values>.yml
 ```
 
 If the installation is being ran with the bootstrap configuration set to
-true, then the timeout on the helm install should be increased, e.g
+true, then the timeout on the helm install should be increased:
 ```
 helm install ns1-ddi . --values=<path-to-values>.yml --timeout=15m
 ```
@@ -37,8 +43,22 @@ The NS1 infrastructure consists of six services:
 - DHCP
 - XFR
 
+See [the NS1 help center](https://help.ns1.com/hc/en-us/articles/360024777013-About-core-and-edge-services) for more information about the individual services.
+
 Each service has it's own configuration block, but they share many of the same
 configuration options.
+
+Complex network topologies can be achieved by configuring the various services
+with combinations of node selections, tolerations, and affinities. See
+the [multi-node](examples/multi-node.yml) example and the Kubernetes
+documentation on [taints and tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+and [affinities](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#node-affinity-beta-feature) for more information.
+
+An example topology could look like this, where:
+- Data, core, DNS, and XFR run on general purpose nodes.
+- Edge nodes are defined separately to run DHCP, additional DNS pods and Dist.
+
+![multi-node](examples/multi-node.jpeg)
 
 The following tables lists the configurable parameters of the NS1 DDI chart and their default values.
 
@@ -188,7 +208,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
-```console
-$ helm install --name my-release -f values.yml .
+```bash
+helm install ns1-ddi -f values.yml .
 ```
 > **Tip**: You can use the default [values.yaml](values.yaml)

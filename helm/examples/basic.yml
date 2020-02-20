@@ -16,7 +16,6 @@
 #     - ReadWriteOnce
 #   hostPath:
 #     path: "/data-pv"
-    
 
 bootstrap: true
 
