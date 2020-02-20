@@ -1,0 +1,143 @@
+{{ if .Values.xfr }}
+{{ with .Values.xfr }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "xfr.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+    run: {{ include "xfr.fullname" . }}
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3300
+    targetPort: http-config
+    protocol: TCP
+    name: http-config
+  - port: 9090
+    targetPort: service
+    protocol: TCP
+    name: service
+  - port: 53
+    targetPort: xfr-udp
+    protocol: UDP
+    name: xfr-udp
+  - port: 53
+    targetPort: xfr-tcp
+    protocol: TCP
+    name: xfr-tcp
+  selector:
+    app: {{ include "xfr.fullname" . }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "xfr.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+    app: {{ include "xfr.fullname" . }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "xfr.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "name" $ }}
+        app.kubernetes.io/managed-by: {{ $.Release.Service }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+        helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+        app: {{ include "xfr.fullname" . }}
+    spec:
+      containers:
+      - name: xfr
+        image: {{ .image.name }}:{{ .image.tag }}
+        imagePullPolicy: {{ .image.pullPolicy }}
+        env:
+        - name: CONTAINER_NAME
+          value: "xfr"
+        - name: CONFIG_PORT
+          value: "3300"
+        ports:
+        - name: http-config
+          containerPort: 3000
+          protocol: TCP
+        - name: service
+          containerPort: 9090
+          protocol: TCP
+        - name: xfr-udp
+          containerPort: 53
+          protocol: UDP
+        - name: xfr-tcp
+          containerPort: 53
+          protocol: TCP
+        command:
+          - "/script/entry.sh"
+        livenessProbe:
+          exec:
+            command:
+            - supd
+            - health
+          initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds }}
+          failureThreshold: {{ .livenessProbe.failureThreshold }}
+          periodSeconds: {{ .livenessProbe.periodSeconds }}
+        resources:
+{{ toYaml .resources | indent 10 }}
+        volumeMounts:
+        - mountPath: /ns1/data
+          name: ns1-data
+        - name: xfr-entrypoint
+          mountPath: /script/entry.sh
+          subPath: entry.sh
+      volumes:
+      - name: ns1-data
+        emptyDir: {}
+      - name: xfr-entrypoint
+        configMap:
+          name: {{ include "xfr.fullname" . }}-entrypoint
+          defaultMode: 0777
+      imagePullSecrets:
+      - name: {{ $.Values.imagePullSecret }}
+    {{- with .nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "xfr.fullname" . }}-entrypoint
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+data:
+  entry.sh: |
+    #! /bin/sh
+    /usr/local/bin/entrypoint \
+        {{- range $flag := .startupFlags }}
+        {{ $flag }} \
+        {{- end }}
+        --pop_id={{ .popID }} \
+        --server_id=$HOSTNAME \
+        --core_host={{ .coreService }} \
+        --enable_ops_metrics={{ .enableOpsMetrics }}
+---
+{{ end }}
+{{ end }}

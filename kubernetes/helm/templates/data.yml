@@ -1,0 +1,191 @@
+{{ with .Values.data }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "data.fullname" . }}-headless
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+    run: {{ include "data.fullname" . }}
+spec:
+  clusterIP: None
+  ports:
+  - port: 5353
+    targetPort: data
+    protocol: TCP
+    name: data
+  - port: 3300
+    targetPort: http-config
+    protocol: TCP
+    name: http-config
+  - port: 9090
+    targetPort: service
+    protocol: TCP
+    name: service
+  - port: 8686
+    targetPort: metrics
+    protocol: TCP
+    name: metrics
+  selector:
+    app: {{ include "data.fullname" . }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "data.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+    app: {{ include "data.fullname" . }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "data.fullname" . }}
+  serviceName: "{{ include "data.fullname" . }}-headless"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "name" $ }}
+        app.kubernetes.io/managed-by: {{ $.Release.Service }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+        helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+        app: {{ include "data.fullname" . }}
+    spec:
+      initContainers:
+      - name: init-sysctl
+        image: busybox
+        command:
+        - sysctl
+        - -w
+        - net.ipv6.conf.lo.disable_ipv6=0
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+      containers:
+      - name: data
+        image: {{ .image.name }}:{{ .image.tag }}
+        imagePullPolicy: {{ .image.pullPolicy }}
+        env:
+          {{- if gt (int (.replicas)) 1 }}
+        - name: CLUSTER_SIZE
+          value: "{{ .replicas }}"
+          {{- end }}
+        - name: CONTAINER_NAME
+          value: "data"
+        - name: CONFIG_PORT
+          value: "3300"
+        - name: DATA_PRIMARY
+          value: "{{ if eq (int (.replicas)) 1 }}true{{ else }}false{{ end }}"
+        - name: DIST_PORT
+          value: "25672"
+        ports:
+        - name: data
+          containerPort: 5353
+          protocol: TCP
+        - name: http-config
+          containerPort: 3300
+          protocol: TCP
+        - name: service
+          containerPort: 9090
+          protocol: TCP
+        - name: metrics
+          containerPort: 8686
+          protocol: TCP
+        command:
+          - "/script/entry.sh"
+        livenessProbe:
+          exec:
+            command:
+            - supd
+            - health
+          initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds }}
+          failureThreshold: {{ .livenessProbe.failureThreshold }}
+          periodSeconds: {{ .livenessProbe.periodSeconds }}
+        resources:
+{{ toYaml .resources | indent 10 }}
+        volumeMounts:
+        - mountPath: /ns1/data
+          name: {{ include "data.fullname" . }}
+        - name: data-entrypoint
+          mountPath: /script/entry.sh
+          subPath: entry.sh
+      volumes:
+      - name: data-entrypoint
+        configMap:
+          name: {{ include "data.fullname" . }}-entrypoint
+          defaultMode: 0777
+      imagePullSecrets:
+      - name: {{ $.Values.imagePullSecret }}
+    {{- with .nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "data.fullname" . }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "{{ .storage.className }}"
+      resources:
+        requests:
+          storage: {{ .storage.size }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "data.fullname" . }}-entrypoint
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+data:
+  entry.sh: |
+    #! /bin/sh
+    ID=$(echo $HOSTNAME | awk -F '{{ include "data.fullname" . }}-' '{ print $2 }')
+    DATA_PEERS=""
+
+    i=0
+    while [ $i -lt $CLUSTER_SIZE ]
+    do
+            if [ $i -eq $ID ]; then
+                    i=$(($i + 1))
+                    continue
+            fi
+
+            DATA_PEERS="$DATA_PEERS,{{ include "data.fullname" . }}-$i.{{ include "data.fullname" . }}-headless"
+
+            i=$(($i + 1))
+    done
+
+    DATA_PEERS=$(echo $DATA_PEERS | sed 's/^,//g')
+    CLUSTER_ID=$(( $ID + 1))
+
+    /usr/local/bin/entrypoint \
+        {{- range $flag := .startupFlags }}
+        {{ $flag }} \
+        {{- end }}
+        --pop_id={{ .popID }} \
+        --server_id=$HOSTNAME.{{ include "data.fullname" . }}-headless \
+        {{- if gt (int (.replicas)) 1 }}
+        --data_peers=$DATA_PEERS \
+        --cluster_id=$CLUSTER_ID \
+        --cluster_size=$CLUSTER_SIZE \
+        {{- end }}
+        --enable_ops_metrics={{ .enableOpsMetrics }} \
+        --expose_ops_metrics={{ .exposeOpsMetrics }}
+---
+{{ end }}
