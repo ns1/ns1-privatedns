@@ -1,5 +1,32 @@
 # NS1 Helm Chart
 
+## Prerequisites
+@TODO verify older versions of k8s are okay
+- Kubernetes 1.12+ 
+- This chart uses PersistentVolumeClaims and so dynamic PersistentVolume
+  provisioning must be configured on the cluster - if you are using a managed
+  Kubernetes service then this likely is already done.
+- NS1 images hosted in an environment that Kubernetes can access and a
+  Kubernetes secret with the access credentials
+
+## Installing the Chart
+``` bash
+helm install ns1-ddi . --values=<path-to-values>.yml
+```
+
+If the installation is being ran with the bootstrap configuration set to
+true, then the timeout on the helm install should be increased, e.g
+```
+helm install ns1-ddi . --values=<path-to-values>.yml --timeout=15m
+```
+
+## Uninstalling the Chart
+```
+helm uninstall ns1-ddi
+```
+The PersistentVolumes and PersistentVolumeClaims are not automatically deleted
+when the chart is uninstalled and they will need to be manually deleted.
+
 ## Configuration
 
 The NS1 infrastructure consists of six services:
@@ -20,7 +47,7 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
 | `imagePullSecret` | Reference to a secret to be used when pulling images | `docker-creds` |
-| `bootstrap` | Boolean value indicating whether to perform an initial bootstrap process after the installation is complete. Setting this to true will create a configmap called ns1-bootstrap-credentials holding initial credentials. This is a blocking operation - the Helm install will not complete until the bootstrap is complete, which requires the deployment to be healthy.  It's recommended to use this in conjunction with the `--timeout` Helm flag set to at least 10 minutes. | `true` |
+| `bootstrap` | Boolean value indicating whether to perform an initial bootstrap process after the installation is complete. Setting this to true will create a configmap called ns1-bootstrap-credentials holding initial credentials. This is a blocking operation - the Helm install will not complete until the bootstrap is complete, which requires the deployment to be healthy.  It's recommended to use this in conjunction with the `--timeout` Helm flag set to at least 10 minutes. | `false` |
 
 ### Data
 | Parameter | Description | Default |

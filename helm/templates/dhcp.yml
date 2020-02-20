@@ -49,12 +49,6 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       {{- end }}
       containers:
-        #remove
-      - name: sidecar-debug
-        image: debian:stretch
-        command: ["/bin/sh", "-c"]
-        args:
-          - apt update; apt install isc-dhcp-client -y; sleep 999999
       - name: dhcp
         {{- if .hostMode }}
         securityContext:

@@ -1,5 +1,5 @@
 imagePullSecret: docker-creds
-bootstrap: true
+bootstrap: false
 
 data:
   name: data

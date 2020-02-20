@@ -1,0 +1,226 @@
+bootstrap: true
+
+data:
+  name: data
+  replicas: 3
+  image:
+    name: nsone/standalone_data
+    tag: 2.3.1
+    pullPolicy: IfNotPresent
+  livenessProbe:
+    initialDelaySeconds: 900
+    failureThreshold: 3
+    periodSeconds: 15
+  storage:
+    className: do-block-storage # block storage for Digital Ocean
+    size: 5Gi
+  popID: default_pop
+  enableOpsMetrics: false
+  exposeOpsMetrics: false
+  startupFlags: {}
+  resources: {}
+  # Run the data pods on the main set of nodes.
+  nodeSelector:
+    location: main
+  tolerations: []
+  # Makes sure that data pods are not scheduled on the same node.
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - data
+        topologyKey: "kubernetes.io/hostname"
+
+core:
+  name: core
+  replicas: 3
+  image:
+    name: nsone/standalone_core
+    tag: 2.3.1
+    pullPolicy: IfNotPresent
+  livenessProbe:
+    initialDelaySeconds: 30
+    failureThreshold: 3
+    periodSeconds: 15
+  popID: default_pop
+  apiHostname: api.example.com
+  portalHostname: portal.example.com
+  nameServers: "example1.com,example2.com"
+  hostMasterEmail: "example@email.com"
+  enableOpsMetrics: false
+  enableWebTLS: false
+  startupFlags: {}
+  resources: {}
+  # Run the core pods on the main set of nodes.
+  nodeSelector:
+    location: main
+  tolerations: []
+  # Makes sure that core pods are not scheduled on the same node
+  # and that they are co-located with a data pod.
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - core
+        topologyKey: "kubernetes.io/hostname"
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - data
+        topologyKey: "kubernetes.io/hostname"
+
+dns:
+  image:
+    name: nsone/standalone_dns
+    tag: 2.3.1
+    pullPolicy: IfNotPresent
+  pops:
+  - name: dns
+    replicas: 2
+    livenessProbe:
+      initialDelaySeconds: 30
+      failureThreshold: 3
+      periodSeconds: 15
+    popID: default_pop
+    coreService: core
+    operationMode: authoritative
+    enableOpsMetrics: false
+    startupFlags: {}
+    resources: {}
+    # Run these DNS replicas on the main set of nodes.
+    nodeSelector:
+      location: main
+    tolerations: []
+    affinity: {}
+  - name: dns-edge
+    replicas: 1
+    livenessProbe:
+      initialDelaySeconds: 30
+      failureThreshold: 3
+      periodSeconds: 15
+    popID: edge_pop
+    # Since this is an edge, the DNS pod should communicate with dist, not
+    # core.
+    coreService: dist
+    operationMode: authoritative
+    enableOpsMetrics: false
+    startupFlags: {}
+    resources: {}
+    # Run this DNS replica on an edge node.
+    nodeSelector:
+      location: edge
+    # Toleration for the taint on the edge node.
+    tolerations:
+    - key: "location"
+      operator: "Equal"
+      value: "edge"
+      effect: "NoSchedule"
+    affinity: {}
+
+dist:
+  image:
+    name: nsone/standalone_dist
+    tag: 2.3.1
+    pullPolicy: IfNotPresent
+  pops:
+  - name: dist
+    replicas: 1
+    livenessProbe:
+      initialDelaySeconds: 30
+      failureThreshold: 3
+      periodSeconds: 15
+    popID: edge_pop
+    coreService: core
+    enableOpsMetrics: false
+    startupFlags: {}
+    resources: {}
+    # The dist pod is ran at the edge.
+    nodeSelector:
+      location: edge
+    tolerations:
+    - key: "location"
+      operator: "Equal"
+      value: "edge"
+      effect: "NoSchedule"
+    affinity: {}
+
+dhcp:
+  image:
+    name: nsone/standalone_dhcp
+    tag: 2.3.1
+    pullPolicy: IfNotPresent
+  pops:
+  - name: dhcp
+    replicas: 1
+    livenessProbe:
+      initialDelaySeconds: 30
+      failureThreshold: 3
+      periodSeconds: 15
+    hostMode: false
+    popID: default_pop
+    coreService: core
+    serviceDefID: 1
+    enableOpsMetrics: false
+    startupFlags: {}
+    resources: {}
+    # Run one DHCP replica on the main nodes.
+    nodeSelector:
+      location: main
+    tolerations: []
+    affinity: {}
+  - name: dhcp-edge
+    replicas: 1
+    livenessProbe:
+      initialDelaySeconds: 30
+      failureThreshold: 3
+      periodSeconds: 15
+    hostMode: true
+    popID: default_pop
+    # The edge DHCP pod communicates to dist.
+    coreService: dist
+    serviceDefID: 1
+    enableOpsMetrics: false
+    startupFlags: {}
+    resources: {}
+    # Run one DHCP replica on the edge node.
+    nodeSelector:
+      location: edge
+    tolerations:
+    - key: "location"
+      operator: "Equal"
+      value: "edge"
+      effect: "NoSchedule"
+    affinity: {}
+
+xfr:
+  name: xfr
+  replicas: 2
+  image:
+    name: nsone/standalone_xfr
+    tag: 2.3.1
+    pullPolicy: IfNotPresent
+  livenessProbe:
+    initialDelaySeconds: 30
+    failureThreshold: 3
+    periodSeconds: 15
+  popID: default_pop
+  coreService: core
+  enableOpsMetrics: false
+  startupFlags: {}
+  resources: {}
+  nodeSelector:
+    location: main
+  tolerations: []
+  affinity: {}

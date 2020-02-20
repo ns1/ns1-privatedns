@@ -1,11 +1,6 @@
 {{- if .Release.IsInstall -}}
 {{ .Chart.Name }} has been installed!
-{{- end -}}
-{{- if .Release.IsUpgrade -}}
-{{ .Chart.Name }} has been upgraded!
-{{- end}}
-
-{{ if .bootstrap -}}
+{{ if and .Values.bootstrap -}}
 The bootstrap process was executed -
 if the installation was successful, there should be a configmap called
 ns1-bootstrap that contains operator and initial user credentials.
@@ -15,3 +10,7 @@ The job that bootstrapped the deployment can be deleted if it was successful.
 {{- else -}}
 It may take 10 minutes or more for the deployment to reach a healthy state.
 {{- end }}
+{{- end -}}
+{{- if .Release.IsUpgrade -}}
+{{ .Chart.Name }} has been upgraded!
+{{- end}}
