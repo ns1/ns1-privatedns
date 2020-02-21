@@ -16,13 +16,13 @@ See [the Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-po
 
 Then the chart can be installed:
 ``` bash
-helm install ns1-ddi . --values=<path-to-values>.yml
+helm install ns1-ddi <path-to-chart> --values=<path-to-values>.yml
 ```
 
 If the installation is being ran with the bootstrap configuration set to
 true, then the timeout on the helm install should be increased:
 ```
-helm install ns1-ddi . --values=<path-to-values>.yml --timeout=15m
+helm install ns1-ddi <path-to-chart> --values=<path-to-values>.yml --timeout=15m
 ```
 
 ## Uninstalling the Chart
@@ -80,7 +80,7 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | `data.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `5` |
 | `data.livenessProbe.periodSeconds` | How often to execute healthchecks. | `15` |
 | `data.storage.className` | The type of storage to use for the persistent volume claim that the data service uses. | `default` |
-| `data.storage.size` | The size of storage to request per data replica. | `5Gi` |
+| `data.storage.size` | The size of storage to request per data replica. | `20Gi` |
 | `data.popID` | The ID of the PoP. | `default_pop` |
 | `data.enableOpsMetrics` | Enables operational metrics. | `false` |
 | `data.exposeOpsMetrics` | Exposes operational metrics. | `false` |
