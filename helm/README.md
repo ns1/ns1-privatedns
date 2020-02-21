@@ -1,7 +1,6 @@
 # NS1 Helm Chart
 
 ## Prerequisites
-@TODO verify older versions of k8s are okay
 - Kubernetes 1.12+ 
 - This chart uses PersistentVolumeClaims and so dynamic PersistentVolume
   provisioning must be configured on the cluster. If you are using a managed

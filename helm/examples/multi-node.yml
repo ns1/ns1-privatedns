@@ -8,7 +8,7 @@ data:
     tag: 2.3.1
     pullPolicy: IfNotPresent
   livenessProbe:
-    initialDelaySeconds: 900
+    initialDelaySeconds: 300
     failureThreshold: 3
     periodSeconds: 15
   storage:
@@ -88,7 +88,7 @@ dns:
     pullPolicy: IfNotPresent
   pops:
   - name: dns
-    replicas: 2
+    replicas: 3
     livenessProbe:
       initialDelaySeconds: 30
       failureThreshold: 3
@@ -206,7 +206,7 @@ dhcp:
 
 xfr:
   name: xfr
-  replicas: 2
+  replicas: 3
   image:
     name: nsone/standalone_xfr
     tag: 2.3.1

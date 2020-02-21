@@ -161,14 +161,14 @@ data:
     i=0
     while [ $i -lt $CLUSTER_SIZE ]
     do
-            if [ $i -eq $ID ]; then
-                    i=$(($i + 1))
-                    continue
-            fi
-
-            DATA_PEERS="$DATA_PEERS,{{ include "data.fullname" . }}-$i.{{ include "data.fullname" . }}-headless"
-
+        if [ $i -eq $ID ]; then
             i=$(($i + 1))
+            continue
+        fi
+
+        DATA_PEERS="$DATA_PEERS,{{ include "data.fullname" . }}-$i.{{ include "data.fullname" . }}-headless"
+
+        i=$(($i + 1))
     done
 
     DATA_PEERS=$(echo $DATA_PEERS | sed 's/^,//g')
