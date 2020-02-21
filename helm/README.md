@@ -73,7 +73,7 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | --------- | ----------- | ------- |
 | `data.name` | Name to be used for the various data resources. | `data` |
 | `data.replicas` | Number of data replicas to run. This should be 1, 3, or 5. | `3` |
-| `data.image.name` | The name of the image to use for the data container. | `nsone/standalone_data` |
+| `data.image.name` | The name of the image to use for the data container. | `ns1inc/privatedns_data` |
 | `data.image.tag` | The tag of the image to use for the data container. | `2.3.1` |
 | `data.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `data.livenessProbe.initialDelaySeconds` | How long to wait for the data pods to come up before beginning health checks. | `120` |
@@ -95,7 +95,7 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | --------- | ----------- | ------- |
 | `core.name` | Name to be used for the various core resources. | `core` |
 | `core.replicas` | Number of core replicas to run. | `3` |
-| `core.image.name` | The name of the image to use for the core container. | `nsone/standalone_core` |
+| `core.image.name` | The name of the image to use for the core container. | `ns1inc/privatedns_core` |
 | `core.image.tag` | The tag of the image to use for the core container. | `2.3.1` |
 | `core.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `core.livenessProbe.initialDelaySeconds` | How long to wait for the core pods to come up before beginning health checks. | `30` |
@@ -117,7 +117,7 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 ### DNS
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| `dns.image.name` | The name of the image to use for the DNS container. | `nsone/standalone_dns` |
+| `dns.image.name` | The name of the image to use for the DNS container. | `ns1inc/privatedns_dns` |
 | `dns.image.tag` | The tag of the image to use for the DNS container. | `2.3.1` |
 | `dns.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `dns.pops[#].name` | Name to be used for the various DNS resources. | `dns` |

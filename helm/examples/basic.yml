@@ -23,7 +23,7 @@ data:
   name: data
   replicas: 1
   image:
-    name: nsone/standalone_data
+    name: ns1inc/privatedns_data
     tag: 2.3.1
     pullPolicy: IfNotPresent
   livenessProbe:
@@ -46,7 +46,7 @@ core:
   name: core
   replicas: 1
   image:
-    name: nsone/standalone_core
+    name: ns1inc/privatedns_core
     tag: 2.3.1
     pullPolicy: IfNotPresent
   livenessProbe:
@@ -68,7 +68,7 @@ core:
 
 dns:
   image:
-    name: nsone/standalone_dns
+    name: ns1inc/privatedns_dns
     tag: 2.3.1
     pullPolicy: IfNotPresent
   pops:
@@ -90,7 +90,7 @@ dns:
 
 dhcp:
   image:
-    name: nsone/standalone_dhcp
+    name: ns1inc/privatedns_dhcp
     tag: 2.3.1
     pullPolicy: IfNotPresent
   pops:
@@ -115,7 +115,7 @@ xfr:
   name: xfr
   replicas: 1
   image:
-    name: nsone/standalone_xfr
+    name: ns1inc/privatedns_xfr
     tag: 2.3.1
     pullPolicy: IfNotPresent
   livenessProbe:
