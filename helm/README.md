@@ -6,7 +6,8 @@
   provisioning must be configured on the cluster. If you are using a managed
   Kubernetes service then this likely is already done. Regardless, you'll need
   to configure the `data.storage.className` option with the appropriate storage
-  class name.
+  class name and similarly for dist if you are running a dist service at an edge
+  location.
 - NS1 images hosted in an environment that Kubernetes can access and a
   Kubernetes secret with the access credentials.
 
@@ -148,6 +149,8 @@ By default, dist is disabled (i.e. set to `{}` in `values.yaml`).
 | `dist.pops[#].livenessProbe.initialDelaySeconds` | How long to wait for the dist pods to come up before beginning health checks. | |
 | `dist.pops[#].livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | |
 | `dist.pops[#].livenessProbe.periodSeconds` | How often to execute healthchecks. | |
+| `dist.pops[#].storage.className` | The type of storage to use for the persistent volume claim that the dist service uses. | |
+| `dist.pops[#].storage.size` | The size of storage to request per dist replica. | |
 | `dist.pops[#].popID` | The ID of the PoP. | |
 | `dist.pops[#].coreService` | The name of the Kubernetes service for core. | |
 | `dist.pops[#].enableOpsMetrics` | Enables operational metrics. | |

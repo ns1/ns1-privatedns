@@ -29,7 +29,7 @@ spec:
     app: {{ include "dist.fullname" . }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "dist.fullname" . }}
   labels:
@@ -43,6 +43,7 @@ spec:
   selector:
     matchLabels:
       app: {{ include "dist.fullname" . }}
+  serviceName: "{{ include "dist.fullname" . }}"
   template:
     metadata:
       labels:
@@ -97,13 +98,11 @@ spec:
 {{ toYaml .resources | indent 10 }}
         volumeMounts:
         - mountPath: /ns1/data
-          name: ns1-data
+          name: {{ include "dist.fullname" . }}
         - name: dist-entrypoint
           mountPath: /script/entry.sh
           subPath: entry.sh
       volumes:
-      - name: ns1-data
-        emptyDir: {}
       - name: dist-entrypoint
         configMap:
           name: {{ include "dist.fullname" . }}-entrypoint
@@ -122,6 +121,15 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "dist.fullname" . }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "{{ .storage.className }}"
+      resources:
+        requests:
+          storage: {{ .storage.size }}
 ---
 apiVersion: v1
 kind: ConfigMap

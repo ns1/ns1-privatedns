@@ -141,6 +141,9 @@ dist:
       initialDelaySeconds: 30
       failureThreshold: 3
       periodSeconds: 15
+    storage:
+      className: do-block-storage # block storage for Digital Ocean
+      size: 5Gi
     popID: edge_pop
     coreService: core
     enableOpsMetrics: false
