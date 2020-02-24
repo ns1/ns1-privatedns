@@ -20,10 +20,6 @@ spec:
     targetPort: http-config
     protocol: TCP
     name: http-config
-  - port: 9090
-    targetPort: service
-    protocol: TCP
-    name: service
   - port: 8686
     targetPort: metrics
     protocol: TCP
@@ -81,8 +77,6 @@ spec:
           value: "3300"
         - name: DATA_PRIMARY
           value: "{{ if eq (int (.replicas)) 1 }}true{{ else }}false{{ end }}"
-        - name: DIST_PORT
-          value: "25672"
         ports:
         - name: data
           containerPort: 5353
@@ -114,6 +108,7 @@ spec:
         - name: data-entrypoint
           mountPath: /script/entry.sh
           subPath: entry.sh
+      enableServiceLinks: false
       volumes:
       - name: data-entrypoint
         configMap:

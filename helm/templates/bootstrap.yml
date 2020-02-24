@@ -37,6 +37,7 @@ spec:
         - name: bootstrap-script
           mountPath: /script/bootstrap.py
           subPath: bootstrap.py
+      enableServiceLinks: false
       volumes:
       - name: bootstrap-script
         configMap:

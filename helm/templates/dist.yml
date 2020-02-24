@@ -21,10 +21,6 @@ spec:
     targetPort: http-config
     protocol: TCP
     name: http-config
-  - port: 9090
-    targetPort: service
-    protocol: TCP
-    name: service
   selector:
     app: {{ include "dist.fullname" . }}
 ---
@@ -72,8 +68,6 @@ spec:
           value: "dist"
         - name: CONFIG_PORT
           value: "3300"
-        - name: DIST_PORT
-          value: "25672"
         ports:
         - name: data
           containerPort: 5353
@@ -102,6 +96,7 @@ spec:
         - name: dist-entrypoint
           mountPath: /script/entry.sh
           subPath: entry.sh
+      enableServiceLinks: false
       volumes:
       - name: dist-entrypoint
         configMap:

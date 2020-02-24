@@ -20,10 +20,6 @@ spec:
     targetPort: http-config
     protocol: TCP
     name: http-config
-  - port: 9090
-    targetPort: service
-    protocol: TCP
-    name: service
   - port: 443
     targetPort: https
     protocol: TCP
@@ -102,6 +98,7 @@ spec:
         - name: core-entrypoint
           mountPath: /script/entry.sh
           subPath: entry.sh
+      enableServiceLinks: false
       volumes:
       - name: ns1-data
         emptyDir: {}

@@ -89,6 +89,7 @@ spec:
         - name: dhcp-entrypoint
           mountPath: /script/entry.sh
           subPath: entry.sh
+      enableServiceLinks: false
       volumes:
       - name: ns1-data
         emptyDir: {}
