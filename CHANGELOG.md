@@ -1,3 +1,25 @@
+## 2.3.2 (Feb 28, 2020)
+- New Features
+   - Portal: CSP headers can now be configured for the Portal
+- Feature Enhancements
+   - System: Updated TLS default version to 1.2; added support TLSv1.3; updated allowed cipher list; set TLS to strict validation by default
+DHCP: Improved workflow allowing forward (A/AAAA) and reverse (PTR) creation at time of DHCP reservation
+- What’s fixed?
+   - DDNS: Fixed an issue where the DHCP filter would fail if the host contained capital letters
+   - DDNS: Fixed an issue where the v1/filtertypes endpoint did not show the DHCP filter
+   - System: Fixed an issue that would cause system instability when performing Docker lifecycle events on the Core and Dist containers
+   - System: Fixed an issue where the database backup action was unable to complete
+   - Security: Fixed a potential XSS vulnerability in the zones API endpoint
+   - Known issues
+   - System: DHCP under load (>100 LPS) causes system-wide instability
+   - Portal: AD Login - Domain Controller Port field is highlighted as invalid by default when a user specifies Domain Controller Host Address and AD Domain Name
+   - DHCP: Provisioning new DHCP containers after scopes have been added to the system will not work.
+   - DNS: TLD zone validation currently does not allow wildcard records; this will be addressed in future versions
+   - DNS: API does not allow user to specify a pool for a zone
+   - DHCP: DHCPv6 lease renewals delete their leases rather than renew them
+   - DHCP: reverse zone created for DHCPv6 reservation is incorrect
+   - DDNS: DDNS does not respect zone and prefix set when host sends an FQDN (no hostname sent or hostname is valid)
+
 ## 2.3.1 (Feb 14, 2020)
 - New Features
    - DNS: Introduced the ability to create single label zones
