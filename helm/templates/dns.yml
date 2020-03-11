@@ -1,0 +1,141 @@
+{{ if .Values.dns }}
+{{ range $dns := .Values.dns.pops }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "dns.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+    run: {{ include "dns.fullname" . }}
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3300
+    targetPort: http-config
+    protocol: TCP
+    name: http-config
+  - port: 53
+    targetPort: dns-udp
+    protocol: UDP
+    name: dns-udp
+  - port: 53
+    targetPort: dns-tcp
+    protocol: TCP
+    name: dns-tcp
+  selector:
+    app: {{ include "dns.fullname" . }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dns.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+    app: {{ include "dns.fullname" . }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "dns.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "name" $ }}
+        app.kubernetes.io/managed-by: {{ $.Release.Service }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+        helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+        app: {{ include "dns.fullname" . }}
+    spec:
+      containers:
+      - name: dns
+        image: {{ $.Values.dns.image.name }}:{{ $.Values.dns.image.tag }}
+        imagePullPolicy: {{ $.Values.dns.image.pullPolicy }}
+        env:
+        - name: CONTAINER_NAME
+          value: "dns"
+        - name: CONFIG_PORT
+          value: "3300"
+        ports:
+        - name: http-config
+          containerPort: 3000
+          protocol: TCP
+        - name: service
+          containerPort: 9090
+          protocol: TCP
+        - name: dns-udp
+          containerPort: 53
+          protocol: UDP
+        - name: dns-tcp
+          containerPort: 53
+          protocol: TCP
+        command:
+          - "/script/entry.sh"
+        livenessProbe:
+          exec:
+            command:
+            - supd
+            - health
+          initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds }}
+          failureThreshold: {{ .livenessProbe.failureThreshold }}
+          periodSeconds: {{ .livenessProbe.periodSeconds }}
+        resources:
+{{ toYaml .resources | indent 10 }}
+        volumeMounts:
+        - mountPath: /ns1/data
+          name: ns1-data
+        - name: dns-entrypoint
+          mountPath: /script/entry.sh
+          subPath: entry.sh
+      enableServiceLinks: false
+      volumes:
+      - name: ns1-data
+        emptyDir: {}
+      - name: dns-entrypoint
+        configMap:
+          name: {{ include "dns.fullname" . }}-entrypoint
+          defaultMode: 0777
+      imagePullSecrets:
+      - name: {{ $.Values.imagePullSecret }}
+    {{- with .nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "dns.fullname" . }}-entrypoint
+  labels:
+    app.kubernetes.io/name: {{ include "name" $ }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}
+data:
+  entry.sh: |
+    #! /bin/sh
+    /usr/local/bin/entrypoint \
+        {{- range $flag := .startupFlags }}
+        {{ $flag }} \
+        {{- end }}
+        --pop_id={{ .popID }} \
+        --server_id=$HOSTNAME \
+        --core_host={{ .coreService }} \ 
+        --operation_mode={{ .operationMode }} \
+        --enable_ops_metrics={{ .enableOpsMetrics }}
+---
+{{ end }}
+{{ end }}

@@ -3,3 +3,4 @@ utils/random_zone_generator/.vscode/
 .mypy_cache/
 .vscode/
 venv/
+.DS_Store
