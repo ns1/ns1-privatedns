@@ -15,8 +15,8 @@
   - DNS: asn-routing filter now works properly
 - Known issues
   - Portal: Portal hangs while creating a host reservation in the Portal without a zone in the system
-  - DHCP: The portal and API will allow you to not select a DHCP service when setting scope group options. This will cause unpredictable DHCP behavior. Workaround: Choose at least one of DHCPv4 or DHCPv6
-  - Portal: Synthesized records for different zones may appear in the wildcard record for a zone
+  - DHCP: The portal and API do not require one to select a DHCP service when setting scope group options. This will cause unpredictable DHCP behavior. Workaround: Select at least one of DHCPv4 or DHCPv6
+  - Portal: Synthesized records for different zones may appear in the wildcard record if the associated DHCP filter is configured with a scope group which updates another zone.
 
 ## 2.3.2 (Feb 28, 2020)
 - New Features
