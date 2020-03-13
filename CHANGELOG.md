@@ -1,3 +1,23 @@
+## 2.4.0 (Mar 13, 2020)
+- New Features
+  - DHCP: IP Ranges can now be defined in IPAM as a logical range of addresses within a subnet and can be added to a scope (API only)
+  - DNS: Added record-level permissions including record-type and subdomains in a given zone (API only)
+  - Portal: Added search page for viewing and filtering search results returned for DNS or IPAM objects
+  - Portal: Added “dark mode” which can be toggled via hotkey menu “?”
+- Feature Enhancements
+  - System: Database backups are now compressed
+  - DDNS: Synthesized records now appear in the Portal under the wildcard record they belong to
+- What’s fixed?
+  - DNS: TLD now allows wildcard records
+  - DHCP: Fixed a race condition that could cause the DHCP container to not receive its scopes properly
+  - Portal: The window to edit DHCP options is now more spacious
+  - IPAM: Improved performance when adding new IPAM objects
+  - DNS: asn-routing filter now works properly
+- Known issues
+  - Portal: Portal hangs while creating a host reservation in the Portal without a zone in the system
+  - DHCP: The portal and API will allow you to not select a DHCP service when setting scope group options. This will cause unpredictable DHCP behavior. Workaround: Choose at least one of DHCPv4 or DHCPv6
+  - Portal: Synthesized records for different zones may appear in the wildcard record for a zone
+
 ## 2.3.2 (Feb 28, 2020)
 - New Features
    - Portal: CSP headers can now be configured for the Portal
