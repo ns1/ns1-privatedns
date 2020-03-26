@@ -1,3 +1,21 @@
+## 2.4.1 (Mar 27, 2020)
+- New Features
+  - Portal: Record-level permissions are now configurable in the Portal in Account Settings -> Users & Teams
+- Feature Enhancements
+  - DHCP: Planned subnets and hosts will not be added to DHCP pools
+- What’s fixed?
+  - IPAM: Fixed an issue that allowed a user to delete an IPAM network in a different organization
+  - System: Database restore now works correctly on HA Data clusters
+  - DNS: The system no longer allows you to incorrectly add a zone ending with a ‘.’
+  - DDNS: DHCP will now respect the configured zone and prefix if the host provides a FQDN
+  - Portal: Multiple style fixes for the search page
+  - Portal: A host with a reservation will no longer present the option to set a reservation
+  - Portal: A zone with a DHCP filter to a DHCP Scope group should not show entries outside it's domain
+- Known issues
+  - Portal: A service definition can not be removed from a scope group. Workaround: Use the api
+  - DNS: Records with no answers will cause the zones api (and as a result, the Portal zones page) to fail
+  - System: Service definitions can not be deleted
+
 ## 2.4.0 (Mar 13, 2020)
 - New Features
   - DHCP: IP Ranges can now be defined in IPAM as a logical range of addresses within a subnet and can be added to a scope (API only)
