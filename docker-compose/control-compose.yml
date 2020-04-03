@@ -37,8 +37,8 @@ services:
         target: /ns1/data
         volume:
           nocopy: true
-    # If running multiple data peers, add  the following line to
-    # tge command section avove.  All other data hosts 
+    # If running multiple data peers, add the following line to
+    # the command section below.  All other data hosts 
     # (*excluding this one*) must be listed.
     #--data_peers          ${DATA_PEERS}
     #
