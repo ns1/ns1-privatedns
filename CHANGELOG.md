@@ -1,4 +1,4 @@
-## 2.4.1 (Mar 27, 2020)
+## 2.4.2 (Mar 27, 2020)
 - New Features
   - Portal: Record-level permissions are now configurable in the Portal in Account Settings -> Users & Teams
 - Feature Enhancements
