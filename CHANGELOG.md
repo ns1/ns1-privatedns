@@ -1,4 +1,18 @@
-## 2.4.2 (Mar 27, 2020)
+## 2.4.2 (Apr 10, 2020)
+- Feature Enhancements
+  - Portal: Records now show the number of answers they have
+  - IPAM: Search now works across all networks
+- What’s fixed?
+  - DNS: Creating a record with no answers will no longer cause the zones api and portal page to fail
+  - DNS: Fixed an issue which prevented configuring DNS forwarding via supd UI and CLI
+  - DNS: Fixed a regression where the number of zones in an organization were limited to five thousand
+  - DNS: Fixed a regression where the number of records in an organization were limited to one million
+  - Portal: Fixed numerous UI issues related to Record Level permissions
+  - API: Spaces will now be stripped from the address range when creating an IP range
+- Known issues
+  - API: POST to /v1/account/apikeys/{apikey} Results in 500: Internal Server Error
+
+## 2.4.1 (Mar 27, 2020)
 - New Features
   - Portal: Record-level permissions are now configurable in the Portal in Account Settings -> Users & Teams
 - Feature Enhancements
