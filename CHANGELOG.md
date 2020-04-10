@@ -1,4 +1,6 @@
 ## 2.4.2 (Apr 10, 2020)
+- New Features
+  - DNS: Additional ISO-3166-2 country subdivisions are available for geotarget country and geofence country filters; import premium versions of Maxmind’s GeoIP databases to take full advantage of additional geo-steering granularity; all subdivisions can be referenced in the new endpoint v1/metatypes/geo
 - Feature Enhancements
   - Portal: Records now show the number of answers they have
   - IPAM: Search now works across all networks
@@ -9,8 +11,10 @@
   - DNS: Fixed a regression where the number of records in an organization were limited to one million
   - Portal: Fixed numerous UI issues related to Record Level permissions
   - API: Spaces will now be stripped from the address range when creating an IP range
+  - API: Fixed POST requests to /v1/account/apikeys/<apikey> resulting in 500: Internal Server Error responses
 - Known issues
-  - API: POST to /v1/account/apikeys/{apikey} Results in 500: Internal Server Error
+  - DHCP: Creating or modifying scope groups without DHCPv4 or DHCPv6 enabled yet passing in parameters for DNS synthesis will result in DHCPv4 being enabled and the .com   TLD chosen as the zone for synthesis; enable DHCPv4 or DHCPv6 to avoid this misconfiguration
+  - DNS: Specific countries in the country list without subdivision data return 500: Internal server errors when configured on answers (e.g. Chad, Bermuda, etc.); upcoming fix will respond with 400 response codes instead in these cases
 
 ## 2.4.1 (Mar 27, 2020)
 - New Features
