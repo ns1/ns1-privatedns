@@ -1,3 +1,28 @@
+## 2.4.3 (Apr 24, 2020)
+- New Features
+  - Portal: IP Ranges for DHCP are now able to be managed via the Portal
+- Feature Enhancements
+  - System: Email addresses can now be used as usernames to log into the portal
+  - Portal: There is now a warning displayed when assembling teams with mixed rights to the same sections (DNS, IPAM, DHCP, user management)
+- What’s fixed?
+  - System: Fixed an issue where the container management daemon would store a corrupt configuration
+  - Portal: It is now possible to see typed characters in the metadata search window
+  - Portal: Team names will now be correct in the Team IP Whitelist window
+  - Portal: Fixed ‘drag and drop’ operations for Firefox
+  - IPAM: It is now possible to create an IP Range that starts at .0
+  - IPAM: Fixed an issue where searching for an ipv6 address would fail with a validation error
+  - DNS: Fixed an issue where retrieving certain records from the API would return a 500 Internal Server Error
+  - DNS: Fixed an issue where updating data feeds with metadata containing geo information would return a 400 Bad Request
+  - DNS: The Up data feed now works as expected
+  - DNS: The note metadata field on a record will no longer remove ‘\’ characters
+- Known issues
+  - DHCP: Under heavy load, DHCP pool may be removed and cause DHCP NACKs
+  - DHCP: Updating a Scope Group from the API with ‘{}’ will not take effect
+  - DHCP: Expired leases may not be properly removed from the dist container
+  - Portal: Global search may tack on irrelevant search data
+  - Portal: Synthesized PTR records do not display in the wildcard record view for that zone
+
+
 ## 2.4.2 (Apr 10, 2020)
 - New Features
   - DNS: Additional ISO-3166-2 country subdivisions are available for geotarget country and geofence country filters; import premium versions of Maxmind’s GeoIP databases to take full advantage of additional geo-steering granularity; all subdivisions can be referenced in the new endpoint v1/metatypes/geo
