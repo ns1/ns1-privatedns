@@ -1,3 +1,23 @@
+## 2.5.0 (May 8, 2020)
+- New Features
+  - API: Added bulk operations endpoints for IPAM and DHCP tagging at scale
+  - DHCP: Support for Client Classes via API added
+  - Portal: Remote DNS server and Service Principal Management for use with GSS-TSIG / AD DNS available in the Portal
+- Feature Enhancements
+  - API: IPAM/DHCP tag data model has changed to consolidate tags, inherited tags and key/value pairs into tags, extending tag inheritance to network, subnet, pool, scope group, scope and reservation
+- What’s fixed?
+  - API: Character validation of usernames is now working as expected
+  - DNS: increased maximum NX TTL value from 10,800 to 86,400
+  - System: Removed spurious log messages for disabled health checks
+  - System: Database upgrade utility no longer outputs a spurious error when completing successfully
+  - System: It is now possible to delete a Service Definition
+- Known issues
+  - DHCP: Updates are poorly formatted when sending to an AD DNS server where the DHCID record exists
+  - DHCP: Both DHCID and A/PTR records must already exist in order for updates to proceed. As a result, current behavior is that AD DNS returns NXRRSET on update query (and update fails) when prereq is included but either DHCID or A/PTR records do not exist.
+  - API: ipam/address/{id}/adjacent and ipam/address/{id}/adjacent?previous=true routes may not return valid addresses
+  - API: Requesting a zone with a large amount of records and a high record limit will return a 500 internal server error
+
+
 ## 2.4.3 (Apr 24, 2020)
 - New Features
   - Portal: IP Ranges for DHCP are now able to be managed via the Portal
