@@ -276,3 +276,19 @@ module "dist" {
   pop_id                   = var.edge01_pop_id
   server_id                = var.edge01_host
 }
+
+module "monitoring_edge" {
+  source                   = "../../modules/monitoring_edge"
+  docker_host              = "${var.docker_protocol}${var.edge01_host}"
+  docker_network           = docker_network.edge01.name
+  docker_image_username = var.docker_image_username
+  docker_image_repository = "${var.docker_image_repository}_monitoring_edge"
+  docker_image_tag = var.docker_image_tag
+  docker_registry_address  = var.docker_registry_address
+  docker_registry_username = var.docker_registry_username
+  docker_registry_password = var.docker_registry_password
+  docker_log_driver     = var.docker_log_driver
+  hostname    = var.monitoring_edge_hostname
+  pop_id                   = var.edge01_pop_id
+  server_id                = var.edge01_host
+}
