@@ -291,4 +291,5 @@ module "monitoring_edge" {
   hostname    = var.monitoring_edge_hostname
   pop_id                   = var.edge01_pop_id
   server_id                = var.edge01_host
+  core_hosts = [element(split("@", var.control01_host), 1)]
 }

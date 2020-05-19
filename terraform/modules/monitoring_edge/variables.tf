@@ -56,9 +56,10 @@ variable "inst_id" {
   description = "Identifies a specific instance of the service"
 }
 
-variable "dist_or_core_hosts" {
-  default     = "core"
-  description = "List of upstream dist or core containers.  If upstream containers are on same Docker host, container name can be used.  If upstream containers are on a seperate Docker host, IP or FQDN of host should be used."
+variable "core_hosts" {
+  type        = list(string)
+  default     = ["core"]
+  description = "List of upstream core containers.  If core containers are on same Docker host, container name can be used.  If core containers are on a seperate Docker host, IP or FQDN of host should be used."
 }
 
 variable "hostname" {
