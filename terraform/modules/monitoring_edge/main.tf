@@ -72,7 +72,7 @@ resource "docker_container" "monitoring_edge" {
     "--server_id",
     var.server_id,
     "--core_host",
-    var.dist_or_core_hosts,
+    join(",", var.core_hosts),
     "--monitoring_region",
     var.monitoring_region,
     "--digest_service_def_id",
