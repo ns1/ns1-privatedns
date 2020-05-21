@@ -2,7 +2,7 @@
 version: '3.2'
 services:
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-2.5.0}
+    image: ns1inc/privatedns_dns:${TAG:-2.5.1}
     logging:
       driver: "json-file"
       options:
@@ -34,7 +34,7 @@ services:
       --operation_mode      ${OPERATION_MODE:-authoritative}
       --enable_ops_metrics  true
   dhcp:
-    image: ns1inc/privatedns_dhcp:${TAG:-2.5.0}
+    image: ns1inc/privatedns_dhcp:${TAG:-2.5.1}
     logging:
       driver: "json-file"
       options:
@@ -73,7 +73,7 @@ services:
       --dhcp_service_def_id 2
       --enable_ops_metrics  true
   dist:
-    image: ns1inc/privatedns_dist:${TAG:-2.5.0}
+    image: ns1inc/privatedns_dist:${TAG:-2.5.1}
     logging:
       driver: "json-file"
       options:
@@ -106,6 +106,38 @@ services:
       --server_id            ${SERVER_ID:-myserver}
       --core_host            ${CORE_HOSTS}
       --enable_ops_metrics   true
+  monitoring_edge:
+    image: ns1inc/privatedns_monitoring_edge:${TAG:-2.5.1}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    environment:
+      CONFIG_PORT: 3308
+      CONTAINER_NAME: ${MONITORING_EDGE_CONTAINER_NAME:-monitoring_edge}
+    restart: unless-stopped
+    ports:
+      - "3308:3300" # http configuration
+    healthcheck:
+      test: supd health --check
+      interval: 15s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - type: volume
+        source: ns1monitoringedge
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id                 ${POP_ID:-mypop}
+      --server_id              ${SERVER_ID:-myserver}
+      --core_host              ${CORE_HOSTS:-dist}
+      --enable_ops_metrics     true
+      --digest_service_def_id  4
+      --inst_id                1
+      --use_privileged_ping    true
 networks:
   default:
     driver: bridge
@@ -117,3 +149,4 @@ volumes:
   ns1dns:
   ns1dist:
   ns1dhcp:
+  ns1monitoringedge:

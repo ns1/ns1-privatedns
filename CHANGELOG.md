@@ -1,3 +1,29 @@
+## 2.5.1 (May 22, 2020)
+- New Features
+  - AD DDNS: Connect remote servers, remote zones and Scope Groups to configure NS1 DHCP to send insecure- or GSS-TSIG secured DDNS updates to a Microsoft DNS server on behalf of a DHCP client
+  - IAM: Tag-based permissions allow granular access control of IPAM and DHCP resources (API only)
+- Feature Enhancements
+  - DNS: Added validation and controls to prevent requests removing required configurations of filter chains
+  - IAM: Team names now allow special characters < > and &
+  - Portal: Usernames can now be up to 64 characters in length
+  - System: Container disk space footprint reduced by as much as 33%
+- What’s fixed?
+  - Security: Recursive resolver has been patched to prevent CVE-2020-12662 and CVE-2020-12663 (NXNSAttack)
+  - API: Character validation of usernames is now working as expected
+  - API: Made response consistent with other DELETE methods for the v1/ipam/address/{id}/pool/{id} endpoint
+  - API: Fixed issue with API pagination for a domain with multiple record types where records could be truncated from the next page’s list
+  - API: Service definitions no longer require the properties field when created
+  - DHCP: Fixed an issue where lease information did not appear under scopes in the portal
+  - DHCP: Fixed an issue where DHCP options would sometimes fail to apply to leases
+  - DHCP: Fixed an issue where an extra, blank scope could be generated when adding a subnet to a scope group
+- Known issues
+  - AD DDNS: GSS-TSIG updates fails when using principal with AES256-SHA1 encryption
+  - DHCP: Updates are poorly formatted when sending to an AD DNS server where the DHCID record exists
+  - System: Enabling strict communication between containers causes inter-container connectivity to fail
+  - Portal: Creating a new Remote Connection after creating one will pre-populate the fields with the existing info.
+  - Portal: Bootstrap UI does not create DHCP service group and definition
+
+
 ## 2.5.0 (May 8, 2020)
 - New Features
   - API: Added bulk operations endpoints for IPAM and DHCP tagging at scale
