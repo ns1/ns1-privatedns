@@ -1,0 +1,15 @@
+- name: default
+  private_key: |
+    -----BEGIN PRIVATE KEY-----
+    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgHnLN9zn5TV1SKhAe
+    rBYi8ZG+5u4BJONK9/2IPdJ/OC6hRANCAARcHEQjrfaeKFRebhCop4GKa7fdgVY5
+    PD3C+3v1Jo9X1mo2OL4uefzOV5qKLkfn7wpAw0LVL6Sie5n8dU/nefJD
+    -----END PRIVATE KEY-----
+- name: mycompany
+  private_key: |
+    -----BEGIN PRIVATE KEY-----
+    MIGUAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHoweAIBAQQhALakOI4LwC6d4tTL
+    K8OuEZo3+qSzhu2NPiOtkCbzcHO7oAoGCCqGSM49AwEHoUQDQgAEURnQRpSCeuwJ
+    zcmo55/M8oWfTYCzPAh2gliN68R8mPFc4f5FzElhKbv46AuhC43+r6lkPhrMRD+p
+    0MRcgzXAUA==
+    -----END PRIVATE KEY-----
