@@ -78,7 +78,7 @@ variable "monitoring_region" {
 }
 
 variable "digest_service_def_id" {
-  default = "4"
+  default = "3"
   description = "ID of the monitoring service definition for reading the monitoring jobs digest"
 }
 
