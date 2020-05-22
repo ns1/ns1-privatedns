@@ -11,7 +11,7 @@ variable "docker_registry_address" {
 }
 
 variable "docker_image_tag" {
-  default     = "2.5.0"
+  default     = "2.5.1"
   description = "The image tag of the Docker image. Defaults to the latest GA version number."
 }
 
@@ -149,3 +149,9 @@ variable "docker_log_driver" {
   default     = "json-file"
   description = "Docker log driver to use, see https://docs.docker.com/config/containers/logging/configure/"
 }
+
+variable "monitoring_edge_hostname" {
+  default     = "monitoring_edge"
+  description = "Hostmaster email address used in SOA records"
+}
+
