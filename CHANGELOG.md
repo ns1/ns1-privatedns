@@ -1,5 +1,6 @@
 ## 2.5.1 (May 22, 2020)
 - New Features
+  - Monitoring: We are proud to provide you with a preview of our eDDI's Monitoring & Alerting feature. If you are familiar with Monitoring in our Managed DNS product, then you will feel at home. The eDDI Monitoring & Alerting feature includes the ability to create ICMP, TCP and HTTP service checks and feed monitor status back into eDDI, allowing for intelligent traffic management. Please refer to https://help.ns1.com/hc/en-us/categories/360001657654-Monitoring for instructions; a new monitoring-compose.yml and terraform resources are available in our GitHub repository.
   - AD DDNS: Connect remote servers, remote zones and Scope Groups to configure NS1 DHCP to send insecure- or GSS-TSIG secured DDNS updates to a Microsoft DNS server on behalf of a DHCP client
   - IAM: Tag-based permissions allow granular access control of IPAM and DHCP resources (API only)
 - Feature Enhancements
