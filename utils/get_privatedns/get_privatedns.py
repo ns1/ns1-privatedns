@@ -27,7 +27,7 @@ class Cursor(object):
         self.shown = True
     
     def toggle_cursor(self):
-        esc_seq = "\e[?25l" if self.shown else "\e[?25h"
+        esc_seq = "\033[?25l" if self.shown else "\033[?25h"
         print_stderr(esc_seq, end="")
         sys.stderr.flush()
         
