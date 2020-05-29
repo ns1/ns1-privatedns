@@ -30,7 +30,8 @@ class Cursor(object):
         esc_seq = "\033[?25l" if self.shown else "\033[?25h"
         print_stderr(esc_seq, end="")
         sys.stderr.flush()
-        
+        self.shown = not self.shown
+
     def hide_cursor(self):
         if self.shown:
             self.toggle_cursor()
