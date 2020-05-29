@@ -22,7 +22,7 @@ provider "docker" {
     for_each = var.docker_registry_address != null ? list(var.docker_registry_address) : []
     iterator = address
     content {
-      address = address.value
+      address  = address.value
       username = var.docker_registry_username
       password = var.docker_registry_password
     }
@@ -31,14 +31,14 @@ provider "docker" {
 
 data "docker_registry_image" "core" {
   count = var.docker_registry_address != null ? 1 : 0
-  name = local.docker_image_name
+  name  = local.docker_image_name
 }
 
 resource "docker_image" "core" {
-  count = var.docker_registry_address != null ? 1 : 0
-  name = data.docker_registry_image.core[count.index].name
+  count         = var.docker_registry_address != null ? 1 : 0
+  name          = data.docker_registry_image.core[count.index].name
   pull_triggers = [data.docker_registry_image.core[count.index].sha256_digest]
-  keep_locally = true
+  keep_locally  = true
 }
 
 resource "docker_volume" "core" {
@@ -77,9 +77,13 @@ resource "docker_container" "core" {
   }
 
   # data transport
-  ports {
-    internal = 5353
-    external = 5353
+  dynamic "ports" {
+    for_each = var.data_port != null ? list(var.data_port) : []
+    iterator = data_port
+    content {
+      internal = 5353
+      external = data_port.value
+    }
   }
 
   # service proxy
@@ -89,14 +93,14 @@ resource "docker_container" "core" {
   }
 
   healthcheck {
-    test = ["CMD", "supd", "health"]
+    test     = ["CMD", "supd", "health"]
     interval = "15s"
-    timeout = "10s"
-    retries = 3
+    timeout  = "10s"
+    retries  = 3
   }
 
   volumes {
-    volume_name = docker_volume.core.name
+    volume_name    = docker_volume.core.name
     container_path = "/ns1/data"
   }
 
