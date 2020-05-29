@@ -44,6 +44,13 @@
   - API: ipam/address/{id}/adjacent and ipam/address/{id}/adjacent?previous=true routes may not return valid addresses
   - API: Requesting a zone with a large amount of records and a high record limit will return a 500 internal server error
 
+## 2.4.5 (May 29, 2020)
+- What’s fixed?
+  - Security: Recursive resolver has been patched to prevent CVE-2020-12662 and CVE-2020-12663 (NXNSAttack)
+
+## 2.4.4 (May 11, 2020)
+- Feature Enhancements
+  - Updated our base image software to latest stable release
 
 ## 2.4.3 (Apr 24, 2020)
 - New Features
