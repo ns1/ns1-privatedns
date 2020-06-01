@@ -22,6 +22,25 @@ except ModuleNotFoundError:
 DEBUG = False
 
 
+class Cursor(object):
+    def __init__(self):
+        self.shown = True
+    
+    def toggle_cursor(self):
+        esc_seq = "\033[?25l" if self.shown else "\033[?25h"
+        print_stderr(esc_seq, end="")
+        sys.stderr.flush()
+        self.shown = not self.shown
+
+    def hide_cursor(self):
+        if self.shown:
+            self.toggle_cursor()
+
+    def show_cursor(self):
+        if not self.shown:
+            self.toggle_cursor()
+CURSOR = Cursor()
+
 def print_stderr(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
@@ -194,6 +213,7 @@ def make_progress_bar(completed, total, rate, complete=False):
     """
     Prints a progress bar to stdout
     """
+    CURSOR.hide_cursor()
     bar_size = 56
     pct_complete = completed / total
     full_bars = int(bar_size * pct_complete)
@@ -207,6 +227,7 @@ def make_progress_bar(completed, total, rate, complete=False):
     print("\r", progress_bar, sep="", end="")
     if complete:
         print()
+        CURSOR.show_cursor()
 
 
 def version_greater_than(ver1, ver2):
@@ -384,3 +405,5 @@ if __name__ == "__main__":
         print("\n")
         sys.stdout.flush()
         print_stderr("Keyboard interrupt, exiting...\n")
+    finally:
+        CURSOR.show_cursor()
