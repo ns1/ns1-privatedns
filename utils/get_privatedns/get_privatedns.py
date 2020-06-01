@@ -406,3 +406,5 @@ if __name__ == "__main__":
         sys.stdout.flush()
         print_stderr("Keyboard interrupt, exiting...\n")
         CURSOR.show_cursor()
+    finally:
+        CURSOR.show_cursor()
