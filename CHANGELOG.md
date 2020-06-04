@@ -1,3 +1,23 @@
+## 2.5.2 (June 4, 2020)
+- Feature Enhancements
+  - System: Reduced core container’s size on disk by 5.36%
+  - Monitoring: HTTP monitoring jobs support specification of a Host to check Virtual Hosts and SAN certificates
+  - Portal:  Principals with the same SPN are disambiguated by showing the Principal ID and Key type
+  - Portal: Principals now show a friendly name for name and encryption type
+  - Portal: Remote Servers from the DHCP Remote Servers tab can now be deleted
+  - Portal: Various UI improvements
+  - Portal: Multiple improvements to handling Service Principals in Keytab upload
+  - DHCP: Custom DHCP option definition no longer require a description
+  - DHCP: AD DNS allows for configuration of a qualifying suffix which appends to the hostname if the DHCP client provides no domain
+- What’s fixed?
+  - Portal: Fixed the Bootstrap UI creation of Service Groups and Service Definitions
+- Known issues
+  - System: The system will output a large volume of logs related to internal health checks
+  - Portal: Scope groups cannot be created with DHCPv6 enabled in the portal; to bypass this issue, create scope groups via the API
+  - Portal: Custom DHCP Option keys cannot contain uppercase characters; to work around the issue keys must be in all lowercase characters
+  - Portal: The Remote Server modal window does not allow switching between Secure and Insecure modes
+  - API: IPAM search endpoints currently return all address objects disregarding the query parameters for tags and non-existent network identifiers
+
 ## 2.5.1 (May 22, 2020)
 - New Features
   - Monitoring: We are proud to provide you with a preview of our eDDI's Monitoring & Alerting feature. If you are familiar with Monitoring in our Managed DNS product, then you will feel at home. The eDDI Monitoring & Alerting feature includes the ability to create ICMP, TCP and HTTP service checks and feed monitor status back into eDDI, allowing for intelligent traffic management. Please refer to https://help.ns1.com/hc/en-us/categories/360001657654-Monitoring for instructions; a new monitoring-compose.yml and terraform resources are available in our GitHub repository.
@@ -23,7 +43,6 @@
   - System: Enabling strict communication between containers causes inter-container connectivity to fail
   - Portal: Creating a new Remote Connection after creating one will pre-populate the fields with the existing info.
   - Portal: Bootstrap UI does not create DHCP service group and definition
-
 
 ## 2.5.0 (May 8, 2020)
 - New Features
@@ -75,7 +94,6 @@
   - DHCP: Expired leases may not be properly removed from the dist container
   - Portal: Global search may tack on irrelevant search data
   - Portal: Synthesized PTR records do not display in the wildcard record view for that zone
-
 
 ## 2.4.2 (Apr 10, 2020)
 - New Features
