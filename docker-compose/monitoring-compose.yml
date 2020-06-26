@@ -226,7 +226,7 @@ services:
     ports:
       - "3308:3300" # http configuration
     healthcheck:
-      test: supd health --check
+      test: supd health 
       interval: 15s
       timeout: 10s
       retries: 3
