@@ -1,5 +1,5 @@
 ---
-version: '3.2'
+version: '3.4'
 services:
   data:
     image: ns1inc/privatedns_data:${TAG:-2.5.3}
@@ -31,6 +31,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1data
@@ -76,6 +77,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1core
@@ -111,6 +113,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1xfr

@@ -1,5 +1,5 @@
 ---
-version: '3.2'
+version: '3.4'
 services:
   data:
     image: ns1inc/privatedns_data:${TAG:-2.5.3}
@@ -14,6 +14,7 @@ services:
       # IMPORTANT!  DATA_PRIMARY should only be enabled on a single data host.
       # Comment out the following on additional data peers.
       DATA_PRIMARY: "true"
+    restart: unless-stopped
     stop_grace_period: 30s
     ulimits:
       nproc: 65535
@@ -31,6 +32,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1data
@@ -63,6 +65,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1core
@@ -98,6 +101,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1xfr
@@ -129,6 +133,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1dns
@@ -164,6 +169,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1dhcp
@@ -201,6 +207,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1dist
@@ -226,10 +233,11 @@ services:
     ports:
       - "3308:3300" # http configuration
     healthcheck:
-      test: supd health --check
+      test: supd health 
       interval: 15s
       timeout: 10s
       retries: 3
+      start_period: 120s
     volumes:
       - type: volume
         source: ns1monitoringedge
