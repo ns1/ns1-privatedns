@@ -89,7 +89,5 @@ resource "docker_container" "monitoring_edge" {
     var.jitter_seconds,
 ]
 
-  network_mode = "host"
-
   privileged = true
 }
