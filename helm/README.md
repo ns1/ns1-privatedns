@@ -83,7 +83,6 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | `data.storage.className` | The type of storage to use for the persistent volume claim that the data service uses. | `default` |
 | `data.storage.size` | The size of storage to request per data replica. | `20Gi` |
 | `data.popID` | The ID of the PoP. | `default_pop` |
-| `data.enableOpsMetrics` | Enables operational metrics. | `false` |
 | `data.exposeOpsMetrics` | Exposes operational metrics. | `false` |
 | `data.startupFlags` | Additional flags to pass to the startup command of the data container. | `{}` |
 | `data.resources` | CPU/memory resource requests/limits. | `{}` |
