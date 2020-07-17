@@ -15,6 +15,7 @@ data:
     className: do-block-storage # block storage for Digital Ocean
     size: 5Gi
   popID: default_pop
+  enableOpsMetrics: false
   exposeOpsMetrics: false
   startupFlags: {}
   resources: {}

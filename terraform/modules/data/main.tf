@@ -32,10 +32,6 @@ ${var.cluster_id~}
 --cluster_size
 ${var.cluster_size~}
 %{endif~}
-%{if var.cluster_size != null}
---cluster_mode "clustering_on"
-${var.cluster_size~}
-%{endif~}
 EOT
 
   env_template = <<EOT
