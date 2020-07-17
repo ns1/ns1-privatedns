@@ -34,6 +34,7 @@ data:
     className: ""
     size: 1Gi
   popID: default_pop
+  enableOpsMetrics: false
   exposeOpsMetrics: false
   startupFlags: {}
   resources: {}

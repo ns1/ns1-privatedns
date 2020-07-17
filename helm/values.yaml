@@ -16,6 +16,7 @@ data:
     className: default
     size: 20Gi
   popID: default_pop
+  enableOpsMetrics: false
   exposeOpsMetrics: false
   startupFlags: {}
   resources: {}
