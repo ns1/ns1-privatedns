@@ -31,7 +31,6 @@
   - System: Database restore can sometimes hang. Workaround: Manually stop these services before restore - seed_db, seed_tsdb, mem_db, timeseries_db, main_mq, telegraf - using sv force-stop <service name>
   - System: Database restoration from a lower version, then upgrading the database will not work as expected.
 
-
 ## 2.5.3 (June 19, 2020)
 - Feature Enhancements
   - API: The records API now requires record type along with the record name when requesting a paginated set of records

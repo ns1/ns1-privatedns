@@ -179,8 +179,8 @@ data:
         --data_peers=$DATA_PEERS \
         --cluster_id=$CLUSTER_ID \
         --cluster_size=$CLUSTER_SIZE \
-        --cluster_mode "clustering_on" \
         {{- end }}
+        --enable_ops_metrics={{ .enableOpsMetrics }} \
         --expose_ops_metrics={{ .exposeOpsMetrics }}
 ---
 {{ end }}
