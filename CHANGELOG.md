@@ -1,6 +1,6 @@
-## 2.5.4 (July 17, 2020)
+## 2.5.5 (July 24, 2020)
 - New Features
-  - Portal: Added hotkeys for navigation and common tasks (e.g. create zone) in DNS interfaces; view available hotkeys by pressing “?” and opening the hotkey menu
+  - Portal: Added hotkeys for navigation and common tasks (e.g. create zone) in DNS interfaces; view available hotkeys by pressing ? and opening the hotkey menu
 - Feature Enhancements
   - Portal: Updated interface pages for DNS to improve navigation, reduce negative space, and consistency of experience with IPAM and DHCP pages
   - DHCP: DHCP DDNS update behavior is now configurable per remote server as secure-only, unsecure-then-secure, or unsecure-only (API only)
@@ -9,6 +9,7 @@
   - DHCP: It is now possible to assign multiple IPv6 addresses and reservations per hardware ID within a scope
 - What’s fixed?
   - DHCP: Fixed an issue where removing a DHCP service definition and its association to a Scope Group would not remove the DHCP configuration from the DHCP container
+  - DHCP: Fixed an issue where a large number of leases over a short amount of time could lock up the data container
   - DNS: Fixed an issue that caused the Geotarget Country filter to stop working over time when using geographic subdivisions
   - IPAM: Fixed error response issue where creating an address object without the status parameter returned an internal server error
   - Monitor: Ping monitor now works as expected
@@ -22,6 +23,7 @@
   - System: Fixed an issue that prevented Strict Transport security from working properly when using custom settings
   - System: Fixed activity log entries for management of accounts’ two factor authentication (2FA)
   - System: Fixed service proxy connection leak
+  - System: Fixed an issue where data containers would not restart correctly if in clustered mode
 - Known issues
   - API: Scope Group names are not unique per organization which may lead to confusion
   - Portal: DHCP leases tab requires a refresh in order to display the correct leases
