@@ -12,8 +12,6 @@ ${var.server_id}
 --data_peers
 ${join(",", var.data_peers)}
 %{endif~}   
---enable_ops_metrics
-${var.enable_ops_metrics}
 --expose_ops_metrics
 ${var.expose_ops_metrics~}
 %{if var.telegraf_output_elasticsearch_data_host != null}
