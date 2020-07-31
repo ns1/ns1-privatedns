@@ -1,3 +1,22 @@
+## 2.5.6 (July 31, 2020)
+- New Features
+  - DHCP: custom option spaces enabling sub-options to be created for options in the standard option space; API only.
+- Feature Enhancements
+  - DHCP: Leases persist upon DHCP container restart when using a persistent data volume in docker
+  - Portal: DHCP Remote server can now be configured with nonsecure, nonsecure then secure, and secure only updates, in line with Microsoft AD DNS
+  - Portal: Domain names can now contain underscores
+- What’s fixed?
+  - API: The /service endpoint now includes DNS service definitions
+  - DHCP: Reduced load on the data layer when adding new leases to the system
+  - DNS: Fixed an issue where a DNAME record did not properly occlude non-apex records
+  - Portal: Dark mode tooltips are easier to read
+  - Portal: Fixed an issue when visiting to the login page would immediately present an “Unauthorized” error message
+  - System: Fixed an issue that prevented changing the number of DNS processes in the DNS container to a lower value
+  - System: Fixed an issue where logging in the DNS container would hang
+- Known issues
+  - Portal: Service definitions with duplicate names will not properly display
+
+
 ## 2.5.5 (July 24, 2020)
 - New Features
   - Portal: Added hotkeys for navigation and common tasks (e.g. create zone) in DNS interfaces; view available hotkeys by pressing ? and opening the hotkey menu
