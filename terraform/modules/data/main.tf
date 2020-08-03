@@ -40,6 +40,7 @@ EOT
   env_template = <<EOT
 CONFIG_PORT=3300
 CONTAINER_NAME=${var.container_name~}
+BOOTSTRAPPABLE=false
 %{if var.primary}
 DATA_PRIMARY=${var.primary}
 %{~endif~}

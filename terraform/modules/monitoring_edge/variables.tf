@@ -73,31 +73,31 @@ variable "docker_log_driver" {
 }
 
 variable "monitoring_region" {
-  default = "lga"
+  default     = "lga"
   description = "Monitoring region code of the service definition"
 }
 
-variable "digest_service_def_id" {
-  default = "3"
+variable "service_def_id" {
+  default     = "4"
   description = "ID of the monitoring service definition for reading the monitoring jobs digest"
 }
 
 variable "log_level" {
-  default = "info"
+  default     = "info"
   description = "Logs level of monprobed service"
 }
 
 variable "metrics_addr_base" {
-  default = "unix:///var/run/ns1daemons/"
+  default     = "unix:///var/run/ns1daemons/"
   description = "Unix socket that monprobed serves metrics over"
 }
 
 variable "use_privileged_ping" {
-  default = "true"
+  default     = "true"
   description = "Use privileged to create the necessary raw ICMP sockets for ping probes"
 }
 
 variable "jitter_seconds" {
-  default = "5"
+  default     = "5"
   description = "A probe will take between 0 and jitter_seconds seconds to start running after it is created"
 }

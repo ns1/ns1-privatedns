@@ -75,8 +75,8 @@ resource "docker_container" "monitoring_edge" {
     join(",", var.core_hosts),
     "--monitoring_region",
     var.monitoring_region,
-    "--digest_service_def_id",
-    var.digest_service_def_id,
+    "--service_def_id",
+    var.service_def_id,
     "--log_level",
     var.log_level,
     "--metrics_addr_base",
@@ -87,7 +87,7 @@ resource "docker_container" "monitoring_edge" {
     var.use_privileged_ping,
     "--jitter_seconds",
     var.jitter_seconds,
-]
+  ]
 
   privileged = true
 }
