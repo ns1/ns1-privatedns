@@ -33,6 +33,7 @@ services:
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${DIST_HOSTS:-dist}
       --operation_mode      ${OPERATION_MODE:-authoritative}
+      --num_trex_procs      2
       --enable_ops_metrics  true
   dhcp:
     image: ns1inc/privatedns_dhcp:${TAG:-2.5.6}
