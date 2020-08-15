@@ -2,7 +2,7 @@
 version: '3.4'
 services:
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-2.5.6}
+    image: ns1inc/privatedns_dns:${TAG:-3.1.0}
     logging:
       driver: "json-file"
       options:
@@ -34,9 +34,8 @@ services:
       --core_host           ${DIST_HOSTS:-dist}
       --operation_mode      ${OPERATION_MODE:-authoritative}
       --num_trex_procs      4
-      --enable_ops_metrics  true
   dhcp:
-    image: ns1inc/privatedns_dhcp:${TAG:-2.5.6}
+    image: ns1inc/privatedns_dhcp:${TAG:-3.1.0}
     logging:
       driver: "json-file"
       options:
@@ -74,9 +73,8 @@ services:
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${DIST_HOSTS:-dist}
       --dhcp_service_def_id 2
-      --enable_ops_metrics  true
   dist:
-    image: ns1inc/privatedns_dist:${TAG:-2.5.6}
+    image: ns1inc/privatedns_dist:${TAG:-3.1.0}
     logging:
       driver: "json-file"
       options:
@@ -109,7 +107,6 @@ services:
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
       --core_host            ${CORE_HOSTS}
-      --enable_ops_metrics   true
 networks:
   default:
     driver: bridge

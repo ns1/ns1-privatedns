@@ -1,3 +1,21 @@
+## 3.1.0 (August 14, 2020)
+- New Features
+  - DNS: dynamic DNS updates – both unsigned and GSS-TSIG signed– are now supported; delivered as part of our AD integration
+  - DNS: DNS views are now supported using ACLs to control read and updates access, support use cases such as split-horizon DNS
+  - DNS: DHCID records are now supported
+  - Portal: ACLs are now available, allowing access rights to be specified using source subnets, IP ranges, TSIG keys or GSS-TSIG identities
+  - Portal: new bootstrap wizard to easily configure the containers
+  - Portal: DNS views can be ordered through a drag and drop process
+- Feature Enhancements
+  - DHCP: Remote server can now be configured for nonsecure, nonsecure followed by secure, or secure only updates
+- Known issues
+  - DHCP: disassociating a service definition from a Scope Group fails when there are outstanding leases
+  - DNS: setting only an update ACL on a view will disallow all reads
+  - Portal: unchecking the Network on a zone results in an incorrect MNAME in the SOA record
+  - Portal: “invalid keytab” error message will carry over on modal between DNS and Security tab
+  - Portal: saving a zone with a view selected but no network, results in the network being checked
+
+
 ## 2.5.6 (July 31, 2020)
 - New Features
   - DHCP: custom option spaces enabling sub-options to be created for options in the standard option space; API only.

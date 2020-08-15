@@ -2,7 +2,7 @@
 version: '3.4'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-2.5.6}
+    image: ns1inc/privatedns_data:${TAG:-3.1.0}
     logging:
       driver: "json-file"
       options:
@@ -14,6 +14,8 @@ services:
       # IMPORTANT!  DATA_PRIMARY should only be enabled on a single data host.
       # Comment out the following on additional data peers.
       DATA_PRIMARY: "true"
+      # BOOTSTRAPPABLE: "false" # Set this to skip the interactive bootstrap wizard. 
+      # If setting this, you will need to ecplicitly configure the data and core container, most importantly the data_host
     restart: unless-stopped
     stop_grace_period: 30s
     ulimits:
@@ -42,9 +44,8 @@ services:
     command: >-
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
-      --expose_ops_metrics   true
   core:
-    image: ns1inc/privatedns_core:${TAG:-2.5.6}
+    image: ns1inc/privatedns_core:${TAG:-3.1.0}
     logging:
       driver: "json-file"
       options:
@@ -53,7 +54,8 @@ services:
     environment:        # keep environment lines if 2+ containers
       CONFIG_PORT: 3302 # are on the host machine
       CONTAINER_NAME: ${CORE_CONTAINER_NAME:-core}
-      BOOTSTRAPPABLE: "true" # include to start a helper webserver that bootstraps the deployment for ease of use
+      # BOOTSTRAPPABLE: "false" # Set this to skip the interactive bootstrap wizard. 
+      # If setting this, you will need to ecplicitly configure the data and core container, most importantly the data_host
     restart: unless-stopped
     ports:
       - "5353:5353"     # data transport
@@ -72,17 +74,17 @@ services:
         target: /ns1/data
         volume:
           nocopy: true
+    # If not using the bootstrap wizard, you may want to include the data_host field below
+    #--data_host          ${DATA_HOSTS:-data}
     command: >-
       --pop_id             ${POP_ID:-mypop}
       --server_id          ${SERVER_ID:-myserver}
-      --data_host          ${DATA_HOSTS:-data}
       --api_hostname       ${API_FQDN:-api.mycompany.net}
       --portal_hostname    ${PORTAL_FQDN:-portal.mycompany.net}
       --nameservers        ${NAMESERVERS:-ns1.mycompany.net}
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
-      --enable_ops_metrics true
   xfr:
-    image: ns1inc/privatedns_xfr:${TAG:-2.5.6}
+    image: ns1inc/privatedns_xfr:${TAG:-3.1.0}
     logging:
       driver: "json-file"
       options:
@@ -112,9 +114,8 @@ services:
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${CORE_HOSTS:-core}
-      --enable_ops_metrics  true
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-2.5.6}
+    image: ns1inc/privatedns_dns:${TAG:-3.1.0}
     logging:
       driver: "json-file"
       options:
@@ -146,9 +147,8 @@ services:
       --core_host           ${CORE_HOSTS:-core}
       --operation_mode      ${OPERATION_MODE:-authoritative}
       --num_trex_procs      2
-      --enable_ops_metrics  true
   dhcp:
-    image: ns1inc/privatedns_dhcp:${TAG:-2.5.6}
+    image: ns1inc/privatedns_dhcp:${TAG:-3.1.0}
     logging:
       driver: "json-file"
       options:
@@ -186,7 +186,6 @@ services:
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${CORE_HOSTS:-core}
       --dhcp_service_def_id 2
-      --enable_ops_metrics  true
 networks:
   default:
     driver: bridge
