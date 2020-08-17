@@ -66,13 +66,13 @@ services:
           nocopy: true
     # The value of --core_host must be changed to 'localhost' if the dhcp
     # container network_mode is set to 'host'.  If you used the BOOTSTRAP UI
-    # to perform initial configuration, the value of --dhcp_service_def_id can
+    # to perform initial configuration, the value of --service_def_id can
     # be left alone.  Otherwise, change it to match your DHCP service def ID.
     command: >-
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${DIST_HOSTS:-dist}
-      --dhcp_service_def_id 2
+      --service_def_id 2
   dist:
     image: ns1inc/privatedns_dist:${TAG:-3.1.0}
     logging:
