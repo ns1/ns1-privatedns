@@ -72,7 +72,7 @@ services:
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${DIST_HOSTS:-dist}
-      --service_def_id 2
+      --service_def_id      2
   dist:
     image: ns1inc/privatedns_dist:${TAG:-3.1.0}
     logging:

@@ -185,7 +185,7 @@ services:
       --pop_id              ${POP_ID:-mypop}
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${CORE_HOSTS:-core}
-      --service_def_id 2
+      --service_def_id      2
 networks:
   default:
     driver: bridge
