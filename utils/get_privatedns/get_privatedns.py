@@ -55,13 +55,20 @@ def unix_socket_request(method, endpoint, file_name=None, verbose=False):
     # type: (str, str, Optional[str], bool) -> str
     """
     Given an HTTP method and an endpoint, makes an HTTP request to the Docker
-    engine API over an UNIX socket. Returns the response body.
+    engine API over an UNIX socket (or TCP socket if the UDS is not available).
+    Returns the response body.
     """
     msg_body = b""
-    # Create a UDS socket
-    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
-    server_address = "/var/run/docker.sock"
+    docker_uds = "/var/run/docker.sock"
+    if os.path.exists(docker_uds):
+        # Create a UDS socket
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        server_address = docker_uds
+    else:
+        # Use Docker TCP port instead
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_address = ("localhost", 2375)
 
     sock.settimeout(CONN_TIMEOUT)
     if verbose or DEBUG:
