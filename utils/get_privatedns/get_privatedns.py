@@ -20,6 +20,7 @@ except ModuleNotFoundError:
 
 
 DEBUG = False
+CONN_TIMEOUT = 2 # seconds
 
 
 class Cursor(object):
@@ -60,8 +61,9 @@ def unix_socket_request(method, endpoint, file_name=None, verbose=False):
     # Create a UDS socket
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
-    # Connect the socket to the port where the server is listening
     server_address = "/var/run/docker.sock"
+
+    sock.settimeout(CONN_TIMEOUT)
     if verbose or DEBUG:
         print_debug("connecting to {}".format(server_address))
     try:
@@ -153,7 +155,7 @@ def authenticated_ns1_request(apikey, endpoint, file_name=None):
     url = "https://api.nsone.net/v1" + endpoint
     auth_header = {"X-NSONE-Key": apikey}
     req = urllib2.Request(url, headers=auth_header)
-    response = urllib2.urlopen(req)
+    response = urllib2.urlopen(req, timeout=CONN_TIMEOUT)
     headers = dict(response.headers)
     if DEBUG:
         print_debug("Making NS1 API request to", url)
