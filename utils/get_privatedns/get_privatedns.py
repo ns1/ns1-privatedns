@@ -170,6 +170,10 @@ def authenticated_ns1_request(apikey, endpoint, file_name=None):
         print_debug("> Host: api.nsone.net")
         print_debug("> x-nsone-key:", apikey)
         print_debug(">")
+    print_debug("< HTTP/1.1", response.getcode())
+    for header in headers:
+        print_debug("<", header, ":", headers[header])
+    print_debug("<")
     if file_name is None:
         content = response.read()
     else:
@@ -191,9 +195,6 @@ def authenticated_ns1_request(apikey, endpoint, file_name=None):
                 overall_rate = total_dl * 8 / (default_timer() - start)
                 make_progress_bar(total_dl, total_size, overall_rate)
                 f.write(chunk)
-    for header in headers:
-        print_debug("<", header, ":", headers[header])
-    print_debug("<")
     print_debug(content or "file downloaded")
     return {
         "body": content,
@@ -232,7 +233,7 @@ def make_progress_bar(completed, total, rate, complete=False):
         + ">"
         + " " * (bar_size - full_bars)
         + "] ({:.2f}%) {}".format(pct_complete * 100, metric_prefix(rate))
-    )
+    ).ljust(85)
     print("\r", progress_bar, sep="", end="")
     if complete:
         print()
