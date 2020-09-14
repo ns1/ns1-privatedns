@@ -1,3 +1,58 @@
+## 3.1.2 (September 14, 2020)
+- New Features
+  - DHCP: Added the ability to configure decline-probation-period (API only)
+  - Portal: Added management of DHCP Option Spaces
+- Feature Enhancements
+  - DHCP: Client classes can now be associated with multiple scope groups, and vice versa
+  - System: Removed spurious HAProxy warnings from logs
+  - System: Removed spurious TSDB health warnings from logs
+  - System: Improved long term stability of the Core container while under load
+  - System: Added an improved health check for the monitoring process
+  - System: Added an improved health check for the API process
+  - System: Increased performance of the control plane
+  - System: Auto-generated certificates are now ECDSA
+  - System: Added more logging to the Data container while in HA mode
+  - Monitoring: Added the ability to configure max_reconnect_attempts and reconnect_backoff_interval to allow for connectivity issues on container startup
+- What’s Fixed
+  - API: Fixed an issue that caused updating a team to fail, if the users were in the body of the message and not permissions
+  - API: Fixed an issue that caused the API to return 404 when trying to reset a password
+  - API: Existing TSIG is retained when making unrelated updates to a zone
+  - API: Fixed an issue where deleting a data source with feeds caused a 500 error
+  - DNS: Fixed an issue where adding new zones would fail when using multiple organizations
+  - DNS: Fixed an issue with incorrect mname in SOA record being set when not selecting a network for a zone
+  - System: It is now possible to use “strict mode” when using custom transport certificates
+  - System: Fixed an issue where API connections were not cleanly closed and could add up
+  - Monitoring: Fixed an issue where the monitor container would fail to connect to Core
+  - Portal: Fixed an issue where invite URL’s would redirect to the login page
+  - Portal: Fixed an issue where DNS service definitions would appear in the Service Definition dropdown on the DHCP Scope Group configuration modal
+  - Portal: Fixed an issue where creating a zone without a Network selected still resulted in a network being selected
+- Known issues
+  - DNS: Adding a Data Feed to a record which does not have a Network associated to it will fail
+  - DHCP: Empty Option Spaces can only be deleted via the API
+  - DHCP: New lease information may be lost if the Core container restarts or dies
+  - Portal: It is not possible to click the “Show Standard Options” checkbox when viewing DHCP Options
+  - Portal: It is not possible to create a custom option with an option code that exists in any other option space
+  - Portal: No nameservers are shown on the nameservers tab
+
+
+## 3.1.0 (August 14, 2020)
+- New Features
+  - DNS: dynamic DNS updates – both unsigned and GSS-TSIG signed– are now supported; delivered as part of our AD integration
+  - DNS: DNS views are now supported using ACLs to control read and updates access, support use cases such as split-horizon DNS
+  - DNS: DHCID records are now supported
+  - Portal: ACLs are now available, allowing access rights to be specified using source subnets, IP ranges, TSIG keys or GSS-TSIG identities
+  - Portal: new bootstrap wizard to easily configure the containers
+  - Portal: DNS views can be ordered through a drag and drop process
+- Feature Enhancements
+  - DHCP: Remote server can now be configured for nonsecure, nonsecure followed by secure, or secure only updates
+- Known issues
+  - DHCP: disassociating a service definition from a Scope Group fails when there are outstanding leases
+  - DNS: setting only an update ACL on a view will disallow all reads
+  - Portal: unchecking the Network on a zone results in an incorrect MNAME in the SOA record
+  - Portal: “invalid keytab” error message will carry over on modal between DNS and Security tab
+  - Portal: saving a zone with a view selected but no network, results in the network being checked
+
+
 ## 2.5.6 (July 31, 2020)
 - New Features
   - DHCP: custom option spaces enabling sub-options to be created for options in the standard option space; API only.
