@@ -1,5 +1,5 @@
 variable "docker_image_tag" {
-  default     = "2.5.6"
+  default     = "2.5.7"
   description = "The image tag of the Docker image. Defaults to the latest GA version number."
 }
 
