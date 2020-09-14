@@ -1,5 +1,5 @@
 variable "docker_image_tag" {
-  default     = "3.1.0"
+  default     = "3.1.2"
   description = "The image tag of the Docker image. Defaults to the latest GA version number."
 }
 
@@ -96,4 +96,29 @@ variable "hostname" {
 variable "docker_log_driver" {
   default     = "json-file"
   description = "Docker log driver to use, see https://docs.docker.com/config/containers/logging/configure/"
+}
+
+variable "smtp_host" {
+  default     = "localhost"
+  description = "Host where the smtp server is available to send email notifications"
+}
+
+variable "smtp_port" {
+  default     = "1025"
+  description = "Port of the smtp server"
+}
+
+variable "smtp_username" {
+  default     = ""
+  description = "smtp server username"
+}
+
+variable "smtp_password" {
+  default     = ""
+  description = "smtp server password"
+}
+
+variable "sender_email_address" {
+  default     = "no-reply@mycompany.net"
+  description = "Email address to use as sender for notifications"
 }

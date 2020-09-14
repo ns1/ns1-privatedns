@@ -2,7 +2,7 @@
 version: '3.4'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-3.1.0}
+    image: ns1inc/privatedns_data:${TAG:-3.1.2}
     logging:
       driver: "json-file"
       options:
@@ -57,7 +57,7 @@ services:
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
   core:
-    image: ns1inc/privatedns_core:${TAG:-3.1.0}
+    image: ns1inc/privatedns_core:${TAG:-3.1.2}
     logging:
       driver: "json-file"
       options:
@@ -96,7 +96,7 @@ services:
       --nameservers        ${NAMESERVERS:-ns1.mycompany.net}
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
   xfr:
-    image: ns1inc/privatedns_xfr:${TAG:-3.1.0}
+    image: ns1inc/privatedns_xfr:${TAG:-3.1.2}
     logging:
       driver: "json-file"
       options:
