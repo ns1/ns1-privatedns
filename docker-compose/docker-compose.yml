@@ -191,6 +191,39 @@ services:
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${CORE_HOSTS:-core}
       --service_def_id      2
+  monitor:
+    image: ns1inc/privatedns_monitor:${TAG:-3.1.2}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    environment:
+      CONFIG_PORT: 3308
+      CONTAINER_NAME: ${MONITOR_CONTAINER_NAME:-monitor}
+    restart: unless-stopped
+    ports:
+      - "3308:3300" # http configuration
+    healthcheck:
+      test: supd health
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    volumes:
+      - type: volume
+        source: ns1monitor
+        target: /ns1/data
+        volume:
+          nocopy: true
+    command: >-
+      --pop_id                 ${POP_ID:-mypop}
+      --server_id              ${SERVER_ID:-myserver}
+      --core_host              ${CORE_HOSTS:-core}
+      --monitoring_region      lga
+      --digest_service_def_id  3
+      --inst_id                1
+      --use_privileged_ping    true
 networks:
   default:
     driver: bridge
@@ -204,3 +237,4 @@ volumes:
   ns1xfr:
   ns1dns:
   ns1dhcp:
+  ns1monitor:
