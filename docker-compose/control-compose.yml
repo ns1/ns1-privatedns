@@ -95,6 +95,11 @@ services:
       --portal_hostname    ${PORTAL_FQDN:-portal.mycompany.net}
       --nameservers        ${NAMESERVERS:-ns1.mycompany.net}
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
+      --smtp_host "localhost"
+      --smtp_port "1025"
+      --smtp_username ""
+      --smtp_password ""
+      --sender_email_address "no-reply@mycompany-net"
   xfr:
     image: ns1inc/privatedns_xfr:${TAG:-3.1.2}
     logging:
