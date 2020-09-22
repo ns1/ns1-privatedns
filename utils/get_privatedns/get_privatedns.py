@@ -20,7 +20,7 @@ except ModuleNotFoundError:
 
 
 DEBUG = False
-CONN_TIMEOUT = 2 # seconds
+CONN_TIMEOUT = 10 # seconds
 
 
 class Cursor(object):
