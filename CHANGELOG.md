@@ -1,3 +1,34 @@
+## 3.1.3 (September 25, 2020)
+- New Features
+  - DHCP: Added the ability to specify DHCP relay IP addresses on a scope for subnet selection
+  - Portal: It is now possible to create custom option space and encapsulate them
+  - Portal: DHCP Client Class Match management
+- Feature Enhancements
+  - API: IPAM search endpoint can now sort by prefix and mask
+  - API: IPAM search endpoint can now filter on multiple masks
+  - API: Increased performance of all the IPAM insert endpoints
+  - Portal: Increased performance of IPAM, DHCP and DNS portal
+  - System: Added new exportable metrics to track internal connection state
+  - System: Added new health check for stale data to detect propagation issues in Dist containers
+  - XFR: Increased performance and scaling of XFR service
+- What’s Fixed
+  - API: Increased default rate limit for zones and records
+  - API: Fixed an issue where users associated with a team do not correctly inherit tags_deny from a group
+  - API: Fixed an issue where record Level Permission No Longer Working on Paged Records
+  - DHCP: It is now possible to change the Reservation Identifier on a reservation
+  - DNS: Fixed an issue where the DNS container would send a SERVFAIL when the client edns udp payload size is 0
+  - System: Fixed an issue where the Data container configuration would not save properly during the bootstrap wizard
+  - System: Fixed an issue where cluster mode health checks could hang indefinitely and use up resources
+  - System: Fixed an issue where the Core container could sometimes report healthy after boot too early
+  - System: 5 node HA Data cluster mode now works properly
+  - System: Health checks for the Data and Core containers will no longer show as “Unhealthy” before bootstrap
+  - System: Fixed an issue where the Dist container would suddenly permanently stop replicating data from core
+  - System: HA Data Cluster mode no longer incorrectly requires the environment variable DATA_PRIMARY to be set
+- Known issues
+  - API: "manage_auth_tags": true is not added by default to empty permissions body, this prevents adding auth tags when API convention says it should be allowed
+  - DHCP: Windows presents an error that states “Changing the Primary Domain DNS name of this computer failed” when joining a Windows domain
+
+
 ## 3.1.2 (September 14, 2020)
 - New Features
   - DHCP: Added the ability to configure decline-probation-period (API only)
