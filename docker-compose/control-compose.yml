@@ -89,17 +89,17 @@ services:
     # If not using the bootstrap wizard, you may want to include the data_host field below
     #--data_host          ${DATA_HOSTS:-data}
     command: >-
-      --pop_id             ${POP_ID:-mypop}
-      --server_id          ${SERVER_ID:-myserver}
-      --api_hostname       ${API_FQDN:-api.mycompany.net}
-      --portal_hostname    ${PORTAL_FQDN:-portal.mycompany.net}
-      --nameservers        ${NAMESERVERS:-ns1.mycompany.net}
-      --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
-      --smtp_host "localhost"
-      --smtp_port "1025"
-      --smtp_username ""
-      --smtp_password ""
-      --sender_email_address "no-reply@mycompany-net"
+      --pop_id               ${POP_ID:-mypop}
+      --server_id            ${SERVER_ID:-myserver}
+      --api_hostname         ${API_FQDN:-api.mycompany.net}
+      --portal_hostname      ${PORTAL_FQDN:-portal.mycompany.net}
+      --nameservers          ${NAMESERVERS:-ns1.mycompany.net}
+      --hostmaster_email     ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
+      --smtp_host            ${SMTP_HOST:-localhost}
+      --smtp_port            ${SMTP_PORT:-1025}
+      --smtp_username        ${SMTP_USERNAME}
+      --smtp_password        ${SMTP_PASSWORD}
+      --sender_email_address ${SENDER_EMAIL_ADDRESS:-no-reply@mycompany.net}
   xfr:
     image: ns1inc/privatedns_xfr:${TAG:-3.1.3}
     logging:
