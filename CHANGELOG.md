@@ -1,3 +1,9 @@
+## 2.5.8 (September 29, 2020)
+- What’s fixed?
+  - System: Fixed an issue with the HA Data container health check where the system could exhaust resources upon stuck health checks
+  - System: Fixed an issue where the Dist container would suddenly permanently stop replicating data from core
+
+
 ## 2.5.7 (September 14, 2020)
 - Feature Enhancements
   - System: Added an improved health check for the monitoring process

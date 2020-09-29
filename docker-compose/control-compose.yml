@@ -2,7 +2,7 @@
 version: '3.4'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-2.5.7}
+    image: ns1inc/privatedns_data:${TAG:-2.5.8}
     logging:
       driver: "json-file"
       options:
@@ -56,7 +56,7 @@ services:
       --server_id            ${SERVER_ID:-myserver}
       --expose_ops_metrics   true
   core:
-    image: ns1inc/privatedns_core:${TAG:-2.5.7}
+    image: ns1inc/privatedns_core:${TAG:-2.5.8}
     logging:
       driver: "json-file"
       options:
@@ -94,7 +94,7 @@ services:
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
       --enable_ops_metrics true
   xfr:
-    image: ns1inc/privatedns_xfr:${TAG:-2.5.7}
+    image: ns1inc/privatedns_xfr:${TAG:-2.5.8}
     logging:
       driver: "json-file"
       options:
