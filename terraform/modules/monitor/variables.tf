@@ -9,7 +9,7 @@ variable "docker_image_username" {
 }
 
 variable "docker_image_repository" {
-  default     = "privatedns_monitoring_edge"
+  default     = "privatedns_monitor"
   description = "The repository name used in the Docker image name. This should not need to be changed."
 }
 
@@ -37,7 +37,7 @@ variable "docker_network" {
 }
 
 variable "container_name" {
-  default     = "monitoring_edge"
+  default     = "monitor"
   description = "The name of the Docker container."
 }
 
@@ -63,7 +63,7 @@ variable "core_hosts" {
 }
 
 variable "hostname" {
-  default     = "monitoring_edge"
+  default     = "monitor"
   description = "Hostname to give the running container"
 }
 
@@ -77,7 +77,7 @@ variable "monitoring_region" {
   description = "Monitoring region code of the service definition"
 }
 
-variable "digest_service_def_id" {
+variable "service_def_id" {
   default = "3"
   description = "ID of the monitoring service definition for reading the monitoring jobs digest"
 }

@@ -21,26 +21,26 @@ provider "docker" {
   }
 }
 
-data "docker_registry_image" "monitoring_edge" {
+data "docker_registry_image" "monitor" {
   count = var.docker_registry_address != null ? 1 : 0
   name  = local.docker_image_name
 }
 
-resource "docker_image" "monitoring_edge" {
+resource "docker_image" "monitor" {
   count         = var.docker_registry_address != null ? 1 : 0
-  name          = data.docker_registry_image.monitoring_edge[count.index].name
-  pull_triggers = [data.docker_registry_image.monitoring_edge[count.index].sha256_digest]
+  name          = data.docker_registry_image.monitor[count.index].name
+  pull_triggers = [data.docker_registry_image.monitor[count.index].sha256_digest]
   keep_locally  = true
 }
 
-resource "docker_volume" "monitoring_edge" {
-  name = "ns1monitoring_edge"
+resource "docker_volume" "monitor" {
+  name = "ns1monitor"
 }
 
-resource "docker_container" "monitoring_edge" {
-  name = "monitoring_edge"
+resource "docker_container" "monitor" {
+  name = "monitor"
   # If using registry, use sha of found image, otherwise use name that should be found on docker host
-  image = var.docker_registry_address != null ? docker_image.monitoring_edge[0].latest : local.docker_image_name
+  image = var.docker_registry_address != null ? docker_image.monitor[0].latest : local.docker_image_name
 
   env = [
     # "CONFIG_PORT=3305",
@@ -61,7 +61,7 @@ resource "docker_container" "monitoring_edge" {
   }
 
   volumes {
-    volume_name    = docker_volume.monitoring_edge.name
+    volume_name    = docker_volume.monitor.name
     container_path = "/ns1/data"
   }
 
@@ -75,8 +75,8 @@ resource "docker_container" "monitoring_edge" {
     join(",", var.core_hosts),
     "--monitoring_region",
     var.monitoring_region,
-    "--digest_service_def_id",
-    var.digest_service_def_id,
+    "--service_def_id",
+    var.service_def_id,
     "--log_level",
     var.log_level,
     "--metrics_addr_base",
