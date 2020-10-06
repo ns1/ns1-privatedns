@@ -151,3 +151,4 @@ volumes:
   ns1dns:
   ns1dist:
   ns1dhcp:
+  ns1monitor:
