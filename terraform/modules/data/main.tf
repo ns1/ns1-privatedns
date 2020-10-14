@@ -110,6 +110,8 @@ resource "docker_container" "data" {
     hard = 40000
   }
 
+  shm_size = var.shared_memory
+
   # http configuration
   ports {
     internal = 3300

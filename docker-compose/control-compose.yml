@@ -22,6 +22,8 @@ services:
       nofile:
         soft: 20000
         hard: 40000
+    # This shared memory value should be to set at least 25% of the host RAM.
+    shm_size: ${DATA_SHARED_MEM:-2gb}
     ports:
       - "3305:3300" # http configuration
       - "8686:8686" # metrics export

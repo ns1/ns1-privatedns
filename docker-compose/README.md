@@ -23,6 +23,7 @@ Use to start all container images on a single host: `data`, `dns`, `core`, `xfr`
 - `DATA_PEERS`: Identifies the peer(s) of this host's data container with one operating as primary and the other replica; defaults to null
 - `DATA_HOSTS`: Series of comma delimited hostnames of data containers e.g. data1,data2; defaults to `data`
 - `DATA_CONTAINER_NAME`: Sets the container's name; defaults to `data`
+- `DATA_SHARED_MEM`: Sets the containers shared memory value; defaults to `2gb`. This should be set to at least 25% of the host RAM.
 - `CORE_CONTAINER_NAME`: Sets the container's name; defaults to `core`
 - `XFR_CONTAINER_NAME`: Sets the container's name; defaults to `xfr`
 - `API_FQDN`: FQDN for the api and feed URLs; defaults to `api.mycompany.net`
@@ -65,6 +66,7 @@ Used to start control services on a single host: `data`, `core`, `xfr`.
 - `DATA_PEERS`: Identifies the peer(s) of this host's data container with one operating as primary and the other replica; defaults to null
 - `DATA_HOSTS`: Series of comma delimited hostnames of data containers e.g. data1,data2; defaults to `data`
 - `DATA_CONTAINER_NAME`: Sets the container's name; defaults to `data`
+- `DATA_SHARED_MEM`: Sets the containers shared memory value; defaults to `2gb`. This should be set to at least 25% of the host RAM.
 - `CORE_CONTAINER_NAME`: Sets the container's name; defaults to `core`
 - `XFR_CONTAINER_NAME`: Sets the container's name; defaults to `xfr`
 - `CORE_HOSTS`: Series of comma delimited hostnames of `core` containers; specifies upstream `core` containers; defaults to `core`

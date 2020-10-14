@@ -63,13 +63,13 @@ variable "enable_ops_metrics" {
 }
 
 variable "telegraf_output_elasticsearch_data_host" {
-  default      = null
-  description  = "The elasticsearch host to export metrics"
+  default     = null
+  description = "The elasticsearch host to export metrics"
 }
 
 variable "telegraf_output_elasticsearch_index" {
-  default      = null
-  description  = "The elasticsearch index to use when exporting metrics"
+  default     = null
+  description = "The elasticsearch index to use when exporting metrics"
 }
 
 variable "expose_ops_metrics" {
@@ -101,4 +101,9 @@ variable "hostname" {
 variable "docker_log_driver" {
   default     = "json-file"
   description = "Docker log driver to use, see https://docs.docker.com/config/containers/logging/configure/"
+}
+
+variable "shared_memory" {
+  default     = 2000
+  description = "Shared memory for the data container. This should be set to at least 25% of the host RAM"
 }
