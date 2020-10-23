@@ -1,3 +1,38 @@
+## 3.1.4 (October 22, 2020)
+- New Features
+  - DHCP: It is now possible to configure match-client-id on Scopes and Scope Groups. This allows client-class selection to use a combination of both the client identifier and the MAC address or just the MAC address
+- Feature Enhancements
+  - DHCP: it is now possible to delete a Scope and its associated DHCP reservations in one operation after confirmation
+  - DHCP: the DHCP reservation workflow now supports DNS Views for host and reverse record
+  - DHCP: NS1 DDNS now supports DNS views
+  - DNS: Improved performance of DNS API endpoints
+  - DNS: Improved performance of AD DDNS updates
+  - IPAM: Portal optimized when fetching the next available addresses
+  - Portal: Initial bootstrapping wizard now requires passwords to be entered twice and match
+  - Portal: can now create DHCP reservations based on MAC, Client ID, DUID or Circuit ID
+  - Portal: it is now possible to search for subnets by starting octets
+  - Portal: it is now possible to search for subnets by one or more tag and tag:value pairs
+  - Portal: It is now possible to specify a relay address on a Scope
+- What’s Fixed
+  - DNS: Fixed a potential connection leak in the DNS container
+  - DNS: the MNAME for a DNS zone which is contained in a DNS view now reflects the correct nameserver
+  - IAM: Fixed users and apikeys endpoints to set ‘manage_auth_tags’ to true unless explicitly set to false per API convention
+  - IAM: Fixed Internal Server Error when creating API keys with only a name in the request body
+  - Portal: Fixed an issue where Option 43 could not be applied to a ScopeGroup or Client Class
+  - Portal: Fixed several UI issues related to Client Classes
+  - Portal: Fixed an issue where DHCP Reservations could not be removed in the DHCP tab
+  - Portal: DHCP Standard options checkbox now responds correctly
+  - Portal: nameservers are now shown correctly for a DNS zone contained in a DNS view
+  - Monitoring: Operational metrics are now correctly being collected for the monitor container
+  - System: Fixed an issue where services attempted to listen on IPv4 and IPv6 when IPv6 was manually disabled
+  - System: Corrected the /v1/network endpoint to return DNS service definitions instead of Service Groups. Fixed several locations in the Portal which uses that endpoint
+  - System: Fixed inability to use hyphens in data_host hostnames.
+  - System: Fixed an issue where the supd UI could not be displayed
+- Known issues
+  - DHCP: Disassociating a service definition from a scope group with active leases fails
+
+
+
 ## 3.1.3 (September 25, 2020)
 - New Features
   - DHCP: Added the ability to specify DHCP relay IP addresses on a scope for subnet selection
