@@ -60,6 +60,8 @@ spec:
         image: {{ .image.name }}:{{ .image.tag }}
         imagePullPolicy: {{ .image.pullPolicy }}
         env:
+        - name: BOOTSTRAPPABLE
+          value: "false"
         - name: CONTAINER_NAME
           value: "core"
         - name: CONFIG_PORT
