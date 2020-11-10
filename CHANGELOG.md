@@ -1,3 +1,14 @@
+## 3.1.5 (November 10, 2020)
+- What's fixed?
+  - DHCP: Fixed an issue where lease may have been lost when the Core container goes unhealthy
+  - DHCP: It is now possible to disassociate a Service Definition from a Scope Group that has active leases
+  - DNS: Fixed an issue where the DHCP filter was no longer available
+  - DNS: Fixed an issue where changing the DNS network resulted in a server error
+  - Portal: Fixed an issue where DHCP and IPAM tabs in the Portal were missing after first bootstrap
+  - System: Fixed an issue where multiple Core containers could not reach the database when the Data containers are configured in Manual Failover mode
+  - API:  When omitted, the manage_auth_tags permission is now added by default and set to true when creating a user or key
+
+
 ## 3.1.4 (October 22, 2020)
 - New Features
   - DHCP: It is now possible to configure match-client-id on Scopes and Scope Groups. This allows client-class selection to use a combination of both the client identifier and the MAC address or just the MAC address
