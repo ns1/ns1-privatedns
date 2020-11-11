@@ -24,7 +24,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -150,7 +150,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -280,7 +280,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -409,7 +409,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -538,7 +538,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -667,7 +667,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -794,7 +794,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -917,7 +917,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -1080,7 +1080,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -1208,7 +1208,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -1329,7 +1329,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -1452,7 +1452,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -1573,7 +1573,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -1750,7 +1750,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -1867,7 +1867,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -2030,7 +2030,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -2153,7 +2153,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -2277,7 +2277,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -2400,7 +2400,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -2524,7 +2524,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -2657,7 +2657,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -2790,7 +2790,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -2923,7 +2923,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -3056,7 +3056,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -3179,7 +3179,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -3302,7 +3302,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -3485,7 +3485,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -3638,7 +3638,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -3779,7 +3779,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -3921,7 +3921,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Private DNS Ops Metrics",
+      "datasource": "Private DNS Metrics",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -4215,7 +4215,7 @@
     ]
   },
   "timezone": "utc",
-  "title": "Private DNS Ops Metrics",
+  "title": "Private DNS Metrics",
   "uid": "mt1QxVlik",
   "version": 6
 }

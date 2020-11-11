@@ -2,16 +2,39 @@
 
 ## Procedure
 
-### Expose & Enable Metrics
+### Set up an external InfluxDB
 
-1. Set `expose_ops_metrics` to `true` at data container
-2. In config `enable_ops_metrics` must be `true` on edge containers so that the captured metrics can be sent to the data container
-3. Expose the metrics port in the compose file: `- “8686:8686” # Metrics`
-4. There are two databases available to query for metrics: `ns1-ops-metrics` and `ns1-app-metrics`
-5. The metrics database can then be queried at `http://<host>:8686/` using InfluxDB’s querying language
+```
+# the name 'ns1-external-influxdb' will be used as the host name in the 'ns1' docker network.
+docker run --rm -it --network ns1 --name ns1-external-influxdb -p 8086:8086 influxdb
+```
+
+### Enable sending external metrics
+
+1. Start your DDI containers:
+```
+docker-compose up -d core data dns
+```
+
+2. Configure telegraf to send metrics to your external InfluxDB:
+```
+docker-compose exec data supd run \
+  --telegraf_output_influxdb_data_host http://ns1-external-influxdb:8086 \
+  --telegraf_output_influxdb_database ns1-metrics
+```
+
+3. Verify the connection is established
+```
+docker run --rm -it --network ns1 influxdb influx --host ns1-external-influxdb --execute 'SHOW DATABASES'
+name: databases
+name
+----
+_internal
+ns1-metrics
+```
 
 ### Set Up Example Dashboard on Grafana
 
-1. Create a new InfluxDB datasource called "Private DNS Ops Metrics" pointing to the exposed data container
+1. Create a new InfluxDB datasource called "Private DNS Metrics" pointing to the external InfluxDB 
 2. Create a new dashboard and select the import JSON option - upload the file in this directory for an example dashboard
 3. Create/ modify / delete panels to the dashboard
