@@ -1,3 +1,30 @@
+## 3.2.1 (November 11, 2020)
+- New Features:
+  - API: new next address endpoint able to retrieve next available subnet of a specified size.
+  - DHCP: ability to configure a ICMP or ARP ping check before issuing an IP in a lease.
+  - DHCP: it is now possible to assign multiple target DNS servers to a remote zone
+  - DHCP: DHCP Option templates for Scope Groups.
+  - DHCP: remote servers can now be configured for TSIG updates.
+  - Monitoring: HA for monitoring edge containers.
+  - System: Service Control Center (SCC): improved bootstrapping wizard and service health checks and operator portal.
+  - Portal: new landing page with dashboards for: QPS, monitoring, DNS/DHCP/IPAM activity.
+  - Portal: IPAM/DHCP tagging with inheritance.
+- Feature enhancements:
+  - Portal: extended search functionality.
+- What’s fixed?
+  - DHCP: resolved an issue where restricting a subnet to a specific Client Class did not work.
+  - DNS: Fixed an issue where changing the DNS network resulted in a server error
+  - IPAM: splitting a subnet in IPAM creates local tags when it should inherit them.
+  - Monitoring: the target IP address of a monitoring task can now be a private IPv4 address.
+  - Portal: resolved an issue where option codes could not be re-used in separate DHCP
+  - System: Resolved an issue where health checks could report invalid state.
+ option spaces.
+  - Portal: resolved an issue where the DHCP filter was not available in the list of filters.
+  - Portal: Bootstrap portal does not force password length validation.
+- Known Issues:
+  - IPAM: merging two subnets in IPAM creates local tags when it should inherit them.
+
+
 ## 3.1.5 (November 10, 2020)
 - What's fixed?
   - DHCP: Fixed an issue where lease may have been lost when the Core container goes unhealthy
