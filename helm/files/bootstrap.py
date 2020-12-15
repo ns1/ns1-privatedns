@@ -174,7 +174,7 @@ class BootstrapManager(object):
                         "manage_account_settings": True,
                     },
                     "dns": {
-                        "zones_allow": ["example.com"],
+                        "zones_allow": [],
                         "zones_deny": [],
                         "zones_allow_by_default": True,
                         "manage_zones": True,
@@ -225,7 +225,8 @@ class BootstrapManager(object):
                         "manage_account_settings": True,
                     },
                     "dns": {
-                        "zones_allow": ["example.com"],
+                        "zones_allow": [],
+                        "zones_deny": [],
                         "zones_allow_by_default": True,
                         "manage_zones": True,
                         "view_zones": True,
