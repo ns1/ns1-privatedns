@@ -16,9 +16,9 @@ Usage:
 $(basename $BASH_SOURCE) [options]
 
 Flags:
-    -z|--zone       Set the zone name to use in the certicates.            [required]
+    -z|--zone       Set the zone name to use in the certificates.            [required]
     -t|--type       Set the type of key and cert to produce (RSA, ECDSA)   [default: ${TYPE}]
-    -d|--directory  Set the directory to store certifcates.                [default: '${CERT_DIR}']
+    -d|--directory  Set the directory to store certificates.                [default: '${CERT_DIR}']
     -f|--force      Force overwrite of existing certificates.              [default: ${FORCE}]
     -x|--debug      Enable debug logging.                                  [default: false]
     -h|--help       Print this help page.
