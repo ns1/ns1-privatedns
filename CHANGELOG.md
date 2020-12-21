@@ -1,3 +1,11 @@
+## 2.5.9 (December 21, 2020)
+- What’s fixed?
+ - DNS: Fixed an issue where the DNSKEY record could fail to update when key is generated or deleted
+ - DNS: Fixed an issue where an in incorrect ZSK could be deleted from the DNSKEY cache when disabling a ZSK
+ - Portal: Fixed several DNS permissions issues when using RBAC
+ - System: Fixed an issue where hyphens were not supported in AD users or groups
+
+
 ## 2.5.8 (September 29, 2020)
 - What’s fixed?
   - System: Fixed an issue with the HA Data container health check where the system could exhaust resources upon stuck health checks
