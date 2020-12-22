@@ -2,7 +2,7 @@
 version: '3.4'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-3.2.1}
+    image: ns1inc/privatedns_data:${TAG:-3.2.3}
     logging:
       driver: "json-file"
       options:
@@ -47,7 +47,7 @@ services:
       --pop_id               ${POP_ID:-mypop}
       --server_id            ${SERVER_ID:-myserver}
   core:
-    image: ns1inc/privatedns_core:${TAG:-3.2.1}
+    image: ns1inc/privatedns_core:${TAG:-3.2.3}
     logging:
       driver: "json-file"
       options:
@@ -85,7 +85,7 @@ services:
       --portal_hostname      ${PORTAL_FQDN:-portal.mycompany.net}
       --nameservers          ${NAMESERVERS:-ns1.mycompany.net}
   xfr:
-    image: ns1inc/privatedns_xfr:${TAG:-3.2.1}
+    image: ns1inc/privatedns_xfr:${TAG:-3.2.3}
     logging:
       driver: "json-file"
       options:
@@ -149,7 +149,7 @@ services:
       --operation_mode      ${OPERATION_MODE:-authoritative}
       --num_trex_procs      2
   dhcp:
-    image: ns1inc/privatedns_dhcp:${TAG:-3.2.1}
+    image: ns1inc/privatedns_dhcp:${TAG:-3.2.3}
     logging:
       driver: "json-file"
       options:
@@ -188,7 +188,7 @@ services:
       --core_host           ${CORE_HOSTS:-core}
       --service_def_id      2
   monitor:
-    image: ns1inc/privatedns_monitor:${TAG:-3.2.1}
+    image: ns1inc/privatedns_monitor:${TAG:-3.2.3}
     logging:
       driver: "json-file"
       options:
