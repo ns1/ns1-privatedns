@@ -116,7 +116,7 @@ services:
       --server_id           ${SERVER_ID:-myserver}
       --core_host           ${CORE_HOSTS:-core}
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-3.2.1}
+    image: ns1inc/privatedns_dns:${TAG:-3.2.3}
     logging:
       driver: "json-file"
       options:
