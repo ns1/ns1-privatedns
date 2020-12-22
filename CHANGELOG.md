@@ -1,3 +1,97 @@
+## 3.2.3 (December 22, 2020)
+
+- New Features:
+ - Cloud-sync: AWS RTE53 support for VPC’s, Zones and Records
+ - DHCP: Custom Options
+ - DHCP: Relay Agent Support
+ - DHCP: Ping Check Support - Ping before giving out a lease
+ - DHCP: PXE Boot Support
+ - DHCP: Support multiple target DNS servers for one zone
+ - DHCP: TSIG, GSS-TSIG support
+ - DNS: GSS-TSIG support
+ - DNS: Tag support for records and zones
+ - IPAM: Get Next Subnet and Address
+ - Portal: Dashboards for DHCP and DNS
+ - System: Service Control Center: Bootstrap support, centralized maintenance of containers
+- Feature enhancements:
+ - DHCP: On Editing DDNS Settings for the scope group, the existing zone name is now displayed as a value.
+ - DHCP: Template CRUD for Scope/Reservation/Pool
+ - IPAM/DHCP: Enhancements to metadata tags and corresponding tag inheritance enables efficient search and discovery of IPAM and DHCP assets
+ - System: improved the labels and description of configuration options in SCC
+ - System: show the associated Service Definition for each container in SCC
+- What’s fixed?
+ - API: Cannot delete org via the operator key in IPAM/DHCP endpoints
+ - API: Creating a zone in a service group fails with error 500
+ - API: Show context help on tag restrictions next to tag mgr elements in "create object" modal
+ - API: Value of 0 in SOA record results in internal server error
+ - API: Setting secondary IP ACL against zone object to CIDR network fails
+ - DHCP: Edit DDNS Settings" on the DHCP Scope Group no longer works
+ - DHCP: Even though the update is successful, we still log an "unsupported value type"
+ - DHCP: Selecting multiple servers as the target for a remote zone causes the UI to not display that anything is configured in the DDNS configuration modal
+ - DHCP: Remote server in ALL mode; updating remote servers is serial resulting in delayed updates during 1 server's failure.
+ - DHCP: Assigned/planned status is not always honored when creating subnets or changing them in the metadata panel
+ - DHCP: No warning message when delete in-use client class
+ - DHCP: After loading a large number of DHCP scopes and reservations, the scope group can no longer be displayed. Portal fails with "Internal Server Error".
+ - DHCP: Can't remove the last client class from the scope group because  the "submit" button is disabled when the client class list is empty.
+ - DHCP: If relays were passed on scope creation those relays are not being set.
+ - DHCP: The usage bar and number appearing under the "Usage" tab for both Scope Groups and Scopes show 0%, despite a Scope being completely used by leases.
+ - DNS: Fixed an correct response with overlapping tags
+ - DNS: Fixed XFR scheduler race condition which results in multiple schedulers being created
+ - DNS: Creating a secondary zone automatically enables TSIG
+ - DNS: Creating a new zone in UI and uploading file results in unresolvable resource records
+ - DNS: DDI no longer supports RDNS stats - error 500
+ - DNS: It should not be possible to put two zones with the same FQDN into the same view. This applies to default views as well.
+ - DNS: Blocking Inheritance of tags in DNS
+ - DNS: Applying a tag in filtered record view applies the tag to the first record (even if it was intended for another record)
+ - DNS: Prereq windows appears to send a specially crafted nonsecure update packet which AD  - DNS responds to with noerror, even if updates on zone are secure only.
+ - IPAM: Updates to a linked record in the IPAM address update endpoint do not actually update the linked record.
+ - IPAM: ipam/address/merge endpoint will set all merged tags to local_tags when some should be considered inherited
+ - Monitoring: Cannot set the target "IP address or hostname" field of a new monitor to a private IPv4 address.
+ - Monitoring: Update status locally
+ - Portal: Portal window goes blank when selecting (viewing) a client class with a vendor-encapsulated-options-space Option associated with it.
+ - Portal : Scope edit settings UI fails
+ - Portal: When using the ALL update strategy for remote servers on a DDNS remote zone, the logs only show that one server is updated multiple times.
+ - Portal: Dashboard, fix View DHCP permissions when user is not authorized
+ - Portal: Dashboards, LPS without scope groups
+ - Portal: Can't return to the TAGs tab after clicking on ANSWERS tab
+ - Portal:  Hyphens still ignored by portal
+ - System: IP whitelisting on team not applied
+ - System: HAProxy timing out when migrator/upgrade and restore tasks take too long
+ - System: SCC: Service Definitions don’t work after global values
+ - System: SCC: Node specific “Clear All” in the UI does not work
+ - System: SCC: Disable node specific config options
+- Known Issues:
+ - Database: Any sufficiently populated database will start exhibiting massive CPU usage spikes every 30 seconds.
+ - Monitoring: Currently, unless running in net=host, the monitor container will advertise its docker IP to the rest of the cluster to connect to due to it being unaware of the actual host IP.
+ 
+
+## 3.2.1 (November 11, 2020)
+- New Features:
+  - API: new next address endpoint able to retrieve next available subnet of a specified size.
+  - DHCP: ability to configure a ICMP or ARP ping check before issuing an IP in a lease.
+  - DHCP: it is now possible to assign multiple target DNS servers to a remote zone
+  - DHCP: DHCP Option templates for Scope Groups.
+  - DHCP: remote servers can now be configured for TSIG updates.
+  - Monitoring: HA for monitoring edge containers.
+  - System: Service Control Center (SCC): improved bootstrapping wizard and service health checks and operator portal.
+  - Portal: new landing page with dashboards for: QPS, monitoring, DNS/DHCP/IPAM activity.
+  - Portal: IPAM/DHCP tagging with inheritance.
+- Feature enhancements:
+  - Portal: extended search functionality.
+- What’s fixed?
+  - DHCP: resolved an issue where restricting a subnet to a specific Client Class did not work.
+  - DNS: Fixed an issue where changing the DNS network resulted in a server error
+  - IPAM: splitting a subnet in IPAM creates local tags when it should inherit them.
+  - Monitoring: the target IP address of a monitoring task can now be a private IPv4 address.
+  - Portal: resolved an issue where option codes could not be re-used in separate DHCP
+  - System: Resolved an issue where health checks could report invalid state.
+ option spaces.
+  - Portal: resolved an issue where the DHCP filter was not available in the list of filters.
+  - Portal: Bootstrap portal does not force password length validation.
+- Known Issues:
+  - IPAM: merging two subnets in IPAM creates local tags when it should inherit them.
+
+
 ## 3.1.5 (November 10, 2020)
 - What's fixed?
   - DHCP: Fixed an issue where lease may have been lost when the Core container goes unhealthy

@@ -109,5 +109,5 @@ Used to start edge services on a single host: `dns`, `dhcp` and `dist` (distribu
 #### For example:
 
 ```shell
-$sudo TAG=2.1.0 POP_ID=dc2 SERVER_ID=host3 docker-compose -p myproject -f edge-compose.yml up -d
+$sudo TAG=3.2.1 POP_ID=dc2 SERVER_ID=host3 docker-compose -p myproject -f edge-compose.yml up -d
 ```
