@@ -77,7 +77,7 @@ if [[ ! -f ${CERT_DIR}/transport.crt ]] || [[ ! -f ${CERT_DIR}/transport.key ]];
     elif [[ ${TYPE} == "ECDSA" ]]; then
         openssl ecparam -genkey -name prime256v1 -out ${CERT_DIR}/transport.key
         openssl req -new -key ${CERT_DIR}/transport.key -out ${CERT_DIR}/transport.csr -extensions v3_req -subj "/C=US/ST=New York/L=New York/O=NS1/OU=Engineering/CN=*.${ZONE}" -config <(printf "[v3_req]\nkeyUsage = keyEncipherment, dataEncipherment\nextendedKeyUsage = serverAuth\nsubjectAltName = @alt_names\n[req]\ndistinguished_name = req_distinguished_name\n[req_distinguished_name]\nC = US\n[alt_names]\nDNS.1 = *.{$ZONE}")
-        openssl x509 -extfile <(printf "subjectAltName=DNS:*.${ZONE}\nextendedKeyUsage=serverAuth") -req -in ${CERT_DIR}/transport.csr -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -CAcreateserial -out ${CERT_DIR}/transport.crt -days 825 -sha256
+        openssl x509 -extfile <(printf "subjectAltName=DNS:*.${ZONE}\nextendedKeyUsage=serverAuth,clientAuth") -req -in ${CERT_DIR}/transport.csr -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -CAcreateserial -out ${CERT_DIR}/transport.crt -days 825 -sha256
     fi
 fi
 
