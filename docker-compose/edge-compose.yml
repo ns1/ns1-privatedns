@@ -135,7 +135,7 @@ services:
     command: >-
       --pop_id                 ${POP_ID:-mypop}
       --server_id              ${SERVER_ID:-myserver}
-      --core_host              ${CORE_HOSTS:-core}
+      --core_host              ${DIST_HOSTS:-dist}
       --monitoring_region      lga
       --service_def_id         3
       --inst_id                1
