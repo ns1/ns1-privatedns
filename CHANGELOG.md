@@ -1,68 +1,91 @@
+## 3.2.4 (January 26, 2021)
+
+
+- What’s fixed?
+  - DHCP: Batch updates for leases to improve overall performance
+  - DHCP: Enable multiple DDNS zones per scope groups for NS1 DDNS
+  - DHCP: Relays are not being set when creating a scope
+  - DNS: Cannot change DNS Service Group associated with a zone
+  - DNS: Cannot create tags with empty string for bot zones and record objects
+  - DNS: Fixed handling of non-FQDNs during IXFR
+  - DNS: Fixed migration from older versions of DDI that do not have DNS Tagging
+  - Monitoring: Target IP does not support private IPv4 addresses
+  - Portal: Add secondary zone - primary IPs not being displayed in portal
+  - Portal: “By Tags” filter in IPAM networks does not work in portal
+  - Portal: Persist show reverse zones checkbox
+  - Portal: Performance improvements to support mid-sized deployments
+  - System: Resolved an issue where restarting data containers resulted in configured options reverting to bootstrapped values
+  - System: Increased max_connections to 200
+  - System: Improved handling of search queries with malformed arguments
+  - System: server_id and pop_id should only be enabled at the node level
+  - System: Resolved an issue where removal of a configuration could cause the container to go out of sync
+
+
 ## 3.2.3 (December 22, 2020)
 
 - New Features:
- - Cloud-sync: AWS RTE53 support for VPC’s, Zones and Records
- - DHCP: Custom Options
- - DHCP: Relay Agent Support
- - DHCP: Ping Check Support - Ping before giving out a lease
- - DHCP: PXE Boot Support
- - DHCP: Support multiple target DNS servers for one zone
- - DHCP: TSIG, GSS-TSIG support
- - DNS: GSS-TSIG support
- - DNS: Tag support for records and zones
- - IPAM: Get Next Subnet and Address
- - Portal: Dashboards for DHCP and DNS
- - System: Service Control Center: Bootstrap support, centralized maintenance of containers
+  - Cloud-sync: AWS RTE53 support for VPC’s, Zones and Records
+  - DHCP: Custom Options
+  - DHCP: Relay Agent Support
+  - DHCP: Ping Check Support - Ping before giving out a lease
+  - DHCP: PXE Boot Support
+  - DHCP: Support multiple target DNS servers for one zone
+  - DHCP: TSIG, GSS-TSIG support
+  - DNS: GSS-TSIG support
+  - DNS: Tag support for records and zones
+  - IPAM: Get Next Subnet and Address
+  - Portal: Dashboards for DHCP and DNS
+  - System: Service Control Center: Bootstrap support, centralized maintenance of containers
 - Feature enhancements:
- - DHCP: On Editing DDNS Settings for the scope group, the existing zone name is now displayed as a value.
- - DHCP: Template CRUD for Scope/Reservation/Pool
- - IPAM/DHCP: Enhancements to metadata tags and corresponding tag inheritance enables efficient search and discovery of IPAM and DHCP assets
- - System: improved the labels and description of configuration options in SCC
- - System: show the associated Service Definition for each container in SCC
+  - DHCP: On Editing DDNS Settings for the scope group, the existing zone name is now displayed as a value.
+  - DHCP: Template CRUD for Scope/Reservation/Pool
+  - IPAM/DHCP: Enhancements to metadata tags and corresponding tag inheritance enables efficient search and discovery of IPAM and DHCP assets
+  - System: improved the labels and description of configuration options in SCC
+  - System: show the associated Service Definition for each container in SCC
 - What’s fixed?
- - API: Cannot delete org via the operator key in IPAM/DHCP endpoints
- - API: Creating a zone in a service group fails with error 500
- - API: Show context help on tag restrictions next to tag mgr elements in "create object" modal
- - API: Value of 0 in SOA record results in internal server error
- - API: Setting secondary IP ACL against zone object to CIDR network fails
- - DHCP: Edit DDNS Settings" on the DHCP Scope Group no longer works
- - DHCP: Even though the update is successful, we still log an "unsupported value type"
- - DHCP: Selecting multiple servers as the target for a remote zone causes the UI to not display that anything is configured in the DDNS configuration modal
- - DHCP: Remote server in ALL mode; updating remote servers is serial resulting in delayed updates during 1 server's failure.
- - DHCP: Assigned/planned status is not always honored when creating subnets or changing them in the metadata panel
- - DHCP: No warning message when delete in-use client class
- - DHCP: After loading a large number of DHCP scopes and reservations, the scope group can no longer be displayed. Portal fails with "Internal Server Error".
- - DHCP: Can't remove the last client class from the scope group because  the "submit" button is disabled when the client class list is empty.
- - DHCP: If relays were passed on scope creation those relays are not being set.
- - DHCP: The usage bar and number appearing under the "Usage" tab for both Scope Groups and Scopes show 0%, despite a Scope being completely used by leases.
- - DNS: Fixed an correct response with overlapping tags
- - DNS: Fixed XFR scheduler race condition which results in multiple schedulers being created
- - DNS: Creating a secondary zone automatically enables TSIG
- - DNS: Creating a new zone in UI and uploading file results in unresolvable resource records
- - DNS: DDI no longer supports RDNS stats - error 500
- - DNS: It should not be possible to put two zones with the same FQDN into the same view. This applies to default views as well.
- - DNS: Blocking Inheritance of tags in DNS
- - DNS: Applying a tag in filtered record view applies the tag to the first record (even if it was intended for another record)
- - DNS: Prereq windows appears to send a specially crafted nonsecure update packet which AD  - DNS responds to with noerror, even if updates on zone are secure only.
- - IPAM: Updates to a linked record in the IPAM address update endpoint do not actually update the linked record.
- - IPAM: ipam/address/merge endpoint will set all merged tags to local_tags when some should be considered inherited
- - Monitoring: Cannot set the target "IP address or hostname" field of a new monitor to a private IPv4 address.
- - Monitoring: Update status locally
- - Portal: Portal window goes blank when selecting (viewing) a client class with a vendor-encapsulated-options-space Option associated with it.
- - Portal : Scope edit settings UI fails
- - Portal: When using the ALL update strategy for remote servers on a DDNS remote zone, the logs only show that one server is updated multiple times.
- - Portal: Dashboard, fix View DHCP permissions when user is not authorized
- - Portal: Dashboards, LPS without scope groups
- - Portal: Can't return to the TAGs tab after clicking on ANSWERS tab
- - Portal:  Hyphens still ignored by portal
- - System: IP whitelisting on team not applied
- - System: HAProxy timing out when migrator/upgrade and restore tasks take too long
- - System: SCC: Service Definitions don’t work after global values
- - System: SCC: Node specific “Clear All” in the UI does not work
- - System: SCC: Disable node specific config options
+  - API: Cannot delete org via the operator key in IPAM/DHCP endpoints
+  - API: Creating a zone in a service group fails with error 500
+  - API: Show context help on tag restrictions next to tag mgr elements in "create object" modal
+  - API: Value of 0 in SOA record results in internal server error
+  - API: Setting secondary IP ACL against zone object to CIDR network fails
+  - DHCP: Edit DDNS Settings" on the DHCP Scope Group no longer works
+  - DHCP: Even though the update is successful, we still log an "unsupported value type"
+  - DHCP: Selecting multiple servers as the target for a remote zone causes the UI to not display that anything is configured in the DDNS configuration modal
+  - DHCP: Remote server in ALL mode; updating remote servers is serial resulting in delayed updates during 1 server's failure.
+  - DHCP: Assigned/planned status is not always honored when creating subnets or changing them in the metadata panel
+  - DHCP: No warning message when delete in-use client class
+  - DHCP: After loading a large number of DHCP scopes and reservations, the scope group can no longer be displayed. Portal fails with "Internal Server Error".
+  - DHCP: Can't remove the last client class from the scope group because  the "submit" button is disabled when the client class list is empty.
+  - DHCP: If relays were passed on scope creation those relays are not being set.
+  - DHCP: The usage bar and number appearing under the "Usage" tab for both Scope Groups and Scopes show 0%, despite a Scope being completely used by leases.
+  - DNS: Fixed an correct response with overlapping tags
+  - DNS: Fixed XFR scheduler race condition which results in multiple schedulers being created
+  - DNS: Creating a secondary zone automatically enables TSIG
+  - DNS: Creating a new zone in UI and uploading file results in unresolvable resource records
+  - DNS: DDI no longer supports RDNS stats - error 500
+  - DNS: It should not be possible to put two zones with the same FQDN into the same view. This applies to default views as well.
+  - DNS: Blocking Inheritance of tags in DNS
+  - DNS: Applying a tag in filtered record view applies the tag to the first record (even if it was intended for another record)
+  - DNS: Prereq windows appears to send a specially crafted nonsecure update packet which AD  - DNS responds to with noerror, even if updates on zone are secure only.
+  - IPAM: Updates to a linked record in the IPAM address update endpoint do not actually update the linked record.
+  - IPAM: ipam/address/merge endpoint will set all merged tags to local_tags when some should be considered inherited
+  - Monitoring: Cannot set the target "IP address or hostname" field of a new monitor to a private IPv4 address.
+  - Monitoring: Update status locally
+  - Portal: Portal window goes blank when selecting (viewing) a client class with a vendor-encapsulated-options-space Option associated with it.
+  - Portal : Scope edit settings UI fails
+  - Portal: When using the ALL update strategy for remote servers on a DDNS remote zone, the logs only show that one server is updated multiple times.
+  - Portal: Dashboard, fix View DHCP permissions when user is not authorized
+  - Portal: Dashboards, LPS without scope groups
+  - Portal: Can't return to the TAGs tab after clicking on ANSWERS tab
+  - Portal:  Hyphens still ignored by portal
+  - System: IP whitelisting on team not applied
+  - System: HAProxy timing out when migrator/upgrade and restore tasks take too long
+  - System: SCC: Service Definitions don’t work after global values
+  - System: SCC: Node specific “Clear All” in the UI does not work
+  - System: SCC: Disable node specific config options
 - Known Issues:
- - Database: Any sufficiently populated database will start exhibiting massive CPU usage spikes every 30 seconds.
- - Monitoring: Currently, unless running in net=host, the monitor container will advertise its docker IP to the rest of the cluster to connect to due to it being unaware of the actual host IP.
+  - Database: Any sufficiently populated database will start exhibiting massive CPU usage spikes every 30 seconds.
+  - Monitoring: Currently, unless running in net=host, the monitor container will advertise its docker IP to the rest of the cluster to connect to due to it being unaware of the actual host IP.
  
 
 ## 3.2.1 (November 11, 2020)
