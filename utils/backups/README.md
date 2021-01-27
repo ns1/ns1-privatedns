@@ -4,7 +4,7 @@
 
 Performing frequent backups is an essential part of successful business continuity. 
 
-The `backup.sh` script provided in this folder will make it simple to schedule, perform and transfer postgres database backups from an NS1 data container to a designated local/remote repository.
+The `backup.sh` script provided in this folder will make it simple to schedule, perform and transfer database backups from one or more NS1 data containers to a designated local/remote location.
 
 
 
@@ -55,12 +55,7 @@ Log a message on successful backup. The default successful operation is silent.
 
 `--dry-run`
 
-Perform a database backup simulacrum.
-
-`-h |--help`
-
-Print the usage message
-
+Perform a database backup simulation, but execute.
 
 
 ###  Examples
@@ -71,16 +66,16 @@ Perform a backup...
 * Place a local copy of the backup in the `~/backups` directory.
 * Copy the backup offsite using the script `/usr/local/bin/copy.sh`
 * Log a message on success
-* Delete backups older that `1` day
+* Delete backups older than `7` days
 
 ```
-$ backup.sh ddi_data_1 -b ~/backups -f ns1_ -o /usr/local/bin/copy.sh -l -d 1
+$ backup.sh ddi_data_1 -b ~/backups -f ns1_ -o /usr/local/bin/copy.sh -l -d 7
 Back up complete: /opt/backups/ns1_2021-01-27_18_21.gz - 435554 bytes
 ```
 
 ## Installation
 
-The DB backup script must be installed and run on all hosts running an NS1 data container, be it standalone or clustered. In the case of a cluster, the script will only produce a backup when the target data container is designated as the `primary` node. The backup script will do nothing and exit graciously when run on 'secondary' nodes.
+The DB backup script must be installed and run on all hosts running an NS1 data container, be it standalone, manual failover, or clustered mode. In the case of multiple data containers, the script will only produce a backup when the target data container is designated as the `primary` node. The backup script will do nothing and exit graciously when run on 'secondary' nodes.
 
 It is strongly recommended to keep backup configuration parameters consistent across the cluster.
 
@@ -111,10 +106,6 @@ A docker-related issue has occurred. Docker is not present or the container ID i
 `ERROR: back up failed`
 
 May indicate a problem connecting to the data container, executing the internal backup command or removing the intermediate backup file.
-
-`Insufficient disk space remaining`
-
-Indicates that the disk space available on the partition containing the backup storage directory is less than either the value specified or the default of 1 GiB.
 
 `This node is not primary - not performing backup`
 
