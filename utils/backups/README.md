@@ -2,15 +2,17 @@
 
 ## Summary
 
-Performing frequent backups is an essential part of successful business continuity. The data_backup.sh script provided in this folder will make it simple to schedule, perform and transfer postgres database backups from an NS1 data container to a designated local/remote repository.
+Performing frequent backups is an essential part of successful business continuity. 
+
+The `backup.sh` script provided in this folder will make it simple to schedule, perform and transfer postgres database backups from an NS1 data container to a designated local/remote repository.
 
 
 
 ## DB Backup Script Requirements
 
 * This script must be executed on the host where the NS1 data container is running
-* The docker container name is a required parameter.
-* Sufficient disk space on the local and remote backup storage directories
+* The docker container name is a required parameter
+* Ensure sufficient disk space is available on the local and remote backup repositories
 
 
 ## Usage
@@ -33,7 +35,7 @@ The docker name of the NS1 data container to be backed up
 
 `-b | --backup-location <path>`
 
-Specify the directory where to place the local copy of the backup. Default is the current directory.
+Specify the directory to be used as the local backup repository. Default is the current directory.
 
 `-d | --delete-old-files <days>`
 	
@@ -41,19 +43,19 @@ Delete backups that are older than the specified <days>
 	
 `-f | --filename-prefix <string>`
 
-Prepend a string to the backup file name. Default backup name is of the format "YYYY-MM-DD-HH-MM.gz", i.e: 2021-01-27_18_21.gz
+Prepend a `<string>` to the backup file name. The default backup name is of the format "YYYY-MM-DD-HH-MM.gz", i.e: 2021-01-27_18_21.gz
 
 `-o | --offsite-copy <script_name>`
 
-Copy the backup to a remote location using the specified copy script. The copy script will receive the backup filename as the only parameter.
+Copy the backup to a remote repository using the specified copy script. The copy script will receive the backup filename as the only parameter.
 
 `-l | --log-success`
 	
-Log a message on successful backup. Default successful operation is silent.
+Log a message on successful backup. The default successful operation is silent.
 
 `--dry-run`
 
-Database backup simulacrum.
+Perform a database backup simulacrum.
 
 `-h |--help`
 
