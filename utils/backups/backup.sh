@@ -2,9 +2,17 @@
 
 usage() {
     cat <<EOF
-$(basename $0) <data_container_name> [-b back-up-location] [-m min-disk-space] [-l log-on-success] [-f filename-prefix]"
+$(basename $0) <data_container_name> [-b back-up-location] [-l log-on-success] [-f filename-prefix] [--dry-run]
 EOF
     exit 1
+}
+
+dry_run() {
+    cat <<EOF
+would backup: $DATA_NAME
+          to: $BAK_LOC
+ with prefix: $F_PREFIX
+EOF
 }
 
 if [ -z "$1" ]; then
@@ -13,7 +21,6 @@ fi
 
 DATA_NAME=$1
 BAK_LOC="./"
-MIN_DISK="1048576" # 1kb blocks => 1gb
 LOG_SUC=
 F_PREFIX=""
 
@@ -23,7 +30,7 @@ for x; do case $x in
   -f|--filename-prefix) shift; F_PREFIX=$1;;
   -h|--help) usage;;
   -l|--log-success) LOG_SUC=1;;
-  -m|--min-disk) shift; MIN_DISK=$1;;
+  --dry-run) DRY_RUN=1; LOG_SUC=1;;
 esac; shift; done
 
 sanity_check() {
@@ -83,21 +90,11 @@ we_are_primary() {
   fi
 }
 
-we_have_min_disk() {
-    # Check if enough disk space remains on host
-    # Were checking the root directory which may be inaccurate
-    space_left=$(df | awk '$6=="/" {print $4}')
-    if [ -z "$space_left" ]; then
-      return 2
-    fi
-    if [ $space_left -gt $MIN_DISK ]; then
-      return 0
-    else
-      return 1
-    fi
-}
-
 backup() {
+    if [ "$DRY_RUN" ]; then
+      dry_run
+      exit 0
+    fi
     docker exec "$DATA_NAME" supd backup_db > /dev/null
     FNAME="$(docker exec $DATA_NAME ls /ns1/data/backup | grep "\.gz$" | head -n1)"
     FSIZE="$(docker exec $DATA_NAME ls -l /ns1/data/backup/$FNAME | awk '{print $5}')"
@@ -118,12 +115,7 @@ backup() {
 sanity_check "$DATA_NAME"
 
 if we_are_primary "$DATA_NAME"; then
-    if we_have_min_disk; then
-        backup
-    else
-        echo "Insufficient disk space remaining"
-        exit 1
-    fi
+    backup
 elif [ "$LOG_SUC" ]; then
     echo "This node is not primary - not performing backup"
 fi
