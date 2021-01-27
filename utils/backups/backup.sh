@@ -29,6 +29,8 @@ while [[ $1 ]]; do
         -b|--backup-location)  BAK_LOC="${2}"; shift ;;
         -f|--filename-prefix)  F_PREFIX="${2}"; shift ;;
         -l|--log-success)      LOG_SUC=1 ;;
+        -d|--delete-old-files) DELETE_OLD_FILES="${2}"; shift ;;
+        -o|--offsite-copy)     OFFSITE_COPY="${2}"; shift ;;
         --dry-run)             DRY_RUN=1; LOG_SUC=1 ;;
         -h|--help)             usage ;;
     esac
