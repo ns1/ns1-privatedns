@@ -31,13 +31,39 @@ Optional:
 
 
 ```
-shell
-
 Usage:
-data_backup.sh <data_container_name> <back up location> <min disk space> <log on success> <filename prefix>
+backup.sh <data_container_name> [-b back-up-location] [-f filename-prefix] [-d delete-old-files] [-o offsite-copy] [-l] [--dry-run]
+```
+
+#### Parameters
+
+`-b | --backup-location <path>`
+
+Specify the directory where to place the backup. Default is the current directory.
+
+`-f | --filename-prefix <string>`
+
+Prepend a string to the backup file name. Default backup name is of the format "YYYY-MM-DD-HH-MM.gz", i.e: 2021-01-27_18_21.gz
+
+`-o | --offsite-copy`
+
+Copy the backup to a remote location.
+
+`-l | --log-success`
 	
-$ ./data_backup.sh ddi_data
-CRITICAL - failed to connect to container
+Log a message on successful backup. Default successful operation is silent.
+
+`--dry-run`
+
+Database backup simulacrum.
+
+`-h |--help`
+
+Print the usage message
+
+```
+$ backup.sh ddi_data_1 -b ~/backups -f ns1_ -o /usr/local/bin/copy.sh -l -d 1
+Back up complete: /opt/backups/ns1_2021-01-27_18_21.gz - 435554 bytes
 ```
 
 ###  Installation
