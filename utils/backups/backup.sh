@@ -115,8 +115,12 @@ backup() {
     fi
 
     if [ "$OFFSITE_COPY" ]; then
-      echo "offsite copy not implemented"
+        $OFFSITE_COPY $BAK_LOC/${F_PREFIX}${FNAME}
+        if [ $? -ne 0 ]; then
+            echo "WARNING: offsite copy has failed"
+        fi
     fi
+
     if [ "$DELETE_OLD_FILES" ]; then
       echo "delete old files not implemented"
     fi
