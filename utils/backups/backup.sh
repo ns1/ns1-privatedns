@@ -43,6 +43,10 @@ sanity_check() {
     echo exiting
     exit 1
   fi
+  if [ ! -d "$BAK_LOC" ]; then
+    echo sanity check failed:
+    echo "backup location \"$BAK_LOC\" is not a directory"
+  fi
 }
 
 get_cluster_id() {
