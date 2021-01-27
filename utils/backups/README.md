@@ -2,7 +2,7 @@
 
 ## Summary
 
-Performing frequent backups is an essential part of succesful business continuity. The data_backup.sh script provided in this folder will make it simple to schedule, perform and transfer postgress database backups from an NS1 data container to a designated local/remote respository.
+Performing frequent backups is an essential part of successful business continuity. The data_backup.sh script provided in this folder will make it simple to schedule, perform and transfer postgres database backups from an NS1 data container to a designated local/remote repository.
 
 
 
@@ -67,7 +67,7 @@ Perform a backup...
 
 * For the `ddi_data_1` container. 
 * Place a local copy of the backup in the `~/backups` directory.
-* Copy the backup offsite (using the designated script? what params ar passed to script?)
+* Copy the backup offsite using the script `/usr/local/bin/copy.sh`
 * Log a message on success
 * Delete backups older that `1` day
 
@@ -95,7 +95,7 @@ Daily backups at 3:25am
 
 `25 3 * * * /usr/local/sbin/data_backup.sh ddi_data_1 /data/backups/ns1/`
 
-Backups every Sunday 7th at minight (Feb 7, Mar 7, Nov 7 2021, Aug 7 2022, May 7 2023)
+Backups every Sunday 7th at midnight (Feb 7, Mar 7, Nov 7 2021, Aug 7 2022, May 7 2023)
 
 `0 0 7 * 7 /usr/local/sbin/data_backup.sh ddi_data_1 /data/backups/ns1/`
 
@@ -104,7 +104,7 @@ Backups every Sunday 7th at minight (Feb 7, Mar 7, Nov 7 2021, Aug 7 2022, May 7
 
 `sanity check failed`
 
-A docker-related issue has occured. Docker is not present or the container ID is not found.
+A docker-related issue has occurred. Docker is not present or the container ID is not found.
 
 `ERROR: back up failed`
 
@@ -112,7 +112,7 @@ May indicate a problem connecting to the data container, executing the internal 
 
 `Insufficient disk space remaining`
 
-Indicates that the diskspace available on the partition containing the backup storage directory is less than either the value specified or the default of 1 GiB.
+Indicates that the disk space available on the partition containing the backup storage directory is less than either the value specified or the default of 1 GiB.
 
 `This node is not primary - not performing backup`
 
