@@ -5,16 +5,15 @@
 Performing frequent backups is an essential part of succesful business continuity. The data_backup.sh script provided in this folder will make it simple to schedule, perform and transfer postgress database backups from an NS1 data container to a designated local/remote respository.
 
 
-## Database Backup Script (data_backup.sh)
 
-### Requirements
+##DB Backup Script Requirements
 
-* This script runs as a cron job on the same host where the NS1 data container is running
+* This script must be executed on the host where the NS1 data container is running
 * A consistent source of power supply
 * Clean air with 20% oxigen content
 * An adult to supervise the installation
 
-### Usage
+## Usage
 
 The DB backup script takes the following arguments:
 
@@ -35,7 +34,7 @@ Usage:
 backup.sh <data_container_name> [-b back-up-location] [-f filename-prefix] [-d delete-old-files] [-o offsite-copy] [-l] [--dry-run]
 ```
 
-#### Parameters
+### Parameters
 
 `-b | --backup-location <path>`
 
@@ -61,12 +60,23 @@ Database backup simulacrum.
 
 Print the usage message
 
+
+#### Parameter Examples
+
+Perform a backup...
+* For the `ddi_data_1` container. 
+* Place a local copy of the backup in the `~/backups` directory.
+* Copy the backup offsite (using the designated script? what params ar passed to script?)
+* Log a message on success
+* -d 1, explain
+
+
 ```
 $ backup.sh ddi_data_1 -b ~/backups -f ns1_ -o /usr/local/bin/copy.sh -l -d 1
 Back up complete: /opt/backups/ns1_2021-01-27_18_21.gz - 435554 bytes
 ```
 
-###  Installation
+## Installation
 
 The DB backup script must be installed and run on all hosts running an NS1 data container, be it standalone or clustered. In the case of a cluster, the script will only produce a backup when the target data container is designated as the `primary` node. The backup script will do nothing and exit graciously when run on 'secondary' nodes.
 
@@ -79,7 +89,7 @@ For each host running an NS1 data container:
 3. Add the cron entry with the desired frequency parameters:
 	`crontab -e`
 	
-#### Cron entry examples:
+### Cron entry examples:
 
 Daily backups at 3:25am
 
@@ -90,7 +100,7 @@ Backups every Sunday 7th at minight (Feb 7, Mar 7, Nov 7 2021, Aug 7 2022, May 7
 `0 0 7 * 7 /usr/local/sbin/data_backup.sh ddi_data_1 /data/backups/ns1/`
 
 
-### Output Messages
+## Output Messages
 
 `sanity check failed`
 
