@@ -9,37 +9,36 @@ Performing frequent backups is an essential part of succesful business continuit
 ##DB Backup Script Requirements
 
 * This script must be executed on the host where the NS1 data container is running
-* A consistent source of power supply
-* Clean air with 20% oxigen content
-* An adult to supervise the installation
+* The docker container name is a required parameter.
+* Sufficient disk space on the local and remote backup storage directories
+
 
 ## Usage
 
 The DB backup script takes the following arguments:
 
-Required:
-
-1. The docker name of the NS1 data container to be backed up
-2. The path to the backup storage directory on the local system
-
-Optional:
-
-3. The minimum free disk space required for the backup to run (in KiB, defaults to 1048576 which is 1 GiB)
-4. Log a message on success ( "true" or "fasle", defaults to "true")
-5. Filename prefix (string, defaults to "")
-
-
 ```
-Usage:
-backup.sh <data_container_name> [-b back-up-location] [-f filename-prefix] [-d delete-old-files] [-o offsite-copy] [-l] [--dry-run]
+backup.sh <data_container_name> [-b <back-up-location>] [-f <filename-prefix>] [-d delete-old-files] [-o offsite-copy] [-l] [--dry-run]
 ```
 
-### Parameters
+
+###Required parameters:
+
+`backup.sh <data_container_name>`
+
+The docker name of the NS1 data container to be backed up
+
+
+### Optional parameters:
 
 `-b | --backup-location <path>`
 
-Specify the directory where to place the backup. Default is the current directory.
+Specify the directory where to place the local copy of the backup. Default is the current directory.
 
+`-d | --delete-old-files <days>`
+	
+Delete backups that are older than the specified <days>
+	
 `-f | --filename-prefix <string>`
 
 Prepend a string to the backup file name. Default backup name is of the format "YYYY-MM-DD-HH-MM.gz", i.e: 2021-01-27_18_21.gz
@@ -60,8 +59,15 @@ Database backup simulacrum.
 
 Print the usage message
 
+2. The path to the local backup storage directory on the local system
+3. The minimum free disk space required for the backup to run (in KiB, defaults to 1048576 which is 1 GiB)
+4. Log a message on success ( "true" or "fasle", defaults to "true")
+5. Filename prefix (string, defaults to "")
 
-#### Parameter Examples
+
+
+
+###  Examples
 
 Perform a backup...
 * For the `ddi_data_1` container. 
