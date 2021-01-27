@@ -1,17 +1,42 @@
 #!/usr/bin/env bash
 
 usage() {
-    echo "$(basename $0) <data_container_name> <back up location> <min disk space> <log on success> <filename prefix>"
+    cat <<EOF
+$(basename $0) <data_container_name> [-b back-up-location] [-m min-disk-space] [-l log-on-success] [-f filename-prefix]"
+EOF
     exit 1
 }
 
-[ -z ${1+x} ] && usage
+if [ -z "$1" ]; then
+  usage
+fi
 
 DATA_NAME=$1
-BAK_LOC=${2-"./"}
-MIN_DISK=${3-"1048576"} # 1kb blocks => 1gb
-LOG_SUC=${4-true}
-F_PREFIX=${5-""}
+BAK_LOC="./"
+MIN_DISK="1048576" # 1kb blocks => 1gb
+LOG_SUC=
+F_PREFIX=""
+
+shift
+for x; do case $x in
+  -b|--backup-location) shift; BAK_LOC=$1;;
+  -f|--filename-prefix) shift; F_PREFIX=$1;;
+  -h|--help) usage;;
+  -l|--log-success) LOG_SUC=1;;
+  -m|--min-disk) shift; MIN_DISK=$1;;
+esac; shift; done
+
+sanity_check() {
+  # try to fail gracefully if we don't have docker, a good container id, or
+  # a container without supd
+  if ! docker exec -i "$1" supd --version 2>&1>/dev/null; then
+    # run it again without supressing output
+    echo sanity check failed:
+    docker exec -i "$1" supd --version
+    echo exiting
+    exit 1
+  fi
+}
 
 get_cluster_id() {
   docker exec -i "$1" bash <<'EOF'
@@ -37,7 +62,7 @@ supd_is_primary() {
   fi
 }
 
-is_primary() {
+we_are_primary() {
   # check if we are in cluster mode
   cluster_id="$(get_cluster_id $*)"
   if [ "$cluster_id" ]; then
@@ -58,33 +83,47 @@ is_primary() {
   fi
 }
 
-have_min_disk() {
+we_have_min_disk() {
     # Check if enough disk space remains on host
     # Were checking the root directory which may be inaccurate
-    [ $(df | awk '$6=="/" {print $4}') -gt $MIN_DISK ] && return 0 || return 1
+    space_left=$(df | awk '$6=="/" {print $4}')
+    if [ -z "$space_left" ]; then
+      return 2
+    fi
+    if [ $space_left -gt $MIN_DISK ]; then
+      return 0
+    else
+      return 1
+    fi
 }
 
 backup() {
-    if have_min_disk; then
-        docker exec $DATA_NAME supd backup_db > /dev/null
-        FNAME=$(docker exec $DATA_NAME ls /ns1/data/backup | grep "\.gz$" | head -n1)
-        FSIZE=$(docker exec $DATA_NAME ls -l /ns1/data/backup/$FNAME | awk '{print $5}')
-        docker cp $DATA_NAME:/ns1/data/backup/$FNAME $BAK_LOC/${F_PREFIX}${FNAME}
-        docker exec $DATA_NAME sh -c 'ls /ns1/data/backup/archived | xargs -I % rm /ns1/data/backup/archived/%'
-        if [ $? -ne 0 ]; then
-            echo "ERROR: back up failed"
-            exit 1
-        else
-            [ $LOG_SUC == "true" ] && echo "Back up complete: $BAK_LOC/${F_PREFIX}${FNAME} - ${FSIZE} bytes"
-        fi
+    docker exec "$DATA_NAME" supd backup_db > /dev/null
+    FNAME="$(docker exec $DATA_NAME ls /ns1/data/backup | grep "\.gz$" | head -n1)"
+    FSIZE="$(docker exec $DATA_NAME ls -l /ns1/data/backup/$FNAME | awk '{print $5}')"
+    if [ -z "$FNAME" -o -z "$FSIZE" ]; then
+       echo "missing FNAME=$FNAME or FSIZE=$FSIZE"
+       exit 1
+    fi
+    docker cp "$DATA_NAME:/ns1/data/backup/$FNAME" "$BAK_LOC/${F_PREFIX}${FNAME}"
+    docker exec "$DATA_NAME" sh -c 'ls /ns1/data/backup/archived | xargs -I % rm /ns1/data/backup/archived/%'
+    if [ $? -ne 0 ]; then
+        echo "ERROR: back up failed"
+        exit 1
+    elif [ "$LOG_SUC" ]; then
+        echo "Back up complete: $BAK_LOC/${F_PREFIX}${FNAME} - ${FSIZE} bytes"
+    fi
+}
+
+sanity_check "$DATA_NAME"
+
+if we_are_primary "$DATA_NAME"; then
+    if we_have_min_disk; then
+        backup
     else
         echo "Insufficient disk space remaining"
         exit 1
     fi
-}
-
-if is_primary $*; then
-    backup
-else
-    [ $LOG_SUC == "true" ] && echo "This node is not primary - not performing backup"
+elif [ "$LOG_SUC" ]; then
+    echo "This node is not primary - not performing backup"
 fi
