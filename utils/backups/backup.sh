@@ -24,14 +24,16 @@ BAK_LOC="./"
 LOG_SUC=
 F_PREFIX=""
 
-shift
-for x; do case $x in
-  -b|--backup-location) shift; BAK_LOC=$1;;
-  -f|--filename-prefix) shift; F_PREFIX=$1;;
-  -h|--help) usage;;
-  -l|--log-success) LOG_SUC=1;;
-  --dry-run) DRY_RUN=1; LOG_SUC=1;;
-esac; shift; done
+while [[ $1 ]]; do
+    case "$1" in
+        -b|--backup-location)  BAK_LOC="${2}"; shift ;;
+        -f|--filename-prefix)  F_PREFIX="${2}"; shift ;;
+        -l|--log-success)      LOG_SUC=1 ;;
+        --dry-run)             DRY_RUN=1; LOG_SUC=1 ;;
+        -h|--help)             usage ;;
+    esac
+    shift
+done
 
 sanity_check() {
   # try to fail gracefully if we don't have docker, a good container id, or
