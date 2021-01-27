@@ -6,7 +6,7 @@ Performing frequent backups is an essential part of succesful business continuit
 
 
 
-##DB Backup Script Requirements
+## DB Backup Script Requirements
 
 * This script must be executed on the host where the NS1 data container is running
 * The docker container name is a required parameter.
@@ -22,7 +22,7 @@ backup.sh <data_container_name> [-b <back-up-location>] [-f <filename-prefix>] [
 ```
 
 
-###Required parameters:
+### Required parameters:
 
 `backup.sh <data_container_name>`
 
@@ -43,9 +43,9 @@ Delete backups that are older than the specified <days>
 
 Prepend a string to the backup file name. Default backup name is of the format "YYYY-MM-DD-HH-MM.gz", i.e: 2021-01-27_18_21.gz
 
-`-o | --offsite-copy`
+`-o | --offsite-copy <script_name>`
 
-Copy the backup to a remote location.
+Copy the backup to a remote location using the specified copy script. The copy script will receive the backup filename as the only parameter.
 
 `-l | --log-success`
 	
@@ -59,23 +59,17 @@ Database backup simulacrum.
 
 Print the usage message
 
-2. The path to the local backup storage directory on the local system
-3. The minimum free disk space required for the backup to run (in KiB, defaults to 1048576 which is 1 GiB)
-4. Log a message on success ( "true" or "fasle", defaults to "true")
-5. Filename prefix (string, defaults to "")
-
-
 
 
 ###  Examples
 
 Perform a backup...
+
 * For the `ddi_data_1` container. 
 * Place a local copy of the backup in the `~/backups` directory.
 * Copy the backup offsite (using the designated script? what params ar passed to script?)
 * Log a message on success
-* -d 1, explain
-
+* Delete backups older that `1` day
 
 ```
 $ backup.sh ddi_data_1 -b ~/backups -f ns1_ -o /usr/local/bin/copy.sh -l -d 1
@@ -86,9 +80,9 @@ Back up complete: /opt/backups/ns1_2021-01-27_18_21.gz - 435554 bytes
 
 The DB backup script must be installed and run on all hosts running an NS1 data container, be it standalone or clustered. In the case of a cluster, the script will only produce a backup when the target data container is designated as the `primary` node. The backup script will do nothing and exit graciously when run on 'secondary' nodes.
 
-It is strongly recommended to keep backup configuration parameters consistent for the cluster.
+It is strongly recommended to keep backup configuration parameters consistent across the cluster.
 
-For each host running an NS1 data container:
+### For each host running an NS1 data container:
 
 1. Copy the script to the designated location on the host, i.e.: `cp db_backup.sh /usr/local/sbin/`
 2. Set the appropriate execution bits on the script, i.e.: `chmod ug=rx,o=- db_backup.sh`
