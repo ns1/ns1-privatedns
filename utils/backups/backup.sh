@@ -128,8 +128,8 @@ backup() {
     if [ "$DELETE_OLD_FILES" ]; then
         find $BAK_LOC -type f -iname "${F_PREFIX}*.gz" \
         -regex '.*20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].*' \
-        -mtime +$DELETE_OLD_FILES
-        -exec -exec rm -f {} \;
+        -mtime +$DELETE_OLD_FILES \
+        -exec rm -f {} \;
     fi
 
     if [ "$LOG_SUC" ]; then
