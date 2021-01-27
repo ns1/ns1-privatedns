@@ -41,9 +41,9 @@ sanity_check() {
 get_cluster_id() {
   docker exec -i "$1" bash <<'EOF'
   supd viewconfig -ay | awk '
-    $1=="cluster_mode:"&&$2~/clustering_on/{x++}
-    $1=="cluster_id:"&&$2!~/undefined/{y=$2}
-    END{if (x) print y}
+    $1=="cluster_mode:" && $2~/clustering_on/ {cluster_mode++}
+    $1=="cluster_id:" && $2!~/undefined/ {cluster_id=int($2)}
+    END {if (cluster_mode) print cluster_id}
   '
 EOF
 }
