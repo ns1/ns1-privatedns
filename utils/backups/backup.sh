@@ -2,7 +2,7 @@
 
 usage() {
     cat <<EOF
-$(basename $0) <data_container_name> [-b back-up-location] [-l log-on-success] [-f filename-prefix] [--dry-run]
+$(basename $0) <data_container_name> [-b back-up-location] [-f filename-prefix] [-d delete-old-files] [-o offsite-copy] [-l] [--dry-run]
 EOF
     exit 1
 }
@@ -46,6 +46,7 @@ sanity_check() {
   if [ ! -d "$BAK_LOC" ]; then
     echo sanity check failed:
     echo "backup location \"$BAK_LOC\" is not a directory"
+    exit 1
   fi
 }
 
@@ -111,7 +112,16 @@ backup() {
     if [ $? -ne 0 ]; then
         echo "ERROR: back up failed"
         exit 1
-    elif [ "$LOG_SUC" ]; then
+    fi
+
+    if [ "$OFFSITE_COPY" ]; then
+      echo "offsite copy not implemented"
+    fi
+    if [ "$DELETE_OLD_FILES" ]; then
+      echo "delete old files not implemented"
+    fi
+
+    if [ "$LOG_SUC" ]; then
         echo "Back up complete: $BAK_LOC/${F_PREFIX}${FNAME} - ${FSIZE} bytes"
     fi
 }
