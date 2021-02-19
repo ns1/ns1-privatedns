@@ -1,3 +1,10 @@
+## 2.5.10 (February 19th, 2021) 
+- What’s fixed?
+ - Portal: Fixed a version problem with the database restore utility
+ - Security: OpenSSL has been patched to address CVE-2020-1971
+ - System: Increased the database max connections
+ 
+
 ## 2.5.9 (December 21, 2020)
 - What’s fixed?
  - DNS: Fixed an issue where the DNSKEY record could fail to update when key is generated or deleted
