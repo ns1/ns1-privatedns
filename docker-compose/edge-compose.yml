@@ -2,7 +2,7 @@
 version: '3.4'
 services:
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-2.5.9}
+    image: ns1inc/privatedns_dns:${TAG:-2.5.10}
     logging:
       driver: "json-file"
       options:
@@ -76,7 +76,7 @@ services:
       --dhcp_service_def_id 2
       --enable_ops_metrics  true
   dist:
-    image: ns1inc/privatedns_dist:${TAG:-2.5.9}
+    image: ns1inc/privatedns_dist:${TAG:-2.5.10}
     logging:
       driver: "json-file"
       options:
