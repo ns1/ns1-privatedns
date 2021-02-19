@@ -114,7 +114,7 @@ services:
       --core_host           ${CORE_HOSTS:-core}
       --enable_ops_metrics  true
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-2.5.9}
+    image: ns1inc/privatedns_dns:${TAG:-2.5.10}
     logging:
       driver: "json-file"
       options:
