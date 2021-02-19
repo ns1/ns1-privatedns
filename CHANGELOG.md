@@ -1,6 +1,33 @@
+## 3.2.5 (February 19, 2021)
+- What’s fixed?
+  - DHCP: Allow reservations with same identifier but in different subnets
+  - DHCP: Fixed an issue where creating a custom DHCP option definition would trigger the API and UI to respond with an Internal Server Error
+  - DHCP: Fixed an issue where it was not possible to select array when creating a custom DHCP option
+  - DHCP: Fixed an issue where saving a Scope Group with a large number of Scopes and Reservations could fail with a 504 gateway timeout
+  - DNS: Fixed an issue where an ACL/View erroneously could prevent DNS resolution
+  - DHCP: IPAM get next returns endpoint returns an address already in use
+  - DHCP: Scope group “Match Client ID” checkbox is out of sync with default value
+  - DNS: Fixed an issue where you cannot modify the nameserver associated with a DNS service if there is a view associated with it
+  - IPAM: Fixed an issue where subnets were not enclosed correctly
+  - Portal: Validate totp minlength to prevent causing backend 401 error
+  - Portal: Fixed an issue where a record could not be cloned to the root of any zone
+  - Portal: Fixed an issue where the portal becomes unresponsive when viewing a DHCP scopes range
+  - Portal: Fixed an issue where multiple calls to an endpoint were made where only one is needed
+  - Portal: Persist show reserve zones checkbox
+  - Portal: Optimized Template view for large IPAM dataset
+  - System: Fixed slow response from portal - API returning code 500 
+  - System: Fixed an issue which results in possible data loss during certain types of primary failover
+  - System: Fixed an issue where the oplog will fill up entire disk over time
+  - System: Fixed an issue where the services endpoint would not show a service definition with a Scope Group attached
+  - System: Fixed issue with Dist going unhealthy during stress testing
+  - System: Fixed an issue with the upgrade database migrations
+
+- Known Issues:
+  - DHCP: An invalid configuration is possible where DHCP reservations are made outside a Scope definition
+  - DHCP: After API import of a large number of Scopes, subsequent initial DHCP configuration deployment takes 3+ hrs
+
+
 ## 3.2.4 (January 26, 2021)
-
-
 - What’s fixed?
   - DHCP: Batch updates for leases to improve overall performance
   - DHCP: Enable multiple DDNS zones per scope groups for NS1 DDNS
@@ -22,7 +49,6 @@
 
 
 ## 3.2.3 (December 22, 2020)
-
 - New Features:
   - Cloud-sync: AWS RTE53 support for VPC’s, Zones and Records
   - DHCP: Custom Options
