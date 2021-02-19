@@ -4,10 +4,10 @@
   - DHCP: Fixed an issue where creating a custom DHCP option definition would trigger the API and UI to respond with an Internal Server Error
   - DHCP: Fixed an issue where it was not possible to select array when creating a custom DHCP option
   - DHCP: Fixed an issue where saving a Scope Group with a large number of Scopes and Reservations could fail with a 504 gateway timeout
-  - DNS: Fixed an issue where an ACL/View erroneously could prevent DNS resolution
   - DHCP: IPAM get next endpoint returns an address already in use
   - DHCP: Scope group “Match Client ID” checkbox is out of sync with default value
   - DNS: Fixed an issue where you cannot modify the nameserver associated with a DNS service if there is a view associated with it
+  - DNS: Fixed an issue where an ACL/View erroneously could prevent DNS resolution
   - IPAM: Fixed an issue where subnets were not enclosed correctly
   - Portal: Validate totp minlength to prevent causing backend 401 error
   - Portal: Fixed an issue where a record could not be cloned to the root of any zone
