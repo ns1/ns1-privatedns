@@ -67,6 +67,8 @@ spec:
         image: {{ .image.name }}:{{ .image.tag }}
         imagePullPolicy: {{ .image.pullPolicy }}
         env:
+        - name: BOOTSTRAPPABLE
+          value: "false"
           {{- if gt (int (.replicas)) 1 }}
         - name: CLUSTER_SIZE
           value: "{{ .replicas }}"
@@ -75,8 +77,6 @@ spec:
           value: "data"
         - name: CONFIG_PORT
           value: "3300"
-        - name: DATA_PRIMARY
-          value: "{{ if eq (int (.replicas)) 1 }}true{{ else }}false{{ end }}"
         ports:
         - name: data
           containerPort: 5353
@@ -181,6 +181,5 @@ data:
         --cluster_size=$CLUSTER_SIZE \
         --cluster_mode "clustering_on" \
         {{- end }}
-        --expose_ops_metrics={{ .exposeOpsMetrics }}
 ---
 {{ end }}
