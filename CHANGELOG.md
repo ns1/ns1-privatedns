@@ -1,3 +1,9 @@
+## 2.5.11 (February 26th, 2021) 
+- What’s fixed?
+  - API: API returns HTTP 500 when issuing GET on a DNSSEC signed zone or DNSKEY/RRSIG record within that zone
+  - Security: OpenSSL/LibSSL have been patched to address CVE-2020-1971, CVE-2021-23840
+
+
 ## 2.5.10 (February 19th, 2021) 
 - What’s fixed?
   - Portal: Fixed a version problem with the database restore utility
