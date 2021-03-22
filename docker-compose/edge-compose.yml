@@ -3,7 +3,7 @@ version: '3.4'
 services:
   dns:
     hostname: ${POP_ID:-mypop}-${SERVER_ID:-myserver}-${DNS_CONTAINER_NAME:-dns}
-    image: ns1inc/privatedns_dns:${TAG:-3.2.5}
+    image: ns1inc/privatedns_dns:${TAG:-3.2.6}
     logging:
       driver: "json-file"
       options:
@@ -37,7 +37,7 @@ services:
       --num_trex_procs      4
   dhcp:
     hostname: ${POP_ID:-mypop}-${SERVER_ID:-myserver}-${DHCP_CONTAINER_NAME:-dhcp}
-    image: ns1inc/privatedns_dhcp:${TAG:-3.2.5}
+    image: ns1inc/privatedns_dhcp:${TAG:-3.2.6}
     logging:
       driver: "json-file"
       options:
@@ -77,7 +77,7 @@ services:
       --service_def_id      2
   dist:
     hostname: ${POP_ID:-mypop}-${SERVER_ID:-myserver}-${DIST_CONTAINER_NAME:-dist}
-    image: ns1inc/privatedns_dist:${TAG:-3.2.5}
+    image: ns1inc/privatedns_dist:${TAG:-3.2.6}
     logging:
       driver: "json-file"
       options:
@@ -112,7 +112,7 @@ services:
       --core_host            ${CORE_HOSTS}
   monitor:
     hostname: ${POP_ID:-mypop}-${SERVER_ID:-myserver}-${MONITOR_CONTAINER_NAME:-monitor}
-    image: ns1inc/privatedns_monitor:${TAG:-3.2.5}
+    image: ns1inc/privatedns_monitor:${TAG:-3.2.6}
     logging:
       driver: "json-file"
       options:
