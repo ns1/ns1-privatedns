@@ -10,6 +10,7 @@ import sys
 import os
 import json
 import argparse
+import subprocess
 from timeit import default_timer
 
 try:
@@ -217,13 +218,17 @@ def make_progress_bar(completed, total, rate, complete=False):
     bar_size = 56
     pct_complete = completed / total
     full_bars = int(bar_size * pct_complete)
+    try:
+        columns = int(subprocess.check_output(['stty', 'size']).decode().split()[1])
+    except:
+        columns = 80
     progress_bar = (
         "["
         + "#" * full_bars
         + ">"
         + " " * (bar_size - full_bars)
         + "] ({:.2f}%) {}".format(pct_complete * 100, metric_prefix(rate))
-    )
+    ).ljust(columns)
     print("\r", progress_bar, sep="", end="")
     if complete:
         print()
