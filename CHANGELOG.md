@@ -1,3 +1,16 @@
+## 2.5.12 (April 12, 2021) 
+- What’s fixed?
+  - Security: OpenSSL and LibSSL have been patched to address CVE-2021-3449
+  - System: Change XFR and DIST containers to use least connections
+  - System: Fixed an issue whereby sequential failovers could break database replication
+  - System: Fixed a post-upgrade issue where data replication from DIST to the DNS service was not complete
+  - System: Fixed an issue where the oplog was not pruned and vacuumed properly
+  - System: Fixed an issue where data loss could occur on repeated Primary failover before the initial failover completed
+  - System: Shuffle core host variable for DIST container to avoid failure
+  - System: Updated prune timer from 1 minute to 1 hour
+  - System: Update the max connection count for PostgreSQL
+
+
 ## 2.5.11 (February 26th, 2021) 
 - What’s fixed?
   - API: API returns HTTP 500 when issuing GET on a DNSSEC signed zone or DNSKEY/RRSIG record within that zone
