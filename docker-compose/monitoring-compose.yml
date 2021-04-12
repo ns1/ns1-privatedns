@@ -2,7 +2,7 @@
 version: '3.4'
 services:
   data:
-    image: ns1inc/privatedns_data:${TAG:-2.5.11}
+    image: ns1inc/privatedns_data:${TAG:-2.5.12}
     logging:
       driver: "json-file"
       options:
@@ -44,7 +44,7 @@ services:
       --server_id            ${SERVER_ID:-myserver}
       --expose_ops_metrics   true
   core:
-    image: ns1inc/privatedns_core:${TAG:-2.5.11}
+    image: ns1inc/privatedns_core:${TAG:-2.5.12}
     logging:
       driver: "json-file"
       options:
@@ -82,7 +82,7 @@ services:
       --hostmaster_email   ${HOSTMASTER_EMAIL:-hostmaster@mycompany.net}
       --enable_ops_metrics true
   xfr:
-    image: ns1inc/privatedns_xfr:${TAG:-2.5.11}
+    image: ns1inc/privatedns_xfr:${TAG:-2.5.12}
     logging:
       driver: "json-file"
       options:
@@ -114,7 +114,7 @@ services:
       --core_host           ${CORE_HOSTS:-core}
       --enable_ops_metrics  true
   dns:
-    image: ns1inc/privatedns_dns:${TAG:-2.5.11}
+    image: ns1inc/privatedns_dns:${TAG:-2.5.12}
     logging:
       driver: "json-file"
       options:
@@ -148,7 +148,7 @@ services:
       --num_trex_procs      2
       --enable_ops_metrics  true
   dhcp:
-    image: ns1inc/privatedns_dhcp:${TAG:-2.5.11}
+    image: ns1inc/privatedns_dhcp:${TAG:-2.5.12}
     logging:
       driver: "json-file"
       options:
@@ -188,7 +188,7 @@ services:
       --dhcp_service_def_id 2
       --enable_ops_metrics  true
   monitoring_edge:
-    image: ns1inc/privatedns_monitoring_edge:${TAG:-2.5.11}
+    image: ns1inc/privatedns_monitoring_edge:${TAG:-2.5.12}
     logging:
       driver: "json-file"
       options:
