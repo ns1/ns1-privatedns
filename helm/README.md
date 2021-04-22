@@ -1,7 +1,7 @@
 # NS1 Helm Chart
 
 ## Prerequisites
-- Kubernetes 1.12+ 
+- Kubernetes 1.20+ (may work with older versions)
 - This chart uses PersistentVolumeClaims and so dynamic PersistentVolume
   provisioning must be configured on the cluster. If you are using a managed
   Kubernetes service then this likely is already done. Regardless, you'll need
@@ -18,12 +18,6 @@ See [the Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-po
 Then the chart can be installed:
 ``` bash
 helm install ns1-ddi <path-to-chart> --values=<path-to-values>.yml
-```
-
-If the installation is being ran with the bootstrap configuration set to
-true, then the timeout on the helm install should be increased:
-```
-helm install ns1-ddi <path-to-chart> --values=<path-to-values>.yml --timeout=15m
 ```
 
 ## Uninstalling the Chart
@@ -60,22 +54,24 @@ An example topology could look like this, where:
 
 ![multi-node](examples/multi-node.jpeg)
 
-The following tables lists the configurable parameters of the NS1 DDI chart and their default values.
+The following tables lists the configurable parameters of the NS1 DDI chart and example values.
+
+By default, services are disabled. See the examples folder for examples of values.yml files.
 
 ### Global
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| `imagePullSecret` | Reference to a secret to be used when pulling images | `docker-creds` |
-| `bootstrap` | Boolean value indicating whether to perform an initial bootstrap process after the installation is complete. Setting this to true will create a configmap called ns1-bootstrap-credentials holding initial credentials. This is a blocking operation - the Helm install will not complete until the bootstrap is complete, which requires the deployment to be healthy.  It's recommended to use this in conjunction with the `--timeout` Helm flag set to at least 10 minutes. | `false` |
+| `imagePullSecret` | Reference to a secret to be used when pulling images | `ns-docker-creds` |
+| `bootstrappable` | Boolean value indicating whether to provide the bootstrap UI for initial installation | `false` |
 
 ### Data
-| Parameter | Description | Default |
+| Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `data.name` | Name to be used for the various data resources. | `data` |
 | `data.replicas` | Number of data replicas to run. This should be 1, 3, or 5. | `3` |
 | `data.image.name` | The name of the image to use for the data container. | `ns1inc/privatedns_data` |
-| `data.image.tag` | The tag of the image to use for the data container. | `2.3.1` |
+| `data.image.tag` | The tag of the image to use for the data container. | `3.3.2` |
 | `data.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `data.livenessProbe.initialDelaySeconds` | How long to wait for the data pods to come up before beginning health checks. | `120` |
 | `data.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `5` |
@@ -83,7 +79,6 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | `data.storage.className` | The type of storage to use for the persistent volume claim that the data service uses. | `default` |
 | `data.storage.size` | The size of storage to request per data replica. | `20Gi` |
 | `data.popID` | The ID of the PoP. | `default_pop` |
-| `data.exposeOpsMetrics` | Exposes operational metrics. | `false` |
 | `data.startupFlags` | Additional flags to pass to the startup command of the data container. | `{}` |
 | `data.resources` | CPU/memory resource requests/limits. | `{}` |
 | `data.nodeSelector` | Node labels for pod assignment. | `{}` |
@@ -91,12 +86,12 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | `data.affinity` | Node affinity for pod assignment. | `{}` |
 
 ### Core
-| Parameter | Description | Default |
+| Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `core.name` | Name to be used for the various core resources. | `core` |
 | `core.replicas` | Number of core replicas to run. | `3` |
 | `core.image.name` | The name of the image to use for the core container. | `ns1inc/privatedns_core` |
-| `core.image.tag` | The tag of the image to use for the core container. | `2.3.1` |
+| `core.image.tag` | The tag of the image to use for the core container. | `3.3.2` |
 | `core.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `core.livenessProbe.initialDelaySeconds` | How long to wait for the core pods to come up before beginning health checks. | `30` |
 | `core.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `3` |
@@ -115,10 +110,10 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | `core.affinity` | Node affinity for pod assignment. | `{}` |
 
 ### DNS
-| Parameter | Description | Default |
+| Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `dns.image.name` | The name of the image to use for the DNS container. | `ns1inc/privatedns_dns` |
-| `dns.image.tag` | The tag of the image to use for the DNS container. | `2.3.1` |
+| `dns.image.tag` | The tag of the image to use for the DNS container. | `3.3.2` |
 | `dns.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `dns.pops[#].name` | Name to be used for the various DNS resources. | `dns` |
 | `dns.pops[#].replicas` | Number of DNS replicas to run at this PoP. | `3` |
@@ -136,9 +131,7 @@ The following tables lists the configurable parameters of the NS1 DDI chart and 
 | `dns.pops[#].affinity` | Node affinity for pod assignment. | `{}` |
 
 ### Dist
-By default, dist is disabled (i.e. set to `{}` in `values.yaml`).
-
-| Parameter | Description | Default |
+| Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `dist.image.name` | The name of the image to use for the dist container. | |
 | `dist.image.tag` | The tag of the image to use for the dist container. | |
@@ -160,9 +153,7 @@ By default, dist is disabled (i.e. set to `{}` in `values.yaml`).
 | `dist.pops[#].affinity` | Node affinity for pod assignment. | |
 
 ### DHCP
-By default, DHCP is disabled (i.e. set to `{}` in `values.yaml`).
-
-| Parameter | Description | Default |
+| Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `dhcp.image.name` | The name of the image to use for the DHCP container. | |
 | `dhcp.image.tag` | The tag of the image to use for the DHCP container. | |
@@ -184,9 +175,7 @@ By default, DHCP is disabled (i.e. set to `{}` in `values.yaml`).
 | `dhcp.pops[#].affinity` | Node affinity for pod assignment. | |
 
 ### XFR
-By default, XFR is disabled (i.e. set to `{}` in `values.yaml`).
-
-| Parameter | Description | Default |
+| Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `xfr.name` | Name to be used for the various XFR resources. | |
 | `xfr.replicas` | Number of XFR replicas to run. | |
@@ -212,4 +201,3 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 ```bash
 helm install ns1-ddi -f values.yml .
 ```
-> **Tip**: You can use the default [values.yaml](values.yaml)

@@ -43,6 +43,7 @@ spec:
     matchLabels:
       app: {{ include "data.fullname" . }}
   serviceName: "{{ include "data.fullname" . }}-headless"
+  podManagementPolicy: Parallel
   template:
     metadata:
       labels:
@@ -77,6 +78,8 @@ spec:
           value: "3300"
         - name: DATA_PRIMARY
           value: "{{ if eq (int (.replicas)) 1 }}true{{ else }}false{{ end }}"
+        - name: BOOTSTRAPPABLE
+          value: "{{ $.Values.bootstrappable }}"
         ports:
         - name: data
           containerPort: 5353
@@ -97,7 +100,8 @@ spec:
             command:
             - supd
             - health
-          initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds }}
+          # Add 30 minutes delay to the liveness probe when bootstrappable is set.
+          initialDelaySeconds: {{ if $.Values.bootstrappable }}{{ add .livenessProbe.initialDelaySeconds 1800 }}{{ else }}{{ .livenessProbe.initialDelaySeconds }}{{ end }}
           failureThreshold: {{ .livenessProbe.failureThreshold }}
           periodSeconds: {{ .livenessProbe.periodSeconds }}
         resources:
@@ -174,13 +178,11 @@ data:
         {{ $flag }} \
         {{- end }}
         --pop_id={{ .popID }} \
-        --server_id=$HOSTNAME.{{ include "data.fullname" . }}-headless \
-        {{- if gt (int (.replicas)) 1 }}
+        --server_id=$HOSTNAME.{{ include "data.fullname" . }}-headless {{- if gt (int (.replicas)) 1 }} \
         --data_peers=$DATA_PEERS \
         --cluster_id=$CLUSTER_ID \
         --cluster_size=$CLUSTER_SIZE \
-        --cluster_mode "clustering_on" \
+        --cluster_mode "clustering_on"
         {{- end }}
-        --expose_ops_metrics={{ .exposeOpsMetrics }}
 ---
 {{ end }}

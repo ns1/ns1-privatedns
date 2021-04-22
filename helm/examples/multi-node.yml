@@ -5,7 +5,7 @@ data:
   replicas: 3
   image:
     name: ns1inc/privatedns_data
-    tag: 2.3.1
+    tag: 3.3.2
     pullPolicy: IfNotPresent
   livenessProbe:
     initialDelaySeconds: 300
@@ -13,9 +13,8 @@ data:
     periodSeconds: 15
   storage:
     className: do-block-storage # block storage for Digital Ocean
-    size: 5Gi
+    size: 20Gi
   popID: default_pop
-  exposeOpsMetrics: false
   startupFlags: {}
   resources: {}
   # Run the data pods on the main set of nodes.
@@ -36,10 +35,10 @@ data:
 
 core:
   name: core
-  replicas: 3
+  replicas: 2
   image:
     name: ns1inc/privatedns_core
-    tag: 2.3.1
+    tag: 3.3.2
     pullPolicy: IfNotPresent
   livenessProbe:
     initialDelaySeconds: 30
@@ -83,7 +82,7 @@ core:
 dns:
   image:
     name: ns1inc/privatedns_dns
-    tag: 2.3.1
+    tag: 3.3.2
     pullPolicy: IfNotPresent
   pops:
   - name: dns
@@ -131,7 +130,7 @@ dns:
 dist:
   image:
     name: ns1inc/privatedns_dist
-    tag: 2.3.1
+    tag: 3.3.2
     pullPolicy: IfNotPresent
   pops:
   - name: dist
@@ -142,7 +141,7 @@ dist:
       periodSeconds: 15
     storage:
       className: do-block-storage # block storage for Digital Ocean
-      size: 5Gi
+      size: 20Gi
     popID: edge_pop
     coreService: core
     enableOpsMetrics: false
@@ -161,7 +160,7 @@ dist:
 dhcp:
   image:
     name: ns1inc/privatedns_dhcp
-    tag: 2.3.1
+    tag: 3.3.2
     pullPolicy: IfNotPresent
   pops:
   - name: dhcp
@@ -208,10 +207,10 @@ dhcp:
 
 xfr:
   name: xfr
-  replicas: 3
+  replicas: 2
   image:
     name: ns1inc/privatedns_xfr
-    tag: 2.3.1
+    tag: 3.3.2
     pullPolicy: IfNotPresent
   livenessProbe:
     initialDelaySeconds: 30

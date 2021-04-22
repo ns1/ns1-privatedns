@@ -1,73 +1,11 @@
-imagePullSecret: docker-creds
-bootstrap: false
+imagePullSecret: ns1-docker-creds
+bootstrappable: false
 
-data:
-  name: data
-  replicas: 3
-  image:
-    name: ns1inc/privatedns_data
-    tag: 2.3.1
-    pullPolicy: IfNotPresent
-  livenessProbe:
-    initialDelaySeconds: 120
-    failureThreshold: 5
-    periodSeconds: 15
-  storage:
-    className: default
-    size: 20Gi
-  popID: default_pop
-  exposeOpsMetrics: false
-  startupFlags: {}
-  resources: {}
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
+data: {}
 
-core:
-  name: core
-  replicas: 3
-  image:
-    name: ns1inc/privatedns_core
-    tag: 2.3.1
-    pullPolicy: IfNotPresent
-  livenessProbe:
-    initialDelaySeconds: 30
-    failureThreshold: 3
-    periodSeconds: 15
-  popID: default_pop
-  apiHostname: api.example.com
-  portalHostname: portal.example.com
-  nameServers: "example1.com,example2.com"
-  hostMasterEmail: "example@email.com"
-  enableOpsMetrics: false
-  enableWebTLS: false
-  startupFlags: {}
-  resources: {}
-  nodeSelector: {}
-  jolerations: []
-  affinity: {}
+core: {}
 
-dns:
-  image:
-    name: ns1inc/privatedns_dns
-    tag: 2.3.1
-    pullPolicy: IfNotPresent
-  pops: 
-  - name: dns
-    replicas: 3
-    livenessProbe:
-      initialDelaySeconds: 30
-      failureThreshold: 3
-      periodSeconds: 15
-    popID: default_pop
-    coreService: core
-    operationMode: authoritative
-    enableOpsMetrics: false
-    startupFlags: {}
-    resources: {}
-    nodeSelector: {}
-    tolerations: []
-    affinity: {}
+dns: {}
 
 dist: {}
 

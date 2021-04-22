@@ -128,7 +128,7 @@ data:
         {{- range $flag := .startupFlags }}
         {{ $flag }} \
         {{- end }}
-        --dhcp_service_def_id={{ .serviceDefID }} \
+        --service_def_id={{ .serviceDefID }} \
         --pop_id={{ .popID }} \
         --server_id=$HOSTNAME \
         --core_host={{ .coreService }} \
