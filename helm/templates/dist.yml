@@ -134,6 +134,8 @@ data:
         {{- range $flag := .startupFlags }}
         {{ $flag }} \
         {{- end }}
+        --service_def_id={{ .serviceDefID }} \
+        --data_service_defs={{ .dataServiceDefs }} \
         --pop_id={{ .popID }} \
         --server_id=$HOSTNAME \
         --core_host={{ .coreService }} \

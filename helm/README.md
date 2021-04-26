@@ -122,6 +122,7 @@ By default, services are disabled. See the examples folder for examples of value
 | `dns.pops[#].livenessProbe.periodSeconds` | How often to execute healthchecks. | `15` |
 | `dns.pops[#].popID` | The ID of the PoP. | `default_pop` |
 | `dns.pops[#].coreService` | The name of the Kubernetes service for core or for a dist service. | `core` |
+| `dns.pops[#].serviceDefID` | The service definition ID(s) that this DNS PoP is responsible for. | |
 | `dns.pops[#].operationMode` | DNS operational mode. | `authoritative` |
 | `dns.pops[#].enableOpsMetrics` | Enables operational metrics. | `false` |
 | `dns.pops[#].startupFlags` | Additional flags to pass to the startup command of the DNS container. | `{}` |
@@ -145,6 +146,8 @@ By default, services are disabled. See the examples folder for examples of value
 | `dist.pops[#].storage.size` | The size of storage to request per dist replica. | |
 | `dist.pops[#].popID` | The ID of the PoP. | |
 | `dist.pops[#].coreService` | The name of the Kubernetes service for core. | |
+| `dist.pops[#].serviceDefID` | The service definition ID that this dist PoP uses for its config. | |
+| `dist.pops[#].dataServiceDefs` | The service definition ID(s) that this dist PoP is subscribed to. | |
 | `dist.pops[#].enableOpsMetrics` | Enables operational metrics. | |
 | `dist.pops[#].startupFlags` | Additional flags to pass to the startup command of the dist container. | |
 | `dist.pops[#].resources` | CPU/memory resource requests/limits. | |
