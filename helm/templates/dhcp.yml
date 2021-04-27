@@ -21,7 +21,7 @@ spec:
     app: {{ include "dhcp.fullname" . }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "dhcp.fullname" . }}
   labels:
@@ -35,6 +35,8 @@ spec:
   selector:
     matchLabels:
       app: {{ include "dhcp.fullname" . }}
+  serviceName: "{{ include "dhcp.fullname" . }}-headless"
+  podManagementPolicy: Parallel
   template:
     metadata:
       labels:
@@ -85,14 +87,12 @@ spec:
 {{ toYaml .resources | indent 10 }}
         volumeMounts:
         - mountPath: /ns1/data
-          name: ns1-data
+          name: {{ include "dhcp.fullname" . }}
         - name: dhcp-entrypoint
           mountPath: /script/entry.sh
           subPath: entry.sh
       enableServiceLinks: false
       volumes:
-      - name: ns1-data
-        emptyDir: {}
       - name: dhcp-entrypoint
         configMap:
           name: {{ include "dhcp.fullname" . }}-entrypoint
@@ -111,6 +111,15 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "dhcp.fullname" . }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "{{ .storage.className }}"
+      resources:
+        requests:
+          storage: {{ .storage.size }}
 ---
 apiVersion: v1
 kind: ConfigMap

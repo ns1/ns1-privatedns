@@ -166,6 +166,8 @@ By default, services are disabled. See the examples folder for examples of value
 | `dhcp.pops[#].livenessProbe.initialDelaySeconds` | How long to wait for the DHCP pods to come up before beginning health checks. | |
 | `dhcp.pops[#].livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | |
 | `dhcp.pops[#].livenessProbe.periodSeconds` | How often to execute healthchecks. | |
+| `dhcp.pops[#].storage.className` | The type of storage to use for the persistent volume claim that the dhcp service uses. |  |
+| `dhcp.pops[#].storage.size` | The size of storage to request per dhcp replica. | |
 | `dhcp.pops[#].hostMode` | Boolean value indicating whether to run in host mode within Kubernetes. | |
 | `dhcp.pops[#].popID` | The ID of the PoP. | |
 | `dhcp.pops[#].coreService` | The name of the Kubernetes service for core or dist. | |
