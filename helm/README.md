@@ -134,70 +134,68 @@ By default, services are disabled. See the examples folder for examples of value
 ### Dist
 | Parameter | Description | Example |
 | --------- | ----------- | ------- |
-| `dist.image.name` | The name of the image to use for the dist container. | |
-| `dist.image.tag` | The tag of the image to use for the dist container. | |
-| `dist.image.pullPolicy` | The pull policy for the image. | |
-| `dist.pops[#].name` | Name to be used for the various dist resources. | |
-| `dist.pops[#].replicas` | Number of dist replicas to run at this PoP. | |
-| `dist.pops[#].livenessProbe.initialDelaySeconds` | How long to wait for the dist pods to come up before beginning health checks. | |
-| `dist.pops[#].livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | |
-| `dist.pops[#].livenessProbe.periodSeconds` | How often to execute healthchecks. | |
-| `dist.pops[#].storage.className` | The type of storage to use for the persistent volume claim that the dist service uses. | |
-| `dist.pops[#].storage.size` | The size of storage to request per dist replica. | |
-| `dist.pops[#].popID` | The ID of the PoP. | |
-| `dist.pops[#].coreService` | The name of the Kubernetes service for core. | |
-| `dist.pops[#].serviceDefID` | The service definition ID that this dist PoP uses for its config. | |
-| `dist.pops[#].dataServiceDefs` | The service definition ID(s) that this dist PoP is subscribed to. | |
-| `dist.pops[#].enableOpsMetrics` | Enables operational metrics. | |
-| `dist.pops[#].startupFlags` | Additional flags to pass to the startup command of the dist container. | |
-| `dist.pops[#].resources` | CPU/memory resource requests/limits. | |
-| `dist.pops[#].nodeSelector` | Node labels for pod assignment. | |
-| `dist.pops[#].tolerations` | Node tolerations for pod assignment. | |
-| `dist.pops[#].affinity` | Node affinity for pod assignment. | |
+| `dist.image.name` | The name of the image to use for the dist container. | `ns1inc/privatedns_dist` |
+| `dist.image.tag` | The tag of the image to use for the dist container. | `3.3.2` |
+| `dist.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
+| `dist.pops[#].name` | Name to be used for the various dist resources. | `dist` |
+| `dist.pops[#].replicas` | Number of dist replicas to run at this PoP. | `3` |
+| `dist.pops[#].livenessProbe.initialDelaySeconds` | How long to wait for the dist pods to come up before beginning health checks. | `30` |
+| `dist.pops[#].livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `3` |
+| `dist.pops[#].livenessProbe.periodSeconds` | How often to execute healthchecks. | `15` |
+| `dist.pops[#].popID` | The ID of the PoP. | `default_pop` |
+| `dist.pops[#].coreService` | The name of the Kubernetes service for core. | `core` |
+| `dist.pops[#].serviceDefID` | The service definition ID that this dist PoP uses for its config. | `1` |
+| `dist.pops[#].dataServiceDefs` | The service definition ID(s) that this dist PoP is subscribed to. | `1,2,3` |
+| `dist.pops[#].enableOpsMetrics` | Enables operational metrics. | `false` |
+| `dist.pops[#].startupFlags` | Additional flags to pass to the startup command of the dist container. | `{}` |
+| `dist.pops[#].resources` | CPU/memory resource requests/limits. | `{}` |
+| `dist.pops[#].nodeSelector` | Node labels for pod assignment. | `{}` |
+| `dist.pops[#].tolerations` | Node tolerations for pod assignment. | `[]` |
+| `dist.pops[#].affinity` | Node affinity for pod assignment. | `{}` |
 
 ### DHCP
 | Parameter | Description | Example |
 | --------- | ----------- | ------- |
-| `dhcp.image.name` | The name of the image to use for the DHCP container. | |
-| `dhcp.image.tag` | The tag of the image to use for the DHCP container. | |
-| `dhcp.image.pullPolicy` | The pull policy for the image. | |
-| `dhcp.pops[#].name` | Name to be used for the various DHCP resources. | |
-| `dhcp.pops[#].replicas` | Number of DHCP replicas to run at this PoP. | |
-| `dhcp.pops[#].livenessProbe.initialDelaySeconds` | How long to wait for the DHCP pods to come up before beginning health checks. | |
-| `dhcp.pops[#].livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | |
-| `dhcp.pops[#].livenessProbe.periodSeconds` | How often to execute healthchecks. | |
-| `dhcp.pops[#].storage.className` | The type of storage to use for the persistent volume claim that the dhcp service uses. |  |
-| `dhcp.pops[#].storage.size` | The size of storage to request per dhcp replica. | |
-| `dhcp.pops[#].hostMode` | Boolean value indicating whether to run in host mode within Kubernetes. | |
-| `dhcp.pops[#].popID` | The ID of the PoP. | |
-| `dhcp.pops[#].coreService` | The name of the Kubernetes service for core or dist. | |
-| `dhcp.pops[#].serviceDefID` | The service definition ID that this DHCP PoP is responsible for. | |
-| `dhcp.pops[#].enableOpsMetrics` | Enables operational metrics. | |
-| `dhcp.pops[#].startupFlags` | Additional flags to pass to the startup command of the DHCP container. | |
-| `dhcp.pops[#].resources` | CPU/memory resource requests/limits. | |
-| `dhcp.pops[#].nodeSelector` | Node labels for pod assignment. | |
-| `dhcp.pops[#].tolerations` | Node tolerations for pod assignment. | |
-| `dhcp.pops[#].affinity` | Node affinity for pod assignment. | |
+| `dhcp.image.name` | The name of the image to use for the DHCP container. | `ns1inc/privatedns_dhcp` |
+| `dhcp.image.tag` | The tag of the image to use for the DHCP container. | `3.3.2` |
+| `dhcp.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
+| `dhcp.pops[#].name` | Name to be used for the various DHCP resources. | `dhcp` |
+| `dhcp.pops[#].replicas` | Number of DHCP replicas to run at this PoP. | `3` |
+| `dhcp.pops[#].livenessProbe.initialDelaySeconds` | How long to wait for the DHCP pods to come up before beginning health checks. | `30` |
+| `dhcp.pops[#].livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `3` |
+| `dhcp.pops[#].livenessProbe.periodSeconds` | How often to execute healthchecks. | `15` |
+| `dhcp.pops[#].storage.className` | The type of storage to use for the persistent volume claim that the dhcp service uses. | `default` |
+| `dhcp.pops[#].storage.size` | The size of storage to request per dhcp replica. | `10Gi` |
+| `dhcp.pops[#].hostMode` | Boolean value indicating whether to run in host mode within Kubernetes. | `false` |
+| `dhcp.pops[#].popID` | The ID of the PoP. | `default_pop` |
+| `dhcp.pops[#].coreService` | The name of the Kubernetes service for core or dist. | `core` |
+| `dhcp.pops[#].serviceDefID` | The service definition ID that this DHCP PoP is responsible for. | `1` |
+| `dhcp.pops[#].enableOpsMetrics` | Enables operational metrics. | `false` |
+| `dhcp.pops[#].startupFlags` | Additional flags to pass to the startup command of the DHCP container. | `{}` |
+| `dhcp.pops[#].resources` | CPU/memory resource requests/limits. | `{}` |
+| `dhcp.pops[#].nodeSelector` | Node labels for pod assignment. | `{}` |
+| `dhcp.pops[#].tolerations` | Node tolerations for pod assignment. | `[]` |
+| `dhcp.pops[#].affinity` | Node affinity for pod assignment. | `{}` |
 
 ### XFR
 | Parameter | Description | Example |
 | --------- | ----------- | ------- |
-| `xfr.name` | Name to be used for the various XFR resources. | |
-| `xfr.replicas` | Number of XFR replicas to run. | |
-| `xfr.image.name` | The name of the image to use for the XFR container. | |
-| `xfr.image.tag` | The tag of the image to use for the XFR container. | |
-| `xfr.image.pullPolicy` | The pull policy for the image. | |
-| `xfr.livenessProbe.initialDelaySeconds` | How long to wait for the XFR pods to come up before beginning health checks. | |
-| `xfr.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | |
-| `xfr.livenessProbe.periodSeconds` | How often to execute healthchecks. | |
-| `xfr.popID` | The ID of the PoP. | |
-| `xfr.coreService` | The name of the Kubernetes service for core. | |
-| `xfr.enableOpsMetrics` | Enables operational metrics. | |
-| `xfr.startupFlags` | Additional flags to pass to the startup command of the XFR container. | |
-| `xfr.resources` | CPU/memory resource requests/limits. | |
-| `xfr.nodeSelector` | Node labels for pod assignment. | |
-| `xfr.tolerations` | Node tolerations for pod assignment. | |
-| `xfr.affinity` | Node affinity for pod assignment. | |
+| `xfr.name` | Name to be used for the various XFR resources. | `xfr` |
+| `xfr.replicas` | Number of XFR replicas to run. | `1` |
+| `xfr.image.name` | The name of the image to use for the XFR container. | `ns1inc/privatedns_xfr` |
+| `xfr.image.tag` | The tag of the image to use for the XFR container. | `3.3.2` |
+| `xfr.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
+| `xfr.livenessProbe.initialDelaySeconds` | How long to wait for the XFR pods to come up before beginning health checks. | `30` |
+| `xfr.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `3` |
+| `xfr.livenessProbe.periodSeconds` | How often to execute healthchecks. | `15` |
+| `xfr.popID` | The ID of the PoP. | `default_pop` |
+| `xfr.coreService` | The name of the Kubernetes service for core. | `core` |
+| `xfr.enableOpsMetrics` | Enables operational metrics. | `false` |
+| `xfr.startupFlags` | Additional flags to pass to the startup command of the XFR container. | `{}` |
+| `xfr.resources` | CPU/memory resource requests/limits. | `{}` |
+| `xfr.nodeSelector` | Node labels for pod assignment. | `{}` |
+| `xfr.tolerations` | Node tolerations for pod assignment. | `[]` |
+| `xfr.affinity` | Node affinity for pod assignment. | `{}` |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
