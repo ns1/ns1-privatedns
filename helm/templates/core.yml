@@ -64,12 +64,14 @@ spec:
           value: "core"
         - name: CONFIG_PORT
           value: "3300"
+        - name: BOOTSTRAPPABLE
+          value: "{{ $.Values.bootstrappable }}"
         ports:
         - name: data
           containerPort: 5353
           protocol: TCP
         - name: http-config
-          containerPort: 3000
+          containerPort: 3300
           protocol: TCP
         - name: https
           containerPort: 443
@@ -87,7 +89,8 @@ spec:
             command:
             - supd
             - health
-          initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds }}
+          # Add 30 minutes delay to the liveness probe when bootstrappable is set.
+          initialDelaySeconds: {{ if $.Values.bootstrappable }}{{ add .livenessProbe.initialDelaySeconds 1800 }}{{ else }}{{ .livenessProbe.initialDelaySeconds }}{{ end }}
           failureThreshold: {{ .livenessProbe.failureThreshold }}
           periodSeconds: {{ .livenessProbe.periodSeconds }}
         resources:
@@ -147,7 +150,8 @@ data:
         --portal_hostname={{ .portalHostname }} \
         --nameservers={{ .nameServers }} \
         --hostmaster_email={{ .hostMasterEmail }} \
-        --enable_ops_metrics={{ .enableOpsMetrics }} \
+        --enable_ops_metrics={{ .enableOpsMetrics }} {{- if .enableWebTLS }} \
         --web_enable_tls={{ .enableWebTLS }}
+        {{- end}}
 ---
 {{ end }}

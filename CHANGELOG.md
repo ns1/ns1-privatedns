@@ -41,6 +41,16 @@
   - System: Wrong container is displayed after configuring multiple core containers
   - System: Added DIST container rebalance timer
 
+## 3.2.6 (March 19, 2021)
+- New Features
+  - CORE: Automate debug collection from a DDI install
+
+- What’s fixed?
+  - CORE: Fixed a post-upgrade issue where data replication from DIST to the DNS service was not complete
+  - CORE: Fixed a data restore issue
+  - CORE: OpenSSL/LibSSL have been patched to address CVE-2020-1971
+  - DHCP: Fixed an issue where the Scope’s Option tab showed an incorrect ScopeGroup name
+  - DNS: Fixed an issue where a secondary zone  configured with a TSIG key would not show this key in the AP or UI, instead showing the zone as if no TSIG key was configured
 
 ## 3.2.5 (February 19, 2021)
 - What’s fixed?
