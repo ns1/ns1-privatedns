@@ -22,7 +22,7 @@ data:
   replicas: 1
   image:
     name: ns1inc/privatedns_data
-    tag: 3.2.6
+    tag: 3.3.3
     pullPolicy: IfNotPresent
   livenessProbe:
     initialDelaySeconds: 120
@@ -43,7 +43,7 @@ core:
   replicas: 1
   image:
     name: ns1inc/privatedns_core
-    tag: 3.2.6
+    tag: 3.3.3
     pullPolicy: IfNotPresent
   livenessProbe:
     initialDelaySeconds: 30
@@ -65,7 +65,7 @@ core:
 dns:
   image:
     name: ns1inc/privatedns_dns
-    tag: 3.2.6
+    tag: 3.3.3
     pullPolicy: IfNotPresent
   pops:
   - name: dns
@@ -87,7 +87,7 @@ dns:
 dhcp:
   image:
     name: ns1inc/privatedns_dhcp
-    tag: 3.2.6
+    tag: 3.3.3
     pullPolicy: IfNotPresent
   pops:
   - name: dhcp
@@ -112,7 +112,7 @@ xfr:
   replicas: 1
   image:
     name: ns1inc/privatedns_xfr
-    tag: 3.2.6
+    tag: 3.3.3
     pullPolicy: IfNotPresent
   livenessProbe:
     initialDelaySeconds: 30
