@@ -150,7 +150,8 @@ data:
         --portal_hostname={{ .portalHostname }} \
         --nameservers={{ .nameServers }} \
         --hostmaster_email={{ .hostMasterEmail }} \
-        --enable_ops_metrics={{ .enableOpsMetrics }} \
-        --web_enable_tls={{ title (toString .enableWebTLS )}}
+        --enable_ops_metrics={{ .enableOpsMetrics }} {{- if .enableWebTLS }} \
+        --web_enable_tls={{ .enableWebTLS }}
+        {{- end}}
 ---
 {{ end }}

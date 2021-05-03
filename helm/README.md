@@ -71,7 +71,7 @@ By default, services are disabled. See the examples folder for examples of value
 | `data.name` | Name to be used for the various data resources. | `data` |
 | `data.replicas` | Number of data replicas to run. This should be 1, 3, or 5. | `3` |
 | `data.image.name` | The name of the image to use for the data container. | `ns1inc/privatedns_data` |
-| `data.image.tag` | The tag of the image to use for the data container. | `3.3.2` |
+| `data.image.tag` | The tag of the image to use for the data container. | `3.2.6` |
 | `data.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `data.livenessProbe.initialDelaySeconds` | How long to wait for the data pods to come up before beginning health checks. | `120` |
 | `data.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `5` |
@@ -91,7 +91,7 @@ By default, services are disabled. See the examples folder for examples of value
 | `core.name` | Name to be used for the various core resources. | `core` |
 | `core.replicas` | Number of core replicas to run. | `3` |
 | `core.image.name` | The name of the image to use for the core container. | `ns1inc/privatedns_core` |
-| `core.image.tag` | The tag of the image to use for the core container. | `3.3.2` |
+| `core.image.tag` | The tag of the image to use for the core container. | `3.2.6` |
 | `core.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `core.livenessProbe.initialDelaySeconds` | How long to wait for the core pods to come up before beginning health checks. | `30` |
 | `core.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `3` |
@@ -102,7 +102,7 @@ By default, services are disabled. See the examples folder for examples of value
 | `core.nameServers` | A comma-separated list of nameservers. | `example1.com,example2.com` |
 | `core.hostMasterEmail` | An email address for the host master. | `example@email.com` |
 | `core.enableOpsMetrics` | Enables operational metrics. | `false` |
-| `core.enableWebTLS` | Whether the portal should require TLS. | `false` |
+| `core.enableWebTLS` | TLS settings for the web UI | `default_web_tls_settings` |
 | `core.startupFlags` | Additional flags to pass to the startup command of the core container. | `{}` |
 | `core.resources` | CPU/memory resource requests/limits. | `{}` |
 | `core.nodeSelector` | Node labels for pod assignment. | `{}` |
@@ -113,7 +113,7 @@ By default, services are disabled. See the examples folder for examples of value
 | Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `dns.image.name` | The name of the image to use for the DNS container. | `ns1inc/privatedns_dns` |
-| `dns.image.tag` | The tag of the image to use for the DNS container. | `3.3.2` |
+| `dns.image.tag` | The tag of the image to use for the DNS container. | `3.2.6` |
 | `dns.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `dns.pops[#].name` | Name to be used for the various DNS resources. | `dns` |
 | `dns.pops[#].replicas` | Number of DNS replicas to run at this PoP. | `3` |
@@ -135,7 +135,7 @@ By default, services are disabled. See the examples folder for examples of value
 | Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `dist.image.name` | The name of the image to use for the dist container. | `ns1inc/privatedns_dist` |
-| `dist.image.tag` | The tag of the image to use for the dist container. | `3.3.2` |
+| `dist.image.tag` | The tag of the image to use for the dist container. | `3.2.6` |
 | `dist.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `dist.pops[#].name` | Name to be used for the various dist resources. | `dist` |
 | `dist.pops[#].replicas` | Number of dist replicas to run at this PoP. | `3` |
@@ -157,7 +157,7 @@ By default, services are disabled. See the examples folder for examples of value
 | Parameter | Description | Example |
 | --------- | ----------- | ------- |
 | `dhcp.image.name` | The name of the image to use for the DHCP container. | `ns1inc/privatedns_dhcp` |
-| `dhcp.image.tag` | The tag of the image to use for the DHCP container. | `3.3.2` |
+| `dhcp.image.tag` | The tag of the image to use for the DHCP container. | `3.2.6` |
 | `dhcp.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `dhcp.pops[#].name` | Name to be used for the various DHCP resources. | `dhcp` |
 | `dhcp.pops[#].replicas` | Number of DHCP replicas to run at this PoP. | `3` |
@@ -183,7 +183,7 @@ By default, services are disabled. See the examples folder for examples of value
 | `xfr.name` | Name to be used for the various XFR resources. | `xfr` |
 | `xfr.replicas` | Number of XFR replicas to run. | `1` |
 | `xfr.image.name` | The name of the image to use for the XFR container. | `ns1inc/privatedns_xfr` |
-| `xfr.image.tag` | The tag of the image to use for the XFR container. | `3.3.2` |
+| `xfr.image.tag` | The tag of the image to use for the XFR container. | `3.2.6` |
 | `xfr.image.pullPolicy` | The pull policy for the image. | `IfNotPresent` |
 | `xfr.livenessProbe.initialDelaySeconds` | How long to wait for the XFR pods to come up before beginning health checks. | `30` |
 | `xfr.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `3` |
