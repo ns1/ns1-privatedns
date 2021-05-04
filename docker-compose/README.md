@@ -40,7 +40,7 @@ Use to start all container images on a single host: `data`, `dns`, `core`, `xfr`
 #### For example:
 
 ```shell
-$sudo TAG=3.2.6 POP_ID=mypop SERVER_ID=myserver docker-compose -p myproject -f docker-compose.yml up -d
+$sudo TAG=3.3.3 POP_ID=mypop SERVER_ID=myserver docker-compose -p myproject -f docker-compose.yml up -d
 ```
 
 ---
@@ -78,14 +78,14 @@ Used to start control services on a single host: `data`, `core`, `xfr`.
 #### For example, starting a control host with primary data:
 
 ```shell
-$sudo TAG=3.2.6 POP_ID=dc1 SERVER_ID=host1 PRIMARY=true DATA_CONTAINER_NAME=data1 DATA_PEERS=data2 DATA_HOSTS=data1,data2 \
+$sudo TAG=3.3.3 POP_ID=dc1 SERVER_ID=host1 PRIMARY=true DATA_CONTAINER_NAME=data1 DATA_PEERS=data2 DATA_HOSTS=data1,data2 \
 docker-compose -p myproject -f control-compose.yml up -d
 ```
 
 #### For example, starting a control host with replica data:
 
 ```shell
-$sudo TAG=3.2.6 POP_ID=dc1 SERVER_ID=host2 DATA_CONTAINER_NAME=data2 DATA_PEERS=data1 DATA_HOSTS=data1,data2 \
+$sudo TAG=3.3.3 POP_ID=dc1 SERVER_ID=host2 DATA_CONTAINER_NAME=data2 DATA_PEERS=data1 DATA_HOSTS=data1,data2 \
 docker-compose -p myproject -f control-compose.yml up -d
 ```
 
@@ -109,5 +109,5 @@ Used to start edge services on a single host: `dns`, `dhcp` and `dist` (distribu
 #### For example:
 
 ```shell
-$sudo TAG=3.2.6 POP_ID=dc2 SERVER_ID=host3 docker-compose -p myproject -f edge-compose.yml up -d
+$sudo TAG=3.3.3 POP_ID=dc2 SERVER_ID=host3 docker-compose -p myproject -f edge-compose.yml up -d
 ```

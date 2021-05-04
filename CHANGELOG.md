@@ -1,3 +1,46 @@
+## 3.3.3 (May 4, 2021)
+- New Features
+  - DHCP: Update utilization stats now include gateway/broadcast IP addresses
+  - DHCP: Search address by prefix includes target’s parent
+  - DHCP: DHCP now stores DUID and client ID in lease object
+  - DNS: Allow the use of multiple XFR containers
+  - DNS: Set up batch transfers for zone updates
+  - DNS: Display zone serial number
+  - DNS: Portal now shows an alert re. hijacking risk when removing a domain
+  - DNS: Portal now expose the SOA name server field
+  - IPAM: Display gateway and broadcast addresses in IPAM
+  - System: Added a database backup integrity check
+  - System: Improved debug log file collection 
+  - System: DDI now supports SSO - MVP
+  - System: Email address and username can have special characters
+
+- What’s fixed?
+  - DNS: Fixed issue whereby query limits are being ignored
+  - DNS: Fixed issue where you cannot add a reverse zone using the portal
+  - DNS: DDNSD updates become unhealthy after pruner runs
+  - DNS: Primary zone can not be configured for zone transfers
+  - DNS: Edit filter chain after creating a A record results in blank page
+  - DHCP: NS1 DDNS, zone handle used instead of domain when zone is in a view
+  - DHCP: Fixed issue where the list search doesn’t stop
+  - DHCP: Scopes option box shows the wrong ScopeGroup name
+  - DHCP: Allow for creation of an address as a gateway
+  - DHCP: Cannot set lease duration option in the scope UI
+  - DHCP: Fixed issue which resulted in a blank page on reservation all lease tab
+  - DHCP: Improved IPAM address insert performance
+  - DHCP: Lease time and related renew/rebind timers have API/UI limitation and are incorrectly stored in KEA
+  - Security: Fixed OpenSSL Vulnerability - updates for LibSSL and OpenSSL 
+  - System: Updated health check for minimum disk 
+  - System: Added SAML endpoints
+  - System: Updated disk containers health check message
+  - System: Fixed issue whereby DIST container would become healthy after failing snapshot
+  - System: Added default values for Core, Data, Dist service definitions in the bootstrap wizard
+  - System: Fixed issue whereby you couldn’t get to the monitor container from the service types panel
+  - System: The services types health check page initially shows incorrect data
+  - System: The UI is not updating even though it is being polled
+  - System: Request being sent to the wrong definition ID is not triggering an error
+  - System: Wrong container is displayed after configuring multiple core containers
+  - System: Added DIST container rebalance timer
+
 ## 3.2.6 (March 19, 2021)
 - New Features
   - CORE: Automate debug collection from a DDI install
