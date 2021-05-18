@@ -1,3 +1,25 @@
+## 3.2.7 (May 18, 2021)
+- What’s fixed?
+  - DHCP: Resolved an issue where the DHCP option sip-directory-agent was deployed with incorrect syntax
+  - DHCP: Cannot add DHCP option 102 or 121 using API or portal
+  - DHCP: addressed a tag related migration issue between 3.1 and 3.2
+  - DHCP: NS1 DDNS use zone handle instead of domain when zone is in a view
+  - DHCP: Duplicate key value violates unique constraint scope_id_address_key
+  - DHCP: Fixed an issue that prevented clearing rebind/renew timers 
+  - DHCP: Fixed an issue where lease-time and related renew/rebind timers are not correctly deployed to DHCP
+  - DHCP: Fixed an issue were prefixes would occasionally disappear requiring a page refresh
+  - DHCP: Fixed an issue where editing a remote zone resulted in an invalid body error
+  - DHCP: Resolved several issues related to creation of DHCP reservations
+  - DHCP: Resolved an issue wthere HA DHCP could lose synchronization
+  - DNS: Creating a record with up metadata attached to data feed causes a 500 error
+  - DNS: Cannot add RFC 2317 zone through portal
+  - DNS: Validation errors on zone object when editing views and networks
+  - Monitoring: Allow private IPs by default in DDI platform
+  - Portal: Blank screen on scope group option tab
+  - System: Fixed OpenSSL vulnerability CVE-2021-3450
+  - System: Improved logging from ns1_backup and ns1_restore scripts
+  - System: DIST container closes its connection pool and doesn’t recover
+
 ## 3.3.3 (May 4, 2021)
 - New Features
   - DHCP: Update utilization stats now include gateway/broadcast IP addresses
