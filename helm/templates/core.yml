@@ -32,7 +32,7 @@ spec:
     app: {{ include "core.fullname" . }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "core.fullname" . }}
   labels:
@@ -46,6 +46,8 @@ spec:
   selector:
     matchLabels:
       app: {{ include "core.fullname" . }}
+  serviceName: {{ include "core.fullname" . }}
+  podManagementPolicy: Parallel
   template:
     metadata:
       labels:
@@ -97,14 +99,12 @@ spec:
 {{ toYaml .resources | indent 10 }}
         volumeMounts:
         - mountPath: /ns1/data
-          name: ns1-data
+          name: {{ include "core.fullname" . }}
         - name: core-entrypoint
           mountPath: /script/entry.sh
           subPath: entry.sh
       enableServiceLinks: false
       volumes:
-      - name: ns1-data
-        emptyDir: {}
       - name: core-entrypoint
         configMap:
           name: {{ include "core.fullname" . }}-entrypoint
@@ -123,6 +123,15 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "core.fullname" . }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "{{ .storage.className }}"
+      resources:
+        requests:
+          storage: {{ .storage.size }}
 ---
 apiVersion: v1
 kind: ConfigMap

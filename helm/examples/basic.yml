@@ -49,6 +49,9 @@ core:
     initialDelaySeconds: 30
     failureThreshold: 3
     periodSeconds: 15
+  storage:
+    className: ""
+    size: 20Gi
   popID: default_pop
   apiHostname: localhost
   portalHostname: localhost

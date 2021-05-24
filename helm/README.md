@@ -96,6 +96,8 @@ By default, services are disabled. See the examples folder for examples of value
 | `core.livenessProbe.initialDelaySeconds` | How long to wait for the core pods to come up before beginning health checks. | `30` |
 | `core.livenessProbe.failureThreshold` | How many failed healthchecks are tolerated prior to restarting the pod. | `3` |
 | `core.livenessProbe.periodSeconds` | How often to execute healthchecks. | `15` |
+| `core.storage.className` | The type of storage to use for the persistent volume claim that the core service uses. | `default` |
+| `core.storage.size` | The size of storage to request per core replica. | `20Gi` |
 | `core.popID` | The ID of the PoP. | `default_pop` |
 | `core.apiHostname` | The hostname of the NS1 API. | `api.example.com` |
 | `core.portalHostname` | The hostname of the NS1 portal. | `portal.example.com` |
@@ -204,3 +206,36 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 ```bash
 helm install ns1-ddi -f values.yml .
 ```
+
+## Bootstrap UI Instructions
+When setting `bootstrappable: true` in the deployment, some specific steps on the bootstrap UI are necessary.
+
+Because the `core` services are configured through the bootstrapper,
+it is necessary to do the initial bootstrap from
+a single one of the core pods for the duration of the bootstrap UI
+(rather than accessing the bootstrap UI through the load balancer).
+This can be done by port-forwarding one of the core pods to localhost, for example:
+```
+kubectl port-forward pod/core-0 8443:https
+```
+Then, access the bootstrap UI at `localhost:8443`
+
+On the second step, `Add DATA & CORE Hosts`, of the UI, add the headless services of each data host.
+For three data replicas this would be:
+```
+data-0.data-headless
+data-1.data-headless
+data-2.data-headless
+```
+For five data replicas, add the additional two replicas:
+```
+data-3.data-headless
+data-4.data-headless
+```
+
+Finally, add any other core hosts if running more than one core. For two total core hosts if the port-forward was set up for the first one, this would be:
+```
+core-1.core
+```
+
+From here, follow the instructions on the UI to complete the bootstrap process.
