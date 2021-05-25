@@ -44,6 +44,9 @@ core:
     initialDelaySeconds: 30
     failureThreshold: 3
     periodSeconds: 15
+  storage:
+    className: do-block-storage # block storage for Digital Ocean
+    size: 20Gi
   popID: default_pop
   apiHostname: api.example.com
   portalHostname: portal.example.com
