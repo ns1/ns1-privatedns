@@ -1,3 +1,21 @@
+## 3.3.4 (June 1, 2021)
+- New Features
+  - DHCP: An IP address that overlaps with a new subnet's gateway is now merged in
+
+- What’s fixed?
+  - DHCP: Resolved an issue where the DHCP option sip-directory-agent was deployed with incorrect syntax
+  - DHCP: Cannot add DHCP option 102 or 121 using API or portal
+  - DHCP: Resolved an issue where HA DHCP could lose synchronization
+  - DHCP: Usage stats for IPAM networks show all zeros
+  - DHCP: NS1 DDNS could not be configured with a default zone which is in a view
+  - DHCP: Wildcard record required for NS1 DDNS is not automatically added when the reverse zone is in a view
+  - DHCP: Fixed an issue where a remote server configured for GSS-TSIG updates could not be re-configured for TSIG updates
+  - Monitoring: Allow private IPs by default in the DDI platform
+  - Portal: Resolved an issue where IPAM was not included in the global search results
+  - Portal: Resolved an issue where the current configuration for NS1 DDNS was not shown
+  - Portal: Dashboard latest activity displays last global 200 events instead of per service (DNS, DHCP, IPAM)
+  - System: Improved record type validation in API key and user permissions
+
 ## 3.3.3 (May 4, 2021)
 - New Features
   - DHCP: Update utilization stats now include gateway/broadcast IP addresses

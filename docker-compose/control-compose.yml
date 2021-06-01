@@ -3,7 +3,7 @@ version: '3.4'
 services:
   data:
     hostname: ${POP_ID:-mypop}-${SERVER_ID:-myserver}-${DATA_CONTAINER_NAME:-data}
-    image: ns1inc/privatedns_data:${TAG:-3.3.3}
+    image: ns1inc/privatedns_data:${TAG:-3.3.4}
     logging:
       driver: "json-file"
       options:
@@ -61,7 +61,7 @@ services:
       --server_id            ${SERVER_ID:-myserver}
   core:
     hostname: ${POP_ID:-mypop}-${SERVER_ID:-myserver}-${CORE_CONTAINER_NAME:-core}
-    image: ns1inc/privatedns_core:${TAG:-3.3.3}
+    image: ns1inc/privatedns_core:${TAG:-3.3.4}
     logging:
       driver: "json-file"
       options:
@@ -100,7 +100,7 @@ services:
       --nameservers          ${NAMESERVERS:-ns1.mycompany.net}
   xfr:
     hostname: ${POP_ID:-mypop}-${SERVER_ID:-myserver}-${XFR_CONTAINER_NAME:-xfr}
-    image: ns1inc/privatedns_xfr:${TAG:-3.3.3}
+    image: ns1inc/privatedns_xfr:${TAG:-3.3.4}
     logging:
       driver: "json-file"
       options:
