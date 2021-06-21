@@ -80,6 +80,8 @@ spec:
           value: "{{ if eq (int (.replicas)) 1 }}true{{ else }}false{{ end }}"
         - name: BOOTSTRAPPABLE
           value: "{{ $.Values.bootstrappable }}"
+        - name: NO_MIN_CHECK
+          value: "true"
         ports:
         - name: data
           containerPort: 5353
@@ -181,8 +183,7 @@ data:
         --server_id=$HOSTNAME.{{ include "data.fullname" . }}-headless {{- if gt (int (.replicas)) 1 }} \
         --data_peers=$DATA_PEERS \
         --cluster_id=$CLUSTER_ID \
-        --cluster_size=$CLUSTER_SIZE \
-        --cluster_mode "clustering_on"
+        --cluster_size=$CLUSTER_SIZE
         {{- end }}
 ---
 {{ end }}

@@ -73,6 +73,8 @@ spec:
           value: "dhcp"
         - name: CONFIG_PORT
           value: "3300"
+        - name: NO_MIN_CHECK
+          value: "true"
         command:
           - "/script/entry.sh"
         livenessProbe:

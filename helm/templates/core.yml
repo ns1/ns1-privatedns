@@ -68,6 +68,8 @@ spec:
           value: "3300"
         - name: BOOTSTRAPPABLE
           value: "{{ $.Values.bootstrappable }}"
+        - name: NO_MIN_CHECK
+          value: "true"
         ports:
         - name: data
           containerPort: 5353
@@ -159,8 +161,10 @@ data:
         --portal_hostname={{ .portalHostname }} \
         --nameservers={{ .nameServers }} \
         --hostmaster_email={{ .hostMasterEmail }} \
-        --enable_ops_metrics={{ .enableOpsMetrics }} {{- if .enableWebTLS }} \
-        --web_enable_tls={{ .enableWebTLS }}
+        --enable_ops_metrics={{ .enableOpsMetrics }} \ {{- if .enableWebTLS }} \
+        --web_enable_tls={{ .enableWebTLS }} \
         {{- end}}
+        --primary_postgres_host global-cluster.cluster-cghsf32pori3.us-east-2.rds.amazonaws.com \
+        --replica_postgres_host global-cluster.cluster-ro-cghsf32pori3.us-east-2.rds.amazonaws.com
 ---
 {{ end }}

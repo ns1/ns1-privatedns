@@ -67,6 +67,8 @@ spec:
           value: "dist"
         - name: CONFIG_PORT
           value: "3300"
+        - name: NO_MIN_CHECK
+          value: "true"
         ports:
         - name: data
           containerPort: 5353

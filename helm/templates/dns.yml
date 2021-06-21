@@ -61,6 +61,8 @@ spec:
           value: "dns"
         - name: CONFIG_PORT
           value: "3300"
+        - name: NO_MIN_CHECK
+          value: "true"
         ports:
         - name: http-config
           containerPort: 3000
