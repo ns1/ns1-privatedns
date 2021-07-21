@@ -28,7 +28,6 @@ services:
     shm_size: ${DATA_SHARED_MEM:-2gb}
     ports:
       - "3305:3300" # http configuration
-      - "8686:8686" # metrics export
       - "5454:5353" # replication
     sysctls:
       net.ipv6.conf.lo.disable_ipv6: 0 # enable ipv6 for loopback
