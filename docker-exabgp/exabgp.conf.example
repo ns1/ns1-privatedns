@@ -1,0 +1,19 @@
+neighbor 10.4.100.1 {
+	local-address 10.4.100.3;
+	router-id 10.4.100.3;
+	local-as 65042;
+	peer-as 65001;
+
+	api services {
+		processes [ watch-dns ];
+	}
+
+	family {
+		ipv4 unicast;
+	}
+}
+
+process watch-dns {
+	encoder text;
+	run python3 -m exabgp healthcheck --cmd "/usr/local/bin/check_dns.py localhost 3301" --no-syslog --label dns --withdraw-on-down --ip 10.4.1.10/32;
+}
