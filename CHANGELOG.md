@@ -1,13 +1,15 @@
 ## 3.3.6 (Dec 6th, 2021)
  - What’s fixed?
-  - DHCP: Improved watchdog to force a restart of keadatad if stalled
-  - DHCP: Resolved an issue where a remote server previously configure with TSIG could not be re-configured to successfully use GSS-TSIG
-  - DHCP: Removed requirement for the value field in requests for options that do not carry any data such as Option 43
-  - DNS: Backported 12+ XFR improvements, including setting a minimum XFR refresh time, improvements on RRsets updates during AXFR, improved logging and other backend process improvements
-  - DNS: Resolved an issue where XFR worker queues would grow unbounded, resulting in XFR processing to halt
-  - DNS: Resolved an issue with RR created via dynamic DNS which did not populate all required fields
-  - DNS: Removed an erroneous health check
-  - System: Back-ported improved permissions back-end service
+  - Portal: fixed a problem where DHCP/IPAM events did not reach the dashboard when DNS was very busy.
+  - DNS: XFR container could mishandle messages, causing backlog in Rabbit queue leading to eventual disk space overflow.
+  - DNS: when there was a high load of API requests, a few individual zones stopped receiving updates until the XFR container was restarted.
+  - DHCP: Improved handling of null values and Option 43 values.
+  - DHCP: fine-tuned a health check to catch case when keadatad hangs during shutdown.
+  - System: Third party library security fixes.
+  - System: Permissions service internal updates.
+  - System: use Postgres read-only replicas when making read-only queries.
+  - System: Dist container health checks were adjusted to increase reliability.
+  - System: Load balancer 'X-Forwarded-For' headers containing more than one IP address are now handled correctly.
 
 ## 3.3.5 (Oct 5th, 2021)
  - What’s fixed?
