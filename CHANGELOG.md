@@ -1,3 +1,16 @@
+## 3.3.6 (Dec 6th, 2021)
+ - What’s fixed?
+  - Portal: fixed a problem where DHCP/IPAM events did not reach the dashboard when DNS was very busy.
+  - DNS: XFR container could mishandle messages, causing backlog in Rabbit queue leading to eventual disk space overflow.
+  - DNS: when there was a high load of API requests, a few individual zones stopped receiving updates until the XFR container was restarted.
+  - DHCP: Improved handling of null values and Option 43 values.
+  - DHCP: fine-tuned a health check to catch case when keadatad hangs during shutdown.
+  - System: Third party library security fixes.
+  - System: Permissions service internal updates.
+  - System: use Postgres read-only replicas when making read-only queries.
+  - System: Dist container health checks were adjusted to increase reliability.
+  - System: Load balancer 'X-Forwarded-For' headers containing more than one IP address are now handled correctly.
+
 ## 3.3.5 (Oct 5th, 2021)
  - What’s fixed?
   - DHCP: Improved watchdog to force a restart of keadatad if stalled
