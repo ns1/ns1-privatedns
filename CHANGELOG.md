@@ -1,3 +1,14 @@
+## 3.3.6 (Dec 6th, 2021)
+ - What’s fixed?
+  - DHCP: Improved watchdog to force a restart of keadatad if stalled
+  - DHCP: Resolved an issue where a remote server previously configure with TSIG could not be re-configured to successfully use GSS-TSIG
+  - DHCP: Removed requirement for the value field in requests for options that do not carry any data such as Option 43
+  - DNS: Backported 12+ XFR improvements, including setting a minimum XFR refresh time, improvements on RRsets updates during AXFR, improved logging and other backend process improvements
+  - DNS: Resolved an issue where XFR worker queues would grow unbounded, resulting in XFR processing to halt
+  - DNS: Resolved an issue with RR created via dynamic DNS which did not populate all required fields
+  - DNS: Removed an erroneous health check
+  - System: Back-ported improved permissions back-end service
+
 ## 3.3.5 (Oct 5th, 2021)
  - What’s fixed?
   - DHCP: Improved watchdog to force a restart of keadatad if stalled
